@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView, Logoutview
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import LoginForm, SignupForm, UpdateProfileForm, EditProfileForm
+from datetime import datetime
 
 class VoterLogin(LoginView):
     authentication_form = LoginForm
@@ -34,11 +35,16 @@ def votersprofile_view(request):
         
         if update_form.is_valid():
             voterprof = update_form.save(commit=False)
-            if Voters.objects.filter(reg_no=voterprof.reg_no).exists():
-                messages.error(request, f'Reg. No. {update_form.reg_no} provided already exists. Please enter a valid registration number to proceed.')
+            
+            if datetime.strptime(str(voterprof.dob), '%Y-%m-%d') > datetime.now().strftime('%Y-%m-%d'):
+                messages.error(request, 'INVALID DATE!! Current year is 2022 but you have provided year 2023.')
+
             else:
-                update_form.save()
-                messages.success(request, 'Profile updated successfully!')
+                if Voters.objects.filter(reg_no=voterprof.reg_no).exists():
+                    messages.error(request, f'Reg. No. {update_form.reg_no} provided already exists. Please enter a valid registration number to proceed.')
+                else:
+                    update_form.save()
+                    messages.success(request, 'Profile updated successfully!')
         
         elif edit_form.is_valid():
             edit_form.save()
