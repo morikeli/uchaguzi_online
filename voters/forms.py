@@ -20,3 +20,10 @@ class SignupForm(UserCreationForm):
         model = User
         fields = ['first_name', 'last_name', 'email', 'password1', 'password2']
 
+
+class UpdateProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = Voters
+        fields = '__all__'
+        exclude = ['id']

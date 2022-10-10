@@ -23,6 +23,16 @@ def signup_view(request):
     context = {'signup_form': form}
     return render(request, 'voters/signup.html', context)
 
+@login_required(login_url='voters_login')
+def votersprofile_view(request):
+    form = ProfileForm()
+
+    if request.method == 'POST':
+        pass
+
+
+    context = {}
+    return render(request, 'voters/profile.html', context)
 
 
 class LogoutVoter(LogoutView):
