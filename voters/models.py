@@ -4,6 +4,7 @@ from PIL import Image
 
 
 class Voters(models.Model):
+    id = models.CharField(max_length=15, primary_key=True, editable=False, unique=True)
     voter = models.OneToOneField(User, on_delete=models.CASCADE, editable=False)
     gender = models.CharField(max_length=7, blank=False)
     phone_no = models.CharField(max_length=14, blank=False)
@@ -36,6 +37,7 @@ class Voters(models.Model):
 
 
 class Aspirants(models.Model):
+    id = models.CharField(max_length=15, primary_key=True, editable=False, unique=True)
     aspirant = models.ForeignKey(Voters, on_delete=models.CASCADE, editable=False)
     bio = models.TextField(blank=False)
     post = models.CharField(max_length=20, blank=False)
