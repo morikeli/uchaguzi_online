@@ -4,15 +4,16 @@ from PIL import Image
 
 
 class Voters(models.Model):
-    voter = models.OneToOneField(User, on_delete=models.CASCADE)
+    voter = models.OneToOneField(User, on_delete=models.CASCADE, editable=False)
     gender = models.CharField(max_length=7, blank=False)
     phone_no = models.CharField(max_length=14, blank=False)
     age = models.PositiveIntegerField(default=0)
-    dob = models.DateField(null=True)
+    dob = models.DateField(null=True, blank=False)
     profile_pic = models.ImageField(upload_to='VotersDps/', default='default.jpg')
     school = models.CharField(max_length=30, blank=False)
     year = models.CharField(max_length=10, blank=False)
-    semseter = models.CharField(max_length=10, blank=False)
+    semester = models.CharField(max_length=10, blank=False)
+    registered = models.BooleanField(default=False, editable=False)
     created = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
 
