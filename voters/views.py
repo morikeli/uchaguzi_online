@@ -3,7 +3,7 @@ from django.contrib.auth.views import LoginView, Logoutview
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import LoginForm, SignupForm
 
-class UserLogin(LoginView):
+class VoterLogin(LoginView):
     authentication_form = LoginForm
     template_name = 'voters/login.html'
 
