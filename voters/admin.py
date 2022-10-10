@@ -1,4 +1,5 @@
 from django.contrib import admin
-from django.contrib.auth.models import User
+from .models import Voters, Aspirants
 
-# Register your models here.
+admin.site.register(Voters)
+admin.site.register(Aspirants)
