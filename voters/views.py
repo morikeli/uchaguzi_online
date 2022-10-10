@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.views import LoginView, Logoutview
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import LoginForm, SignupForm, UpdateProfileForm, EditProfileForm
 from datetime import datetime
