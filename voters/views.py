@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .forms import LoginForm, SignupForm, UpdateProfileForm, EditProfileForm
+from .forms import LoginForm, SignupForm, UpdateProfileForm, EditProfileForm, ElectoralPostApplicationForm
 from datetime import datetime
 
 class VoterLogin(LoginView):
@@ -54,6 +54,32 @@ def votersprofile_view(request):
 
     context = {'UpdateProfileForm': update_form, 'EditProfileForm': edit_form}
     return render(request, 'voters/profile.html', context)
+
+@login_required(login_url='voters_login')
+@user_passes_test(lambda user: user.is_staff is False)
+def application_view(request):
+    application_form = ElectoralPostApplicationForm()
+    if request.method == 'POST':
+        application_form = ElectoralPostApplicationForm(request.POST, request.FILES)
+        
+        if application_form.is_valid():
+            form = application_form.save(commit=False)
+
+            if form.aspirant.gender == 'Male' and form.post == 'Ladies Representative':
+                messages.warning(request, 'Only females are eligible to vie for "LADIES REPRESENTATIVE" electoral post!')
+            elif form.aspirant.year != 'Fourth Year' and form.post == 'President':
+                messages.warning(request, 'Only fourth years can vie for the Presidential seat!')
+
+            else:
+                form.aspirant = request.user.voters
+
+                form.save()
+                messages.redirect(request, f'You are vying for {form.post} electoral post. Kindly submit your nomination form in time.')
+
+
+
+    context = {}
+    return render(request, 'voters/homepage.html', context)
 
 
 class LogoutVoter(LogoutView):

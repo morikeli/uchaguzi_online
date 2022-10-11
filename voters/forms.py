@@ -85,3 +85,22 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = Voters
         fields = '__all__'
+
+class ElectoralPostApplicationForm(forms.ModelForm):
+    SELECT_ELECTORAL_POST = (
+        (None, '-- Select electoral post --'),
+        ('Academic Representative', 'Academic Representative'),
+        ('General Academic Representative', 'General Academic Representative'),
+        ('Ladies Representative', 'Ladies Representative'),
+        ('Treasurer', 'Treasurer'),
+        ('Governor', 'Governor'),
+        ('President', 'President')
+    )
+    bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'mb-2', 'placeholder': 'Type your manifesto...'}), label='')
+    post = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_ELECTORAL_POST)
+    slogan = forms.ChoiceField(widget=forms.Select(attrs={'type': 'text', 'class': 'mb-2', 'placeholder': 'What\'s your slogan?'}), label='', help_text='Slogan, e.g. "Yes we can!", "Tuchape kazi", "Equality.Transparency.Honest"')
+
+    class Meta:
+        model = Aspirants
+        fields = ['post', 'bio', 'slogan', 'pic']
+
