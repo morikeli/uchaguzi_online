@@ -18,12 +18,12 @@ def polling_view(request):
                 save_voter_details = Polled.objects.create(user_id=voter.id)
                 save_voter_details.save()
                 voter.save()
-                
+
                 messages.success(request, 'You polled for this candidate. Results will be released soon.')
                 return redirect('')
     
     except Polls.DoesNotExist:
-        return redirect('')
+        return redirect('voters_homepage')
     
     context = {'polling_form': form}
     return render(request, 'polls/', context)
