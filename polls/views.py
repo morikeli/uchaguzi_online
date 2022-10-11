@@ -20,7 +20,7 @@ def polling_view(request):
                 voter.save()
 
                 messages.success(request, 'You polled for this candidate. Results will be released soon.')
-                return redirect('')
+                return redirect('voters_homepage')
     
     except Polls.DoesNotExist:
         return redirect('voters_homepage')
