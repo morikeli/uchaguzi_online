@@ -22,7 +22,7 @@ class SignupForm(UserCreationForm):
         fields = ['first_name', 'last_name', 'email', 'password1', 'password2']
 
 
-class UpdateProfileForm(forms.ModelForm):
+class VoterRegistrationForm(forms.ModelForm):
     SELECT_GENDER = (
         (None, '-- Select your gender --'),
         ('Male', 'Male'),

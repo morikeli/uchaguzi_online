@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .forms import LoginForm, SignupForm, UpdateProfileForm, EditProfileForm, ElectoralPostApplicationForm
+from .forms import LoginForm, SignupForm, VoterRegistrationForm, EditProfileForm, ElectoralPostApplicationForm
 from datetime import datetime
 
 class VoterLogin(LoginView):
@@ -27,25 +27,35 @@ def signup_view(request):
 @login_required(login_url='voters_login')
 @user_passes_test(lambda user: user.is_staff is False)
 def votersprofile_view(request):
-    update_form = UpdateProfileForm(instance=request.user.voters)
+    update_form = VoterRegistrationForm(instance=request.user.voters)
     edit_form = EditProfileForm(instance=request.user.voters)
 
     if request.method == 'POST':
-        update_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.voters)
+        update_form = VoterRegistrationForm(request.POST, request.FILES, instance=request.user.voters)
         edit_form = EditProfileForm(request.POST, request.FILES, instance=request.user.voters)
         
         if update_form.is_valid():
             voterprof = update_form.save(commit=False)
             
-            if datetime.strptime(str(voterprof.dob), '%Y-%m-%d') > datetime.now().strftime('%Y-%m-%d'):
-                messages.error(request, f'INVALID DATE!! Current year is {datetime.now()} but you have provided year {voterprof.dob}.')
-
+            voters_dob = str(voterprof.dob)
+            get_VoterDob = datetime.strptime(voters_dob, '%Y-%m-%d')
+            current_date = datetime.now()
+            voters_age = current_date - get_VoterDob
+            convert_votersAge = int(voters_age/365.25)
+            voterprof.age = convert_votersAge
+            
+            if voterprof.age < 18:
+                messages.warning(request, 'Voting is only eleigible to voters above 18yrs!')
             else:
-                if Voters.objects.filter(reg_no=voterprof.reg_no).exists():
-                    messages.error(request, f'Reg. No. {update_form.reg_no} provided already exists. Please enter a valid registration number to proceed.')
+                if datetime.strptime(str(voterprof.dob), '%Y-%m-%d') > datetime.now().strftime('%Y-%m-%d'):
+                    messages.error(request, f'INVALID DATE!! Current year is {datetime.now()} but you have provided year {voterprof.dob}.')
+
                 else:
-                    update_form.save()
-                    messages.success(request, 'Profile updated successfully!')
+                    if Voters.objects.filter(reg_no=voterprof.reg_no).exists():
+                        messages.error(request, f'Reg. No. {update_form.reg_no} provided already exists. Please enter a valid registration number to proceed.')
+                    else:
+                        update_form.save()
+                        messages.success(request, 'Profile updated successfully!')
         
         elif edit_form.is_valid():
             edit_form.save()
