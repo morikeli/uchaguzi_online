@@ -29,3 +29,9 @@ def generate_voter_id(sender, instance, **kwargs):
     
     except AttributeError:
         return
+
+@receiver(post_save, sender=User)
+def profile_signal(sender, instance, created, **kwargs):
+    if instance.is_staff is False and instance.is_superuser:
+        Voters.objects.create(voter=instance)
+        

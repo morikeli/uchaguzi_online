@@ -25,6 +25,7 @@ def signup_view(request):
     return render(request, 'voters/signup.html', context)
 
 @login_required(login_url='voters_login')
+@user_passes_test(lambda user: user.is_staff is False)
 def votersprofile_view(request):
     update_form = UpdateProfileForm(instance=request.user.voters)
     edit_form = EditProfileForm(instance=request.user.voters)
@@ -37,7 +38,7 @@ def votersprofile_view(request):
             voterprof = update_form.save(commit=False)
             
             if datetime.strptime(str(voterprof.dob), '%Y-%m-%d') > datetime.now().strftime('%Y-%m-%d'):
-                messages.error(request, 'INVALID DATE!! Current year is 2022 but you have provided year 2023.')
+                messages.error(request, f'INVALID DATE!! Current year is {datetime.now()} but you have provided year {voterprof.dob}.')
 
             else:
                 if Voters.objects.filter(reg_no=voterprof.reg_no).exists():
@@ -51,7 +52,7 @@ def votersprofile_view(request):
             messages.info(request, 'You have edited your profile.')
             return redirect('voters_profile')
 
-    context = {}
+    context = {'UpdateProfileForm': update_form, 'EditProfileForm': edit_form}
     return render(request, 'voters/profile.html', context)
 
 
