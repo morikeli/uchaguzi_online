@@ -22,5 +22,8 @@ class Polled(models.Model):
     polled = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
 
+    def save(self, *args, **kwargs):
+        return super(Polled, self).save(*args, **kwargs)
+
     class Meta:
         verbose_name_plural = 'Polled'

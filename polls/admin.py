@@ -7,4 +7,4 @@ class Polls(admin.ModelAdmin):
 
 @admin.register(Polled)
 class PolledList(admin.ModelAdmin):
-    list_display = ['user_id', 'created']
+    list_display = ['user_id', 'polled']
