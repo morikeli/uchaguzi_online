@@ -27,14 +27,14 @@ def signup_view(request):
 @login_required(login_url='voters_login')
 @user_passes_test(lambda user: user.is_staff is False)
 def votersprofile_view(request):
-    update_form = VoterRegistrationForm(instance=request.user.voters)
+    registration_form = VoterRegistrationForm(instance=request.user.voters)
     edit_form = EditProfileForm(instance=request.user.voters)
 
     if request.method == 'POST':
-        update_form = VoterRegistrationForm(request.POST, request.FILES, instance=request.user.voters)
+        registration_form = VoterRegistrationForm(request.POST, request.FILES, instance=request.user.voters)
         edit_form = EditProfileForm(request.POST, request.FILES, instance=request.user.voters)
         
-        if update_form.is_valid():
+        if registration_form.is_valid():
             voterprof = update_form.save(commit=False)
             
             voters_dob = str(voterprof.dob)
@@ -62,7 +62,7 @@ def votersprofile_view(request):
             messages.info(request, 'You have edited your profile.')
             return redirect('voters_profile')
 
-    context = {'UpdateProfileForm': update_form, 'EditProfileForm': edit_form}
+    context = {'UpdateProfileForm': registration_form, 'EditProfileForm': edit_form}
     return render(request, 'voters/profile.html', context)
 
 @login_required(login_url='voters_login')
