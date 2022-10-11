@@ -28,6 +28,8 @@ def polling_view(request):
     context = {'polling_form': form}
     return render(request, 'polls/', context)
 
+@login_required(login_url='voters_login')
+@user_passes_test(lambda user: user.is_staff is False)
 def results_view(request):
 
     context = {}
