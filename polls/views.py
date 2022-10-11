@@ -13,9 +13,11 @@ def polling_view(request):
             form = PollingForm(request.POST, instance=obj)
             if form.is_valid():
                 voter = form.save(commit=False)
-
+                voter.total_polls += 1
+                
                 save_voter_details = Polled.objects.create(user_id=voter.id)
                 save_voter_details.save()
+                voter.save()
                 
                 messages.success(request, 'You polled for this candidate. Results will be released soon.')
                 return redirect('')
