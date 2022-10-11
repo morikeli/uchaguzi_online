@@ -48,7 +48,10 @@ def votersprofile_view(request):
             if datetime.strptime(str(voterprof.dob), '%Y-%m-%d') > datetime.now().strftime('%Y-%m-%d'):
                 messages.error(request, f'INVALID DATE!! Current year is {datetime.now()} but you have provided year {voterprof.dob}.')
                 if voterprof.age < 18:
-                    messages.warning(request, 'Voting is only eligible to voters above 18yrs!')
+                    obj = Voters.objects.get(id=voterprof.id)
+                    obj.delete()
+                    messages.warning(request, 'Voting is only eligible to voters above 18yrs! Your account has been deleted.')
+                    return redirect('logout_voters')
             
             elif voterprof.age < 18:
                     messages.warning(request, 'Voting is only eligible to voters above 18yrs!')
