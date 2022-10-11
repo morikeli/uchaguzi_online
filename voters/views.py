@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import LoginForm, SignupForm, VoterRegistrationForm, EditProfileForm, ElectoralPostApplicationForm
+from .models import Voters, Aspirants
 from datetime import datetime
 
 class VoterLogin(LoginView):
@@ -75,26 +76,37 @@ def votersprofile_view(request):
 @user_passes_test(lambda user: user.is_staff is False)
 def application_view(request):
     application_form = ElectoralPostApplicationForm()
-    if request.method == 'POST':
-        application_form = ElectoralPostApplicationForm(request.POST, request.FILES)
-        
-        if application_form.is_valid():
-            form = application_form.save(commit=False)
+    try:
+        uploadnomination_form = ElectoralPostApplicationForm(instance=request.user.voter.aspirants)
+        if request.method == 'POST':
+            uploadnomination_form = ElectoralPostApplicationForm(request.POST, request.FILES, instance=request.user.voters.aspirants)
+                    
+            if uploadnomination_form.is_valid():
+                uploadnomination_form.save()
+                messages.info(request, 'Nomination form uploaded succesfully!')
+                
 
-            if form.aspirant.gender == 'Male' and form.post == 'Ladies Representative':
-                messages.warning(request, 'Only females are eligible to vie for "LADIES REPRESENTATIVE" electoral post!')
-            elif form.aspirant.year != 'Fourth Year' and form.post == 'President':
-                messages.warning(request, 'Only fourth years can vie for the Presidential seat!')
+    except Aspirants.DoesNotExist:
+    
+        if request.method == 'POST':
+            application_form = ElectoralPostApplicationForm(request.POST, request.FILES)
+            
+            if application_form.is_valid():
+                form = application_form.save(commit=False)
 
-            else:
-                form.aspirant = request.user.voters
+                if form.aspirant.gender == 'Male' and form.post == 'Ladies Representative':
+                    messages.warning(request, 'Only females are eligible to vie for "LADIES REPRESENTATIVE" electoral post!')
+                elif form.aspirant.year != 'Fourth Year' and form.post == 'President':
+                    messages.warning(request, 'Only fourth years can vie for the Presidential seat!')
 
-                form.save()
-                messages.redirect(request, f'You are vying for {form.post} electoral post. Kindly submit your nomination form in time.')
+                else:
+                    form.aspirant = request.user.voters
+
+                    form.save()
+                    messages.success(request, f'You are vying for {form.post} electoral post. Kindly submit your nomination form in time.')
 
 
-
-    context = {}
+    context = {'application_form': application_form}
     return render(request, 'voters/homepage.html', context)
 
 

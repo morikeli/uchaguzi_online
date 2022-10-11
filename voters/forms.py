@@ -104,3 +104,20 @@ class ElectoralPostApplicationForm(forms.ModelForm):
         model = Aspirants
         fields = ['post', 'bio', 'slogan', 'pic']
 
+class UploadNominationForm(forms.ModelForm):
+    SELECT_ELECTORAL_POST = (
+        (None, '-- Select electoral post --'),
+        ('Academic Representative', 'Academic Representative'),
+        ('General Academic Representative', 'General Academic Representative'),
+        ('Ladies Representative', 'Ladies Representative'),
+        ('Treasurer', 'Treasurer'),
+        ('Governor', 'Governor'),
+        ('President', 'President')
+    )
+    bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'mb-2', 'placeholder': 'Type your manifesto...'}), label='', disabled=True)
+    post = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_ELECTORAL_POST, disabled=True)
+    slogan = forms.ChoiceField(widget=forms.Select(attrs={'type': 'text', 'class': 'mb-2', 'placeholder': 'What\'s your slogan?'}), label='', help_text='Slogan, e.g. "Yes we can!", "Tuchape kazi", "Equality.Transparency.Honest"', disabled=True)
+
+    class Meta:
+        model = Aspirants
+        fields = ['form']
