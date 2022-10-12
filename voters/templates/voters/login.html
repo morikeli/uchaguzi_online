@@ -21,18 +21,20 @@
 									<div class="pt-4 pb-2">
 										<h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
 									</div>
-									<form class="row g-3 needs-validation" novalidate>
-
+									<form action="" method="post" class="row g-3 needs-validation">
+										{% csrf_token %}
 										<div class="row g-3">
 											<div class="col-12">
-												{% include messages.html %}{{form|crispy}}
+												{% include 'messages.html' %}{{form|crispy}}
 											</div>
 										</div>
 										<div class="col-12">
 											<button class="btn btn-primary w-100" type="submit">Login</button>
 										</div>
 										<div class="col-12">
-											<p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
+											<hr class="dropdown-divider">
+											<h6 class="text-center"><a href="">Forgot password?</a></h6>
+											<p class="small mb-0 text-center">Don't have account? <a href="{% url 'voters_signup' %}">Create an account</a></p>
 										</div>
 									</form>
 

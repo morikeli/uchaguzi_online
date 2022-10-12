@@ -9,7 +9,7 @@ class LoginForm(AuthenticationForm):
         super().__init__(request, *args, **kwargs)
 
         self.fields['username'].label = 'Name'
-        self.error_messages['invalid_login'] = 'INVALID CREDENTIALS!!! enter correct name (first name and last name) and password. Name and password maybe case-senstitive.'
+        self.error_messages['invalid_login'] = 'INVALID CREDENTIALS!!! Enter correct name (first name and last name) and password. Name and password maybe case-senstitive.'
 
 
 class SignupForm(UserCreationForm):
