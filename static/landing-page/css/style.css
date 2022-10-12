@@ -157,9 +157,19 @@ h1, h2, h3, h4, h5, h6 {
 	margin-left: 5px;
 }
 .navbar a:hover, .navbar .active, .navbar .active:focus, .navbar li:hover > a {
-  	color: #13bb46;
+  	color: black;
 }
-
+.navbar .login, .navbar .login:focus {
+	background: #fff;
+	padding: 8px 20px;
+	margin-left: 30px;
+	border-radius: 4px;
+	color: #13bb46;
+  }
+  .navbar .login:hover, .navbar .login:focus:hover {
+	color: #fff;
+	background: #0aa552;
+  }
 .navbar .dropdown ul {
 	display: block;
 	position: absolute;
