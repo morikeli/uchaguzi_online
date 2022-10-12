@@ -118,5 +118,12 @@ def application_view(request):
     return render(request, 'voters/homepage.html', context)
 
 
+@login_required(login_url='voters_login')
+@user_passes_test(lambda user: user.is_staff is False)
+def homepage_view(request):
+
+    context = {}
+    return render(request, 'voters/homepage.html', context)
+
 class LogoutVoter(LogoutView):
     template_name = 'voters/logout.html'
