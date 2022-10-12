@@ -5,6 +5,11 @@ from .forms import LoginForm, SignupForm, VoterRegistrationForm, EditProfileForm
 from .models import Voters, Aspirants
 from datetime import datetime
 
+
+def indexpage_view(request):
+
+    return render(request, 'index.html')
+
 class VoterLogin(LoginView):
     authentication_form = LoginForm
     template_name = 'voters/login.html'
