@@ -62,6 +62,10 @@ class EditProfileForm(forms.ModelForm):
     )
     SELECT_SCHOOL = (
         (None, '-- Select your school --'),
+        ('School of Arts, Social Sciences and Business', 'School of Arts, Social Sciences and Business'),
+        ('School of Education', 'School of Education (SE)'),
+        ('School of Information, Communication & Media Studies', 'School of Information, Communication & Media Studies (INFOCOMS)'),
+        ('School of Science, Agriculture & Environmental Science', 'School of Science, Agriculture & Environmental Science (SSAES)'),
     )
     SELECT_YEAR = (
         (None, '-- Select year of study --'),
@@ -84,7 +88,7 @@ class EditProfileForm(forms.ModelForm):
 
     class Meta:
         model = Voters
-        fields = '__all__'
+        fields = ['gender', 'dob', 'phone_no', 'school', 'year', 'semester', 'profile_pic']
 
 class ElectoralPostApplicationForm(forms.ModelForm):
     SELECT_ELECTORAL_POST = (

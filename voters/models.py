@@ -8,7 +8,7 @@ class Voters(models.Model):
     voter = models.OneToOneField(User, on_delete=models.CASCADE, editable=False)
     gender = models.CharField(max_length=7, blank=False)
     phone_no = models.CharField(max_length=14, blank=False)
-    age = models.PositiveIntegerField(default=0)
+    age = models.PositiveIntegerField(default=0, editable=False)
     dob = models.DateField(null=True, blank=False)
     profile_pic = models.ImageField(upload_to='VotersDps/', default='default.jpg')
     school = models.CharField(max_length=30, blank=False)

@@ -1,10 +1,10 @@
-{% extends 'voters/base.html' %}{% block title %}{% endblock %}
+{% extends 'voters/base.html' %}{% block title %}Profile{% endblock %}
 {% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 </head>
 <body>
 	{% block content %}
@@ -14,7 +14,6 @@
 				<div class="col-xl-4">
 					<div class="card">
 						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-
 							<img src="{{request.user.voters.profile_pic.url}}" alt="Profile" class="rounded-circle">
 							<h2>{{request.user.voters.voter|title}}</h2>
 							<h3>{{request.user.voters.year}}</h3>
@@ -111,7 +110,7 @@
 											</div>
 										</div>
 										<div class="row mb-2">
-											<div class="col-md-8 col-lg-9">
+											<div class="col-md-8 col-lg-12">
 												{% if request.user.voters.gender != "" %}
 												{{EditProfileForm|crispy}}
 												{% else %}
@@ -128,75 +127,74 @@
 
 								<div class="tab-pane fade pt-3" id="profile-settings">
 
-								<!-- Settings Form -->
-								<form>
+									<form>
 
-									<div class="row mb-3">
-									<label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
-									<div class="col-md-8 col-lg-9">
-										<div class="form-check">
-										<input class="form-check-input" type="checkbox" id="changesMade" checked>
-										<label class="form-check-label" for="changesMade">
-											Changes made to your account
-										</label>
+										<div class="row mb-3">
+										<label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
+										<div class="col-md-8 col-lg-9">
+											<div class="form-check">
+											<input class="form-check-input" type="checkbox" id="changesMade" checked>
+											<label class="form-check-label" for="changesMade">
+												Changes made to your account
+											</label>
+											</div>
+											<div class="form-check">
+											<input class="form-check-input" type="checkbox" id="newProducts" checked>
+											<label class="form-check-label" for="newProducts">
+												Information on new products and services
+											</label>
+											</div>
+											<div class="form-check">
+											<input class="form-check-input" type="checkbox" id="proOffers">
+											<label class="form-check-label" for="proOffers">
+												Marketing and promo offers
+											</label>
+											</div>
+											<div class="form-check">
+											<input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
+											<label class="form-check-label" for="securityNotify">
+												Security alerts
+											</label>
+											</div>
 										</div>
-										<div class="form-check">
-										<input class="form-check-input" type="checkbox" id="newProducts" checked>
-										<label class="form-check-label" for="newProducts">
-											Information on new products and services
-										</label>
 										</div>
-										<div class="form-check">
-										<input class="form-check-input" type="checkbox" id="proOffers">
-										<label class="form-check-label" for="proOffers">
-											Marketing and promo offers
-										</label>
-										</div>
-										<div class="form-check">
-										<input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
-										<label class="form-check-label" for="securityNotify">
-											Security alerts
-										</label>
-										</div>
-									</div>
-									</div>
 
-									<div class="text-center">
-									<button type="submit" class="btn btn-primary">Save Changes</button>
-									</div>
-								</form><!-- End settings Form -->
+										<div class="text-center">
+										<button type="submit" class="btn btn-primary">Save Changes</button>
+										</div>
+									</form><!-- End settings Form -->
 
 								</div>
 
 								<div class="tab-pane fade pt-3" id="profile-change-password">
-								<!-- Change Password Form -->
-								<form>
+									<!-- Change Password Form -->
+									<form>
 
-									<div class="row mb-3">
-									<label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-									<div class="col-md-8 col-lg-9">
-										<input name="password" type="password" class="form-control" id="currentPassword">
-									</div>
-									</div>
+										<div class="row mb-3">
+										<label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+										<div class="col-md-8 col-lg-9">
+											<input name="password" type="password" class="form-control" id="currentPassword">
+										</div>
+										</div>
 
-									<div class="row mb-3">
-									<label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
-									<div class="col-md-8 col-lg-9">
-										<input name="newpassword" type="password" class="form-control" id="newPassword">
-									</div>
-									</div>
+										<div class="row mb-3">
+										<label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+										<div class="col-md-8 col-lg-9">
+											<input name="newpassword" type="password" class="form-control" id="newPassword">
+										</div>
+										</div>
 
-									<div class="row mb-3">
-									<label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-									<div class="col-md-8 col-lg-9">
-										<input name="renewpassword" type="password" class="form-control" id="renewPassword">
-									</div>
-									</div>
+										<div class="row mb-3">
+										<label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+										<div class="col-md-8 col-lg-9">
+											<input name="renewpassword" type="password" class="form-control" id="renewPassword">
+										</div>
+										</div>
 
-									<div class="text-center">
-									<button type="submit" class="btn btn-primary">Change Password</button>
-									</div>
-								</form><!-- End Change Password Form -->
+										<div class="text-center">
+										<button type="submit" class="btn btn-primary">Change Password</button>
+										</div>
+									</form><!-- End Change Password Form -->
 
 								</div>
 
