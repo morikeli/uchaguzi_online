@@ -39,7 +39,8 @@ class Voters(models.Model):
 
 class Aspirants(models.Model):
     id = models.CharField(max_length=15, primary_key=True, editable=False, unique=True)
-    aspirant = models.ForeignKey(Voters, on_delete=models.CASCADE, editable=False)
+    name = models.ForeignKey(Voters, on_delete=models.CASCADE, editable=False)
+    alias = models.CharField(max_length=20, blank=True)
     bio = models.TextField(blank=False)
     post = models.CharField(max_length=20, blank=False)
     slogan = models.CharField(max_length=50, blank=True)
@@ -64,4 +65,4 @@ class Aspirants(models.Model):
 
     class Meta:
         verbose_name_plural = 'Aspirants'
-        ordering = ['aspirant']
+        ordering = ['name']
