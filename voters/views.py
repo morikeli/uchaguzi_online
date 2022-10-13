@@ -10,6 +10,10 @@ def indexpage_view(request):
 
     return render(request, 'index.html')
 
+def page404_view(request):
+
+    return render(request, 'page404.html')
+
 class VoterLogin(LoginView):
     authentication_form = LoginForm
     template_name = 'voters/login.html'
