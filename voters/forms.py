@@ -84,13 +84,13 @@ class EditProfileForm(forms.ModelForm):
         ('1', '1'),
         ('2', '2'),
     )
-    gender = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_GENDER, disabled=True)
-    phone_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel', 'class': 'mb-2', 'placeholder': 'Enter your mobile no.'}), label='', disabled=True)
-    dob = forms.CharField(widget=forms.TextInput(attrs={'type': 'date', 'class': 'mb-2'}), label='', help_text='Enter your date of birth', disabled=True)
-    reg_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2', 'placeholder': 'Enter your Registration No.'}), label='', disabled=True)
-    school = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_SCHOOL, disabled=True)
-    year = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_YEAR)
-    semester = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_SEMESTER)
+    gender = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), choices=SELECT_GENDER, disabled=True)
+    phone_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel', 'class': ' mb-2'}), disabled=True)
+    dob = forms.CharField(widget=forms.TextInput(attrs={'type': 'date', 'class': 'mb-2'}), label='Date of Birth', disabled=True)
+    reg_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}), label='Reg. No.', disabled=True)
+    school = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), choices=SELECT_SCHOOL, disabled=True)
+    year = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='Year of Study', choices=SELECT_YEAR)
+    semester = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), choices=SELECT_SEMESTER)
 
     class Meta:
         model = Voters
