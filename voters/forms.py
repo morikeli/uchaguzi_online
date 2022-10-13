@@ -30,6 +30,10 @@ class VoterRegistrationForm(forms.ModelForm):
     )
     SELECT_SCHOOL = (
         (None, '-- Select your school --'),
+        ('School of Arts, Social Sciences and Business', 'School of Arts, Social Sciences and Business (SASSB)'),
+        ('School of Education', 'School of Education (SE)'),
+        ('School of Information, Communication & Media Studies', 'School of Information, Communication & Media Studies (INFOCOMS)'),
+        ('School of Science, Agriculture & Environmental Science', 'School of Science, Agriculture & Environmental Science (SSAES)'),
     )
     SELECT_YEAR = (
         (None, '-- Select year of study --'),
@@ -44,15 +48,15 @@ class VoterRegistrationForm(forms.ModelForm):
         ('2', '2')
     )
     gender = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_GENDER)
-    phone_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel', 'class': 'mb-2', 'placeholder': 'Enter your mobile no.'}), label='', )
-    dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'class': 'mb-2'}), label='', help_text='Enter your date of birth')
+    phone_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel', 'class': 'mt-2 mb-2', 'placeholder': 'Enter your mobile no.'}), label='', )
+    dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label='', help_text='Enter your date of birth')
     school = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_SCHOOL)
     year = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_YEAR)
     semester = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_SEMESTER)
 
     class Meta:
         model = Voters
-        fields = '__all__'
+        fields = ['gender', 'dob', 'phone_no', 'school', 'year', 'semester', 'profile_pic']
 
 class EditProfileForm(forms.ModelForm):
     SELECT_GENDER = (
@@ -62,7 +66,7 @@ class EditProfileForm(forms.ModelForm):
     )
     SELECT_SCHOOL = (
         (None, '-- Select your school --'),
-        ('School of Arts, Social Sciences and Business', 'School of Arts, Social Sciences and Business'),
+        ('School of Arts, Social Sciences and Business', 'School of Arts, Social Sciences and Business (SASSB)'),
         ('School of Education', 'School of Education (SE)'),
         ('School of Information, Communication & Media Studies', 'School of Information, Communication & Media Studies (INFOCOMS)'),
         ('School of Science, Agriculture & Environmental Science', 'School of Science, Agriculture & Environmental Science (SSAES)'),

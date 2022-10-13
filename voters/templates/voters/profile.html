@@ -51,7 +51,7 @@
 
 							</ul>
 							<div class="tab-content pt-2">
-
+								{% include 'messages.html' %}
 								<div class="tab-pane fade show active profile-overview" id="profile-overview">
 									<h5 class="card-title">About</h5>
 									<p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
@@ -101,7 +101,7 @@
 								</div>
 
 								<div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-									<form action="" method="post">
+									<form action="" method="POST" enctype="multipart/form-data">
 										{% csrf_token %}
 										<div class="row mb-3">
 											<label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
@@ -111,10 +111,10 @@
 										</div>
 										<div class="row mb-2">
 											<div class="col-md-8 col-lg-12">
-												{% if request.user.voters.gender != "" %}
-												{{EditProfileForm|crispy}}
-												{% else %}
+												{% if request.user.voters.gender == "" %}
 												{{UpdateProfileForm|crispy}}
+												{% else %}
+												{{EditProfileForm|crispy}}
 												{% endif %}
 											</div>
 										</div>

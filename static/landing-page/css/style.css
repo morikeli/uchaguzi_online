@@ -101,7 +101,7 @@ h1, h2, h3, h4, h5, h6 {
 	background: #13bb46;
 	z-index: 997;
 	padding: 15px 0;
-	border-bottom: 1px solid #e6f2fb;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
 }
 #header.header-scrolled {
 	border-color: #fff;

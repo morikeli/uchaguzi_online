@@ -1,4 +1,5 @@
 {% extends 'voters/base.html' %}{% block title %}Homepage{% endblock %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +17,59 @@
 				<div class="col-lg-8">
 					<div class="row">
 
+						<!-- Modal forms -->
+						<div class="modal fade" id="modal-polls" tabindex="-1">
+							<div class="modal-dialog modal-dialog-scrollable modal-lg">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title">Election Polls Results</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<p class="small text-center fw-italic text-muted">NB: Results are subject to change</p>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary">Save changes</button>
+									</div>
+								</div>
+							</div>
+						</div>
+			
+						<div class="modal fade" id="modal-registration" tabindex="-1">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title">Voter registration form</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+
+									</div>
+									<div class="modal-footer">
+										<p class="small text-center text-muted fw-bold">NB: Kindly verify that the details provided in this form are correct and valid.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="modal fade" id="modal-elections" tabindex="-1">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title">Cast your vote</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+
+									</div>
+									<div class="modal-footer">
+										<p class="small text-center text-muted fw-bold">NB: Voting cards will be displayed sequentially. Close the form after you have voted for the president.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						
 						<!-- Sales Card -->
 						<div class="col-xxl-4 col-md-6">
 							<div class="card info-card sales-card">

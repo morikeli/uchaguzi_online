@@ -26,7 +26,9 @@
 			<h1 class="logo"><a href="">Uchaguzi Online</a></h1>
 			<nav id="navbar" class="navbar">
 				<ul>
-				<li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+				{% if user.is_authenticated %}
+				<li><a class="nav-link" href="{% url 'voters_homepage' %}">Home</a></li>
+				{% endif %}
 				<li><a class="nav-link scrollto" href="#about">About</a></li>
 				<li><a class="nav-link scrollto" href="#services">Services</a></li>
 				<li><a class="nav-link scrollto" href="#officials">Officials</a></li>

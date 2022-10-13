@@ -24,7 +24,7 @@
 			{% endif %}
 		</div>
 		{% if user.is_authenticated %}
-		<div class="search-bar">
+		<div class="search-bar mt-3">
 			<form class="search-form d-flex align-items-center" method="POST" action="#">
 				<input type="text" name="query" placeholder="Search" title="Enter search keyword">
 				<button type="submit" title="Search"><i class="bi bi-search"></i></button>
@@ -41,8 +41,8 @@
 
 				<li class="nav-item dropdown">
 					<a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-						<i class="bi bi-bell"></i>
-						<span class="badge bg-primary badge-number">4</span>
+						<i class="bi bi-bell-fill"></i>
+						<span class="badge bg-danger badge-number">4</span>
 					</a><!-- End Notification Icon -->
 
 					<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
@@ -109,8 +109,8 @@
 				<li class="nav-item dropdown">
 
 				<a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-					<i class="bi bi-chat-left-text"></i>
-					<span class="badge bg-success badge-number">3</span>
+					<i class="bi bi-chat-dots-fill"></i>
+					<span class="badge bg-warning badge-number">3</span>
 				</a><!-- End Messages Icon -->
 
 				<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
@@ -175,7 +175,7 @@
 				<li class="nav-item dropdown pe-3">
 					<a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
 						<img src="{{ request.user.voters.profile_pic.url }}" alt="Profile" class="rounded-circle">
-						<span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+						<span class="d-none d-md-block dropdown-toggle ps-2">{{request.user.voters.voter|title}}</span>
 					</a>
 
 					<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -239,19 +239,20 @@
 			</li><!-- End Dashboard Nav -->
 
 			<li class="nav-item">
-				<a class="nav-link" href="#">
+				<a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#modal-polls">
 					<i class="bi bi-bar-chart-line-fill"></i><span>Election Polls</span>
 				</a>
 			</li>
 
 			<li class="nav-item">
-				<a class="nav-link" href="#">
+				<a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#modal-registration">
 					<i class="bi bi-calendar2-check-fill"></i><span>Voter Registration</span>
 				</a>
 			</li>
 
+			
 			<li class="nav-item">
-				<a class="nav-link" href="#">
+				<a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#modal-elections">
 					<i class="bi bi-archive-fill"></i><span>Vote</span>
 				</a>
 			</li>

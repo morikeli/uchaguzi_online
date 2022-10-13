@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import LoginForm, SignupForm, VoterRegistrationForm, EditProfileForm, ElectoralPostApplicationForm
@@ -39,15 +40,15 @@ def signup_view(request):
 def votersprofile_view(request):
     registration_form = VoterRegistrationForm(instance=request.user.voters)
     edit_form = EditProfileForm(instance=request.user.voters)
-
+    
     if request.method == 'POST':
         registration_form = VoterRegistrationForm(request.POST, request.FILES, instance=request.user.voters)
         edit_form = EditProfileForm(request.POST, request.FILES, instance=request.user.voters)
         
         if registration_form.is_valid():
-            voterprof = update_form.save(commit=False)
-            
-            voters_dob = str(voterprof.dob)
+            profile_form = registration_form.save(commit=False)
+            print('Form is valid!!')
+            voters_dob = str(profile_form.dob)
             get_VoterDob = datetime.strptime(voters_dob, '%Y-%m-%d')
             current_date = datetime.now()
             voters_age = current_date - get_VoterDob
@@ -55,26 +56,23 @@ def votersprofile_view(request):
             voterprof.age = convert_votersAge
             
             if datetime.strptime(str(voterprof.dob), '%Y-%m-%d') > datetime.now().strftime('%Y-%m-%d'):
-                messages.error(request, f'INVALID DATE!! Current year is {datetime.now()} but you have provided year {voterprof.dob}.')
-                if voterprof.age < 18:
-                    obj = Voters.objects.get(id=voterprof.id)
-                    obj.delete()
+                messages.error(request, f'INVALID DATE!! Current year is {datetime.now()} but you have provided year {profile_form.dob}.')
+                if profile_form.age < 18:
                     messages.warning(request, 'Voting is only eligible to voters above 18yrs! Your account has been deleted.')
-                    return redirect('logout_voters')
             
-            elif voterprof.age < 18:
+            elif profile_form.age < 18:
                     messages.warning(request, 'Voting is only eligible to voters above 18yrs!')
+                    
 
             else:
-                if datetime.strptime(str(voterprof.dob), '%Y-%m-%d') > datetime.now().strftime('%Y-%m-%d'):
-                    messages.error(request, f'INVALID DATE!! Current year is {datetime.now()} but you have provided year {voterprof.dob}.')
-
+                if Voters.objects.filter(reg_no=profile_form.reg_no).exists():
+                    messages.error(request, f'Reg. No. {profile_form.reg_no} provided already exists. Please enter a valid registration number to proceed.')
                 else:
-                    if Voters.objects.filter(reg_no=voterprof.reg_no).exists():
-                        messages.error(request, f'Reg. No. {update_form.reg_no} provided already exists. Please enter a valid registration number to proceed.')
-                    else:
-                        update_form.save()
-                        messages.success(request, 'Profile updated successfully!')
+                    profile_form.registered = True
+                    profile_form.save()
+                    messages.success(request, 'Profile updated successfully!')
+                    print('Form saved!!!')
+                    return redirect('voters_profile')
         
         elif edit_form.is_valid():
             edit_form.save()
