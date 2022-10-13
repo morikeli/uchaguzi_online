@@ -48,7 +48,8 @@ def votersprofile_view(request):
         print('Is registration form valid? ', voterregist_form.is_valid())
         if voterregist_form.is_valid():
             profile_form = voterregist_form.save(commit=False)
-            print('Registration form is valid...')
+
+            # Date input validation
             voters_dob = str(profile_form.dob)
             get_VoterDob = datetime.strptime(voters_dob, '%Y-%m-%d')
             current_date = datetime.now()
@@ -57,7 +58,7 @@ def votersprofile_view(request):
             profile_form.age = convert_votersAge
             
             if str(datetime.strptime(voters_dob, '%Y-%m-%d').strftime('%Y')) > str(datetime.now().strftime('%Y')):
-                messages.error(request, f'INVALID DATE!! Current year is {datetime.now().strftime("%d-%m-%Y")} but you have provided year {profile_form.dob}.')
+                messages.error(request, f'INVALID DATE!! Current year is {datetime.now().strftime("%d-%m-%Y")} but you have provided year {profile_form.dob.strftime("%d-%m-%Y")}.')
             
             elif profile_form.age < 18:
                     messages.warning(request, 'Voting is only eligible to voters above 18yrs!')
@@ -69,7 +70,6 @@ def votersprofile_view(request):
                     profile_form.registered = True
                     profile_form.save()
                     messages.success(request, 'Profile updated successfully!')
-                    print('Form saved!!!')
                     return redirect('voters_profile')
         
         elif edit_form.is_valid():
