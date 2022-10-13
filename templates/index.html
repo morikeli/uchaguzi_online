@@ -48,7 +48,11 @@
 					</ul>
 				</li>
 				<li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+				{% if user.is_authenticated %}
+				<li><a class="login" href="{% url 'voters_login' %}">Logout</a></li>
+				{% else %}
 				<li><a class="login" href="{% url 'voters_login' %}">Login</a></li>
+				{% endif %}
 				</ul>
 				<i class="bi bi-list mobile-nav-toggle"></i>
 			</nav>
