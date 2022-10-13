@@ -38,31 +38,29 @@ def signup_view(request):
 @login_required(login_url='voters_login')
 @user_passes_test(lambda user: user.is_staff is False)
 def votersprofile_view(request):
-    registration_form = VoterRegistrationForm(instance=request.user.voters)
+    voterregist_form = VoterRegistrationForm(instance=request.user.voters)
     edit_form = EditProfileForm(instance=request.user.voters)
     
     if request.method == 'POST':
-        registration_form = VoterRegistrationForm(request.POST, request.FILES, instance=request.user.voters)
+        voterregist_form = VoterRegistrationForm(request.POST, request.FILES, instance=request.user.voters)
         edit_form = EditProfileForm(request.POST, request.FILES, instance=request.user.voters)
-        
-        if registration_form.is_valid():
-            profile_form = registration_form.save(commit=False)
-            print('Form is valid!!')
+        print('Code reachable')
+        print('Is registration form valid? ', voterregist_form.is_valid())
+        if voterregist_form.is_valid():
+            profile_form = voterregist_form.save(commit=False)
+            print('Registration form is valid...')
             voters_dob = str(profile_form.dob)
             get_VoterDob = datetime.strptime(voters_dob, '%Y-%m-%d')
             current_date = datetime.now()
             voters_age = current_date - get_VoterDob
-            convert_votersAge = int(voters_age/365.25)
+            convert_votersAge = int(voters_age.days/365.25)
             voterprof.age = convert_votersAge
             
             if datetime.strptime(str(voterprof.dob), '%Y-%m-%d') > datetime.now().strftime('%Y-%m-%d'):
                 messages.error(request, f'INVALID DATE!! Current year is {datetime.now()} but you have provided year {profile_form.dob}.')
-                if profile_form.age < 18:
-                    messages.warning(request, 'Voting is only eligible to voters above 18yrs! Your account has been deleted.')
             
             elif profile_form.age < 18:
                     messages.warning(request, 'Voting is only eligible to voters above 18yrs!')
-                    
 
             else:
                 if Voters.objects.filter(reg_no=profile_form.reg_no).exists():
@@ -79,7 +77,7 @@ def votersprofile_view(request):
             messages.info(request, 'You have edited your profile.')
             return redirect('voters_profile')
 
-    context = {'UpdateProfileForm': registration_form, 'EditProfileForm': edit_form}
+    context = {'UpdateProfileForm': voterregist_form, 'EditProfileForm': edit_form}
     return render(request, 'voters/profile.html', context)
 
 @login_required(login_url='voters_login')
