@@ -54,10 +54,10 @@ def votersprofile_view(request):
             current_date = datetime.now()
             voters_age = current_date - get_VoterDob
             convert_votersAge = int(voters_age.days/365.25)
-            voterprof.age = convert_votersAge
+            profile_form.age = convert_votersAge
             
-            if datetime.strptime(str(voterprof.dob), '%Y-%m-%d') > datetime.now().strftime('%Y-%m-%d'):
-                messages.error(request, f'INVALID DATE!! Current year is {datetime.now()} but you have provided year {profile_form.dob}.')
+            if str(datetime.strptime(voters_dob, '%Y-%m-%d').strftime('%Y')) > str(datetime.now().strftime('%Y')):
+                messages.error(request, f'INVALID DATE!! Current year is {datetime.now().strftime("%d-%m-%Y")} but you have provided year {profile_form.dob}.')
             
             elif profile_form.age < 18:
                     messages.warning(request, 'Voting is only eligible to voters above 18yrs!')

@@ -75,7 +75,7 @@
 
 									<div class="row">
 										<div class="col-lg-3 col-md-4 label ">Date of birth</div>
-										<div class="col-lg-9 col-md-8">{{request.user.voters.dob}}</div>
+										<div class="col-lg-9 col-md-8">{{request.user.voters.dob|default:""}}</div>
 									</div>
 									
 									<div class="row">
@@ -104,7 +104,7 @@
 									<form action="" method="post" enctype="multipart/form-data">
 										{% csrf_token %}
 										<div class="row mb-3">
-											<label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+											<label for="image" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
 											<div class="col-md-8 col-lg-9">
 												<img src="{{request.user.voters.profile_pic.url}}" alt="Profile">
 											</div>

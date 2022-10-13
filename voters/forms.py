@@ -51,12 +51,13 @@ class VoterRegistrationForm(forms.ModelForm):
     phone_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel', 'class': 'mt-2 mb-2', 'placeholder': 'Enter your mobile no.'}), label='', )
     dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label='', help_text='Enter your date of birth')
     school = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_SCHOOL)
+    reg_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2', 'placeholder': 'Enter your Registration No.'}), label='')
     year = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_YEAR)
     semester = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_SEMESTER)
 
     class Meta:
         model = Voters
-        fields = ['gender', 'dob', 'phone_no', 'school', 'year', 'semester', 'profile_pic']
+        fields = ['gender', 'dob', 'phone_no', 'school', 'reg_no', 'year', 'semester', 'profile_pic']
 
 class EditProfileForm(forms.ModelForm):
     SELECT_GENDER = (
@@ -81,18 +82,19 @@ class EditProfileForm(forms.ModelForm):
     SELECT_SEMESTER = (
         (None, '-- Select semester --'),
         ('1', '1'),
-        ('2', '2')
+        ('2', '2'),
     )
     gender = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_GENDER, disabled=True)
     phone_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel', 'class': 'mb-2', 'placeholder': 'Enter your mobile no.'}), label='', disabled=True)
-    dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'class': 'mb-2'}), label='', help_text='Enter your date of birth', disabled=True)
+    dob = forms.CharField(widget=forms.TextInput(attrs={'type': 'date', 'class': 'mb-2'}), label='', help_text='Enter your date of birth', disabled=True)
+    reg_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2', 'placeholder': 'Enter your Registration No.'}), label='', disabled=True)
     school = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_SCHOOL, disabled=True)
     year = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_YEAR)
     semester = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_SEMESTER)
 
     class Meta:
         model = Voters
-        fields = ['gender', 'dob', 'phone_no', 'school', 'year', 'semester', 'profile_pic']
+        fields = ['gender', 'dob', 'phone_no', 'school', 'reg_no', 'year', 'semester', 'profile_pic']
 
 class ElectoralPostApplicationForm(forms.ModelForm):
     SELECT_ELECTORAL_POST = (
