@@ -604,6 +604,9 @@ h1, h2, h3, h4, h5, h6 {
 	margin-right: 10px;
 	/* color: #4154f1; */
 }
+.sidebar-nav .nav-link .bi- {
+
+}
 
 .sidebar-nav .nav-link:hover {
 	color: #fff;
