@@ -607,6 +607,10 @@ h1, h2, h3, h4, h5, h6 {
 .sidebar-nav .nav-link .bi-grid-1x2-fill {
 	color: #18d26e;
 }
+.sidebar-nav .nav-link .bi-grid-1x2-fill {
+	color: #18d26e;
+}
+
 
 .sidebar-nav .nav-link:hover {
 	color: #fff;
