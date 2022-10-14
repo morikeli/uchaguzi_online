@@ -13,7 +13,6 @@
 		<div class="d-flex align-items-center justify-content-between">
 			{% if user.is_authenticated %}
 			<a href="{% url 'voters_homepage' %}" class="logo d-flex align-items-center">
-				<img src="{% static 'voters-page/img/logo.png' %}" alt="">
 				<span class="d-none d-lg-block">Uchaguzi Online</span>
 			</a>
 			<i class="bi bi-list toggle-sidebar-btn"></i>{% else %}

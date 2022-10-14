@@ -328,7 +328,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 @media (min-width: 1200px) {
 	.logo {
-		width: 280px;
+		width: 240px;
 	}
 }
 .logo img {
@@ -338,7 +338,7 @@ h1, h2, h3, h4, h5, h6 {
 .logo span {
 	font-size: 26px;
 	font-weight: 700;
-	color: #012970;
+	color: #fff;
 	font-family: "Nunito", sans-serif;
 }
 
@@ -347,8 +347,9 @@ h1, h2, h3, h4, h5, h6 {
 	z-index: 997;
 	height: 60px;
 	box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
-	background-color: #fff;
+	background-color: #13bb46;
 	padding-left: 20px;
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
 }
 .header .toggle-sidebar-btn {
 	font-size: 32px;
@@ -420,13 +421,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 .header-nav .nav-icon {
 	font-size: 20px;
-	color: #012970;
+	color: #fff;
 }
 .header-nav .nav-profile {
-  	color: #012970;
+  	color: #fff;
 }
 .header-nav .nav-profile img {
-  	max-height: 36px;
+  	height: 40px;
+	width: 40px;
 }
 .header-nav .nav-profile span {
 	font-size: 14px;
@@ -530,7 +532,8 @@ h1, h2, h3, h4, h5, h6 {
 	scrollbar-width: thin;
 	scrollbar-color: #aab7cf transparent;
 	box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
-	background-color: #13bb46;
+	background-color: #12c465;
+	box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
 }
 @media (max-width: 1199px) {
 	.sidebar {
@@ -581,7 +584,7 @@ h1, h2, h3, h4, h5, h6 {
 .sidebar-nav .nav-heading {
 	font-size: 11px;
 	text-transform: uppercase;
-	color: #899bbd;
+	color: #fff;
 	font-weight: 600;
 	margin: 10px 0 5px 15px;
 }
@@ -847,7 +850,8 @@ h1, h2, h3, h4, h5, h6 {
 # Profie Page
 --------------------------------------------------------------*/
 .profile .profile-card img {
-  	max-width: 120px;
+	height: 120px;
+  	width: 120px;
 }
 .profile .profile-card h2 {
 	font-size: 24px;
@@ -885,7 +889,8 @@ h1, h2, h3, h4, h5, h6 {
 	color: rgba(1, 41, 112, 0.6);
 }
 .profile .profile-edit img {
-  	max-width: 120px;
+	height: 120px;
+  	width: 120px;
 }
 
 /*--------------------------------------------------------------
