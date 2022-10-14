@@ -604,16 +604,27 @@ h1, h2, h3, h4, h5, h6 {
 	margin-right: 10px;
 	/* color: #4154f1; */
 }
-.sidebar-nav .nav-link .bi-grid-1x2-fill {
-	color: #18d26e;
-}
-.sidebar-nav .nav-link .bi-grid-1x2-fill {
-	color: #18d26e;
-}
 
 .sidebar-nav .nav-link .bi-grid-1x2-fill {
+	color: #0cdf6e;
+}
+.sidebar-nav .nav-link .bi-bar-chart-line-fill {
+	color: teal;
+}
+.sidebar-nav .nav-link .bi-calendar2-check-fill {
 	color: #18d26e;
-
+}
+.sidebar-nav .nav-link .bi-award-fill {
+	color: red;
+}
+.sidebar-nav .nav-link .bi-archive-fill {
+	color: #ffc107;
+}
+.sidebar-nav .nav-link .bi-person-bounding-box {
+	color: #0c0c88;
+}
+.sidebar-nav .nav-link .bi-door-open-fill {
+	color: #dc3445;
 }
 
 .sidebar-nav .nav-link:hover {
