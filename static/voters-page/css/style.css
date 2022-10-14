@@ -741,6 +741,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .dashboard .activity .activity-item .activity-badge {
   margin-top: 3px;
+  margin-left: -5%;
   z-index: 1;
   font-size: 11px;
   line-height: 0;

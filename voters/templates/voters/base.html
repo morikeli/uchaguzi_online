@@ -249,8 +249,13 @@
 					<i class="bi bi-calendar2-check-fill"></i><span>Voter Registration</span>
 				</a>
 			</li>
-
-			
+			{% if request.user.voters.registered is True %}
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#aspirant-registration">
+					<i class="bi bi-award-fill"></i><span>Vie for electoral seat</span>
+				</a>
+			</li>
+			{% endif %}
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#modal-elections">
 					<i class="bi bi-archive-fill"></i><span>Vote</span>
