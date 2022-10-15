@@ -355,7 +355,8 @@ h1, h2, h3, h4, h5, h6 {
 	font-size: 32px;
 	padding-left: 10px;
 	cursor: pointer;
-	color: #012970;
+	color: #fff;
+	margin-top: 2%;
 }
 .header .search-bar {
 	min-width: 360px;
@@ -602,7 +603,6 @@ h1, h2, h3, h4, h5, h6 {
 .sidebar-nav .nav-link i {
 	font-size: 18px;
 	margin-right: 10px;
-	/* color: #4154f1; */
 }
 
 .sidebar-nav .nav-link .bi-grid-1x2-fill {
@@ -612,7 +612,7 @@ h1, h2, h3, h4, h5, h6 {
 	color: teal;
 }
 .sidebar-nav .nav-link .bi-calendar2-check-fill {
-	color: #18d26e;
+	color: rgb(81, 81, 216);
 }
 .sidebar-nav .nav-link .bi-award-fill {
 	color: red;
@@ -624,11 +624,11 @@ h1, h2, h3, h4, h5, h6 {
 	color: #0c0c88;
 }
 .sidebar-nav .nav-link .bi-door-open-fill {
-	color: #dc3445;
+	color: #db192c;
 }
 
 .sidebar-nav .nav-link:hover {
-	color: #fff;
+	color: #4154f1;
 	background: #f6f9ff;
 }
 .sidebar-nav .nav-link:hover i {
@@ -730,6 +730,7 @@ h1, h2, h3, h4, h5, h6 {
 	background: #ffecdf;
 }
 
+
 /* Activity */
 .dashboard .activity {
   	font-size: 14px;
@@ -770,6 +771,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 .dashboard .activity .activity-item:last-child .activity-content {
   	padding-bottom: 0;
+}
+
+.dashboard .card-title .bi-compass-fill {
+	color: blue;
+}
+.dashboard .card-title .pie-chart-fill {
+	color: red;
+}
+.dashboard .card-title .newspaper {
+	color: red;
 }
 
 /* News & Updates */
