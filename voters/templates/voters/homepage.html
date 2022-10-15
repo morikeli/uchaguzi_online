@@ -113,6 +113,23 @@
 							</div>
 						</div>
 						
+						<div class="modal fade" id="vie-post" tabindex="-1">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title"><i class="bi bi-"></i> Nomination Application Form</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<form action="" method="post">
+											{% csrf_token %}
+
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+
 						<div class="modal fade" id="modal-elections" tabindex="-1">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -377,13 +394,13 @@
 
 								<div class="activity-item d-flex">
 									<div class="activity-label">32 min</div>
-									<!-- <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i> -->
 									<img src="{% static 'voters-page/img/news-1.jpg' %}" class="rounded-circle activity-badge align-self-start" height="50px" width="50px" alt="">
 									<div class="activity-content">
 										<a href="#" class="fw-bold text-dark">Quia quae rerum explicabo officiis beatae</a>
 									</div>
 								</div><!-- End activity item-->
-
+								<hr class="dropdown-divider">
+								<a href="" class="read-more">View more</a>
 							</div>
 
 						</div>

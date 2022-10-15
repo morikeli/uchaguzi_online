@@ -735,6 +735,9 @@ h1, h2, h3, h4, h5, h6 {
 .dashboard .activity {
   	font-size: 14px;
 }
+.dashboard .activity .read-more {
+	text-align: center;
+}
 .dashboard .activity .activity-item .activity-label {
 	color: #888;
 	position: relative;
