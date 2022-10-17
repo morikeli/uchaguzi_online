@@ -2,17 +2,30 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .forms import LoginForm, SignupForm, VoterRegistrationForm, EditProfileForm, ElectoralPostApplicationForm
-from .models import Voters, Aspirants
+from .forms import (
+    LoginForm, SignupForm, VoterRegistrationForm, EditProfileForm, ElectoralPostApplicationForm, UploadNominationForm,
+    BlogForm
+    )
+from .models import Voters, Aspirants, Blog
+from polls.models import Polled
 from datetime import datetime
 
 
 def indexpage_view(request):
+    nominated_aspirants_sch = Aspirants.objects.filter(nominate=False).all()
+    if request.user.is_authenticated:
+        nominated_aspirants_sch = Aspirants.objects.filter(nominate=False, name__school=request.user.voters.school).all()
 
-    return render(request, 'index.html')
+    nom_aspirants = Aspirants.objects.filter(nominate=False).all()
+
+    context = {
+        'nominated_aspirants': nom_aspirants, 'nominatedAspirants_CurrentUser': nominated_aspirants_sch,
+        'nom': Aspirants.objects.filter(nominate=True).count(), 'reg': Voters.objects.filter(registered=True).count(),
+        'asp': Aspirants.objects.filter(nominate=False).count(),
+        }
+    return render(request, 'index.html', context)
 
 def page404_view(request):
-
     return render(request, 'page404.html')
 
 class VoterLogin(LoginView):
@@ -44,8 +57,7 @@ def votersprofile_view(request):
     if request.method == 'POST':
         voterregist_form = VoterRegistrationForm(request.POST, request.FILES, instance=request.user.voters)
         edit_form = EditProfileForm(request.POST, request.FILES, instance=request.user.voters)
-        print('Code reachable')
-        print('Is registration form valid? ', voterregist_form.is_valid())
+        
         if voterregist_form.is_valid():
             profile_form = voterregist_form.save(commit=False)
 
@@ -58,7 +70,7 @@ def votersprofile_view(request):
             profile_form.age = convert_votersAge
             
             if str(datetime.strptime(voters_dob, '%Y-%m-%d').strftime('%Y')) > str(datetime.now().strftime('%Y')):
-                messages.error(request, f'INVALID DATE!! Current year is {datetime.now().strftime("%d-%m-%Y")} but you have provided year {profile_form.dob.strftime("%d-%m-%Y")}.')
+                messages.error(request, f'INVALID DATE!! Current date is {datetime.now().strftime("%d-%m-%Y")} but you have provided date "*** {profile_form.dob.strftime("%d-%m-%Y")} ***".')
             
             elif profile_form.age < 18:
                     messages.warning(request, 'Voting is only eligible to voters above 18yrs!')
@@ -80,50 +92,69 @@ def votersprofile_view(request):
     context = {'UpdateProfileForm': voterregist_form, 'EditProfileForm': edit_form}
     return render(request, 'voters/profile.html', context)
 
-@login_required(login_url='voters_login')
-@user_passes_test(lambda user: user.is_staff is False)
-def application_view(request):
-    application_form = ElectoralPostApplicationForm()
-    try:
-        uploadnomination_form = ElectoralPostApplicationForm(instance=request.user.voter.aspirants)
-        if request.method == 'POST':
-            uploadnomination_form = ElectoralPostApplicationForm(request.POST, request.FILES, instance=request.user.voters.aspirants)
-                    
-            if uploadnomination_form.is_valid():
-                uploadnomination_form.save()
-                messages.info(request, 'Nomination form uploaded succesfully!')
-                
-
-    except Aspirants.DoesNotExist:
-    
-        if request.method == 'POST':
-            application_form = ElectoralPostApplicationForm(request.POST, request.FILES)
-            
-            if application_form.is_valid():
-                form = application_form.save(commit=False)
-
-                if form.aspirant.gender == 'Male' and form.post == 'Ladies Representative':
-                    messages.warning(request, 'Only females are eligible to vie for "LADIES REPRESENTATIVE" electoral post!')
-                elif form.aspirant.year != 'Fourth Year' and form.post == 'President':
-                    messages.warning(request, 'Only fourth years can vie for the Presidential seat!')
-
-                else:
-                    form.aspirant = request.user.voters
-
-                    form.save()
-                    messages.success(request, f'You are vying for {form.post} electoral post. Kindly submit your nomination form in time.')
-
-
-    context = {'application_form': application_form}
-    return render(request, 'voters/homepage.html', context)
-
 
 @login_required(login_url='voters_login')
 @user_passes_test(lambda user: user.is_staff is False)
+@user_passes_test(lambda user: user.voters.registered is True)
 def homepage_view(request):
+    contest_form = ElectoralPostApplicationForm()
+    try:
+        nomination_form = UploadNominationForm(instance=request.user.voters.aspirants)
+        blog_form = BlogForm()
+        
+        if request.method == 'POST':
+            nomination_form = UploadNominationForm(request.POST, request.FILES, instance=request.user.voters.aspirants)
+            blog_form = BlogForm(request.POST)
 
-    context = {}
+            if nomination_form.is_valid():
+                nomination_form.save()
+                messages.success(request, f'Nomination form submitted successfully!')
+                return redirect('voters_homepage')
+
+            elif blog_form.is_valid():
+                form = blog_form.save(commit=False)
+                form.blogger = request.user.voters.aspirants
+                form.save()
+                messages.info(request, 'Blog uploaded successfully!')
+                return redirect('voters_homepage')
+    
+
+    except Aspirants.DoesNotExist:  
+        nomination_form = UploadNominationForm()
+        blog_form = BlogForm()
+
+        if request.method == 'POST':
+            contest_form = ElectoralPostApplicationForm(request.POST)
+
+            if contest_form.is_valid():
+                form = contest_form.save(commit=False)
+                
+                # electoral posts validation
+                if form.post == 'Ladies Representative' and request.user.voters.gender == 'Male':
+                    messages.error(request, 'Only ladies are eligible to vie for the ladies representative seat.')
+                    
+                elif form.post == 'President' and request.user.voters.year != 'Fourth Year':
+                    messages.error(request, 'Only fourth years can contest for the Presidential seat!')
+                else:
+                    form.name = request.user.voters
+                    form.save()
+                    messages.success(request, f'You are vying for {form.post}. Kindly submit your nomination form in time.')
+                    return redirect('voters_homepage')
+
+            
+    registered_voters = Voters.objects.filter(registered=True, school=request.user.voters.school)
+    pollers = Polled.objects.all().count()
+    total_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school).count()
+    blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school).all()
+    
+    context = {
+        'contestant_form': contest_form, 'upload_NominationForm': nomination_form, 'blog_form': blog_form,
+        'blogs': blogs, 'total_aspirants': total_aspirants, 'total_reg_voters': registered_voters.count(),
+        'polled': pollers, 'reg_voters': registered_voters,
+        }
+    
     return render(request, 'voters/homepage.html', context)
+
 
 class LogoutVoter(LogoutView):
     template_name = 'voters/logout.html'

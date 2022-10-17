@@ -16,7 +16,7 @@
 				<!-- Left side columns -->
 				<div class="col-lg-8">
 					<div class="row">
-
+						{% include 'messages.html' %}
 						<!-- Modal forms -->
 						<div class="modal fade" id="modal-polls" tabindex="-1">
 							<div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -70,41 +70,23 @@
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h5 class="modal-title">Voter registration form</h5>
+										<h5 class="modal-title"><i class="bi bi-check-circle-fill" style="color: #13bb46"></i> Voter verification form</h5>
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body">
-										<form action="" method="post">
-											{% csrf_token %}
-											<div class="row mb-2">
-												<div class="col-md-12 table-responsive">
-													<table class="table table-sm table-condensed table-bordered table-striped table-hover">
-														<thead>
-															<tr>
-																<th>Image</th>
-																<th>Aspirants Profile</th>
-																<th>Vote</th>
-															</tr>
-														</thead>
-														<tbody>
-															{% for aspirant in aspirants %}
-															<tr>
-																<td class="text-center">
-																	<img src="{{aspirant.pic.url}}" alt="profile-photo" height="70px" width="70px">
-																</td>
-																<td>
-
-																</td>
-																<td>
-																	<input type="radio" name="vote" value="{{aspirant.id}}" required>
-																</td>
-															</tr>
-															{% endfor %}
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</form>
+										{% if request.user.voters.registered is True %}
+										<div class="card-body d-flex pt-3 flex-column align-items-center">
+											<img src="{% static 'voters-page/img/thumbs-up.png' %}" alt="img" class="rounded-circle" height="150px" width="150px" style="border: 2px solid blueviolet">
+											<h5 class="text-muted">You are a registered voter</h5>
+											<h6 class="text-muted fw-bold">Name: {{ request.user.voters|title }}</h6>
+											<h6 class="text-muted fw-bold">Gender: {{ request.user.voters.gender }}</h6>
+											<h6 class="text-muted fw-bold">School: {{ request.user.voters.school|truncatewords:4 }}</h6>
+											<h6 class="text-muted fw-bold">Reg. No.: {{ request.user.voters.reg_no }}</h6>
+											<h6 class="text-muted fw-bold">Year: {{ request.user.voters.year }}</h6>
+											<h6 class="text-muted fw-bold">Semester: {{ request.user.voters.semester }}</h6>
+											
+										</div>
+										{% endif %}
 									</div>
 									<div class="modal-footer">
 										<p class="small text-center text-muted fw-bold">NB: Kindly verify that the details provided in this form are correct and valid.</p>
@@ -121,14 +103,45 @@
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body">
-										<form action="" method="post">
+										<form action="" method="post" enctype="multipart/form-data">
 											{% csrf_token %}
-
+											{% if request.user.voters.aspirants.name is not None %}
+											{{upload_NominationForm|crispy}}											
+											{% else %}
+											{{contestant_form|crispy}}
+											{% endif %}
+											<div class="modal-footer mt-2">
+													<button type="submit" class="btn btn-primary">Submit</button>
+											</div>
 										</form>
 									</div>
 								</div>
 							</div>
 						</div>
+
+						<div class="modal fade" id="blog" tabindex="-1">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title"><img src="{{request.user.voters.aspirants.pic.url}}" alt="img" class="rounded-circle" height="40px" width="40px"> Blog form</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<form action="" method="post">
+											{% csrf_token %}
+											{{blog_form|crispy}}
+											<div class="modal-footer mt-1">
+												<button type="submit" class="btn btn-success"><i class="bi bi-telegram"></i> Send</button>
+												<p class="small text-muted fw-bold">
+													What are your plans for you supporters today? &centerdot; What is your advise to your suppoters?
+												</p>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						
 
 						<div class="modal fade" id="modal-elections" tabindex="-1">
 							<div class="modal-dialog">
@@ -149,32 +162,17 @@
 						
 						<!-- Sales Card -->
 						<div class="col-xxl-4 col-md-6">
-							<div class="card info-card sales-card">
-
-								<div class="filter">
-									<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-									<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-										<li class="dropdown-header text-start">
-										<h6>Filter</h6>
-										</li>
-
-										<li><a class="dropdown-item" href="#">Today</a></li>
-										<li><a class="dropdown-item" href="#">This Month</a></li>
-										<li><a class="dropdown-item" href="#">This Year</a></li>
-									</ul>
-								</div>
-
+							<div class="card info-card aspirants-card">
 								<div class="card-body">
-									<h5 class="card-title">Sales <span>| Today</span></h5>
+									<h5 class="card-title">Aspirants | <span>{{ request.user.voters.school }}</span></h5>
 
 									<div class="d-flex align-items-center">
 										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-										<i class="bi bi-cart"></i>
+											<i class="bi bi-trophy-fill"></i>
 										</div>
 										<div class="ps-3">
-										<h6>145</h6>
-										<span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
+											<h6>{{ total_aspirants }}</h6>
+											<span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 										</div>
 									</div>
 								</div>
@@ -183,16 +181,16 @@
 
 						<!-- Revenue Card -->
 						<div class="col-xxl-4 col-md-6">
-							<div class="card info-card revenue-card">
+							<div class="card info-card pollers-card">
 
 								<div class="card-body">
-									<h5 class="card-title">Pollers</h5>
+									<h5 class="card-title">Pollers | <span>{{ request.user.voters.school }}</span></h5>
 									<div class="d-flex align-items-center">
 										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
 										<i class="bi bi-clipboard-data"></i>
 										</div>
 										<div class="ps-3">
-										<h6>$3,264</h6>
+										<h6>{{ polled }}</h6>
 										<span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 
 										</div>
@@ -204,16 +202,16 @@
 
 						<!-- Customers Card -->
 						<div class="col-xxl-4 col-xl-12">
-							<div class="card info-card customers-card">
+							<div class="card info-card reg-voters-card">
 
 								<div class="card-body">
-									<h5 class="card-title">Registered Voters</h5>
+									<h5 class="card-title">Registered Voters | <span>{{ request.user.voters.school }}</span></h5>
 									<div class="d-flex align-items-center">
 										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
 											<i class="bi bi-people-fill"></i>
 										</div>
 										<div class="ps-3">
-											<h6>1244</h6>
+											<h6>{{ total_reg_voters }}</h6>
 											<span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
 										</div>
 									</div>
@@ -295,38 +293,35 @@
 								<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
 								<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
 									<li class="dropdown-header text-start">
-									<h6>Filter</h6>
+										<h6>Filter</h6>
 									</li>
-
-									<li><a class="dropdown-item" href="#">Today</a></li>
-									<li><a class="dropdown-item" href="#">This Month</a></li>
-									<li><a class="dropdown-item" href="#">This Year</a></li>
+									<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#poll-results">View all</a></li>
 								</ul>
 								</div>
 
 								<div class="card-body">
-									<h5 class="card-title"><i class="bi bi-pie-chart-fill"></i> Recent Sales <span>| Today</span></h5>
+									<h5 class="card-title"><i class="bi bi-pie-chart-fill"></i> Polls ranking</h5>
 
 									<table class="table table-borderless datatable">
 										<thead>
 											<tr>
-												<th scope="col">#</th>
-												<th scope="col">Customer</th>
-												<th scope="col">Product</th>
-												<th scope="col">Price</th>
-												<th scope="col">Status</th>
+												<th scope="col">Image</th>
+												<th scope="col">Name</th>
+												<th scope="col">Gender</th>
+												<th scope="col">Post</th>
+												<th scope="col">Percentage</th>
 											</tr>
 										</thead>
 										<tbody>
-
+											{% for aspirant in polls %}
 											<tr>
-												<th scope="row"><a href="#">#2457</a></th>
-												<td>Brandon Jacob</td>
-												<td><a href="#" class="text-primary">At praesentium minu</a></td>
-												<td>$64</td>
-												<td><span class="badge bg-success">Approved</span></td>
+												<td>{{ aspirant. }}</td>
+												<td>{{ aspirant. }}</td>
+												<td>{{ aspirant. }}</td>
+												<td>{{ aspirant. }}</td>
+												<td><a href="" data-bs-toggle="modal" data-bs-target="#">{{ aspirant. }}</a></td>
 											</tr>
-										
+											{% endfor %}
 										</tbody>
 									</table>
 								</div>
@@ -341,38 +336,35 @@
 									<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
 									<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
 										<li class="dropdown-header text-start">
-										<h6>Filter</h6>
+											<h6>Filter</h6>
 										</li>
-
-										<li><a class="dropdown-item" href="#">Today</a></li>
-										<li><a class="dropdown-item" href="#">This Month</a></li>
-										<li><a class="dropdown-item" href="#">This Year</a></li>
+										<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#poll-results">View all</a></li>
 									</ul>
 								</div>
 
 								<div class="card-body pb-0">
-									<h5 class="card-title"><i class="bi bi-trophy-fill"></i>  Leaderboard <span>| Today</span></h5>
+									<h5 class="card-title"><i class="bi bi-trophy-fill"></i> Leaderboard</h5>
 
 									<table class="table table-borderless">
 										<thead>
 											<tr>
-												<th scope="col">Preview</th>
-												<th scope="col">Product</th>
-												<th scope="col">Price</th>
-												<th scope="col">Sold</th>
-												<th scope="col">Revenue</th>
+												<th scope="col">Image</th>
+												<th scope="col">Name</th>
+												<th scope="col">Gender</th>
+												<th scope="col">Post</th>
+												<th scope="col">Total Votes</th>
 											</tr>
 										</thead>
 										<tbody>
-
+											{% for aspirant in winners %}
 											<tr>
-												<th scope="row"><a href="#"><img src="assets/img/product-1.jpg" alt=""></a></th>
-												<td><a href="#" class="text-primary fw-bold">Ut inventore ipsa voluptas nulla</a></td>
-												<td>$64</td>
-												<td class="fw-bold">124</td>
-												<td>$5,828</td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
 											</tr>
-										
+											{% endfor %}
 										</tbody>
 									</table>
 								</div>
@@ -391,16 +383,19 @@
 							<h5 class="card-title"><i class="bi bi-compass-fill"></i> Who is who?</h5>
 
 							<div class="activity">
-
+								{% for blog in blogs %}
 								<div class="activity-item d-flex">
-									<div class="activity-label">32 min</div>
-									<img src="{% static 'voters-page/img/news-1.jpg' %}" class="rounded-circle activity-badge align-self-start" height="50px" width="50px" alt="">
+									<div class="activity-label">{{ blog.written|timesince|slice:":3" }}</div>
+									<img src="{{ blog.blogger.pic.url }}" class="rounded-circle activity-badge align-self-start" height="50px" width="50px" alt="">
 									<div class="activity-content">
-										<a href="#" class="fw-bold text-dark">Quia quae rerum explicabo officiis beatae</a>
+										<a href="{% url 'voters_homepage' %}" class="fw-bold text-dark" data-bs-toggle="modal" data-bs-target="#all-blogs">
+											{{ blog.message|truncatewords:5 }}
+										</a>
 									</div>
-								</div><!-- End activity item-->
+								</div>
+								{% endfor %}
 								<hr class="dropdown-divider">
-								<a href="" class="read-more">View more</a>
+								<a href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#all-blogs" class="read-more">View more</a>
 							</div>
 
 						</div>
@@ -495,48 +490,30 @@
 							</ul>
 						</div>
 
-						<div class="card-body pb-0">
+						<div class="card-body pb-2">
 							<h5 class="card-title">Registered Voters</h5>
-							<div id="trafficChart" style="min-height: 400px;" class="echart"></div>
+							<canvas id="votersChart" class="mb-3" style="max-height: 400px;"></canvas>
 							<script>
 								document.addEventListener("DOMContentLoaded", () => {
-								echarts.init(document.querySelector("#trafficChart")).setOption({
-									tooltip: {
-									trigger: 'item'
-									},
-									legend: {
-									top: '5%',
-									left: 'center'
-									},
-									series: [{
-									name: 'Access From',
-									type: 'pie',
-									radius: ['40%', '70%'],
-									avoidLabelOverlap: false,
-									label: {
-										show: false,
-										position: 'center'
-									},
-									emphasis: {
-										label: {
-										show: true,
-										fontSize: '18',
-										fontWeight: 'bold'
-										}
-									},
-									labelLine: {
-										show: true
-									},
-									data: [{
-										value: 2048,
-										name: 'Males'
-										},
-										{
-										value: 884,
-										name: 'Females'
-										},
-									]
+								new Chart(document.querySelector('#votersChart'), {
+									type: 'doughnut',
+									data: {
+									labels: [
+										{% for voters in reg_voters %} "{{ voters.gender}}(s)", {% endfor %}
+									],
+									datasets: [{
+										label: 'My First Dataset',
+										data: [
+											{% for voters in reg_voters %}, {{reg_males}}, {{reg_females}} {% endfor %}
+										],
+										backgroundColor: [
+										'rgb(255, 99, 132)',
+										'rgb(54, 162, 235)',
+										'rgb(255, 205, 86)'
+										],
+										hoverOffset: 4
 									}]
+									}
 								});
 								});
 							</script>

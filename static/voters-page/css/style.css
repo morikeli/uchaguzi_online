@@ -62,7 +62,7 @@ h1, h2, h3, h4, h5, h6 {
 	right: 15px;
 	bottom: 15px;
 	z-index: 99999;
-	background: #4154f1;
+	background: #13bb46;
 	width: 40px;
 	height: 40px;
 	border-radius: 4px;
@@ -74,7 +74,7 @@ h1, h2, h3, h4, h5, h6 {
 	line-height: 0;
 }
 .back-to-top:hover {
-	background: #6776f4;
+	background: #6fd69f;
 	color: #fff;
 }
 .back-to-top.active {
@@ -612,7 +612,7 @@ h1, h2, h3, h4, h5, h6 {
 	color: teal;
 }
 .sidebar-nav .nav-link .bi-calendar2-check-fill {
-	color: rgb(81, 81, 216);
+	color: #5151d8;
 }
 .sidebar-nav .nav-link .bi-award-fill {
 	color: red;
@@ -625,6 +625,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .sidebar-nav .nav-link .bi-door-open-fill {
 	color: #db192c;
+}
+.sidebar-nav .nav-link .bi-reply-all-fill {
+	color: #089934;
 }
 
 .sidebar-nav .nav-link:hover {
@@ -717,15 +720,15 @@ h1, h2, h3, h4, h5, h6 {
 	flex-shrink: 0;
 	flex-grow: 0;
 }
-.dashboard .sales-card .card-icon {
-	color: #4154f1;
-	background: #f6f6fe;
+.dashboard .aspirants-card .card-icon {
+	color: #fdc008;
+	background: #e5e5e2;
 }
-.dashboard .revenue-card .card-icon {
+.dashboard .pollers-card .card-icon {
 	color: #2eca6a;
 	background: #e0f8e9;
 }
-.dashboard .customers-card .card-icon {
+.dashboard .reg-voters-card .card-icon {
 	color: #ff771d;
 	background: #ffecdf;
 }
@@ -779,11 +782,14 @@ h1, h2, h3, h4, h5, h6 {
 .dashboard .card-title .bi-compass-fill {
 	color: blue;
 }
-.dashboard .card-title .pie-chart-fill {
-	color: red;
+.dashboard .card-title .bi-pie-chart-fill {
+	color: #d61616;
 }
-.dashboard .card-title .newspaper {
+.dashboard .card-title .bi-newspaper {
 	color: #13bb46;
+}
+.dashboard .card-title .bi-trophy-fill {
+	color: goldenrod;
 }
 
 /* News & Updates */

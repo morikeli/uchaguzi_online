@@ -1,7 +1,7 @@
 from django.db.models.signals import pre_save, post_save
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from .models import Voters
+from .models import Voters, Aspirants, Blog
 from datetime import datetime
 import uuid
 
@@ -30,9 +30,24 @@ def generate_voter_id(sender, instance, **kwargs):
     except AttributeError:
         return
 
+@receiver(pre_save, sender=Aspirants)
+def generate_aspirant_id(sender, instance, **kwargs):
+    if instance.id == "":
+        instance.id = str(uuid.uuid4()).replace('-', '')[:15]
+
+@receiver(pre_save, sender=Blog)
+def generate_blogId(sender, instance, **kwargs):
+    if instance.id == "":
+        instance.id = str(uuid.uuid4()).replace('-', '')[:15]
+
 @receiver(post_save, sender=User)
 def profile_signal(sender, instance, created, **kwargs):
     if created:
         if instance.is_staff is False and instance.is_superuser is False:
             Voters.objects.create(voter=instance)
         
+
+@receiver(post_save, sender=Aspirants)
+def send_blog(sender, instance, created, **kwargs):
+    if created:
+        Blog.objects.create(blogger=instance)

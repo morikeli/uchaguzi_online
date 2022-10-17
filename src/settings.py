@@ -138,7 +138,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
-    messages.ERROR: 'danger'
+    messages.ERROR: 'danger',
 }
 
-LOGIN_REDIRECT_URL = 'voters_profile'
+LOGIN_REDIRECT_URL = 'voters_homepage'
+LOGIN_URL = 'voters_login'

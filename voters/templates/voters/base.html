@@ -17,7 +17,6 @@
 			</a>
 			<i class="bi bi-list toggle-sidebar-btn"></i>{% else %}
 			<a href="{% url 'voters_login' %}" class="logo d-flex align-items-center">
-				<img src="{% static 'voters-page/img/logo.png' %}" alt="">
 				<span class="d-none d-lg-block">Uchaguzi Online</span>
 			</a>
 			{% endif %}
@@ -230,6 +229,7 @@
 	{% if user.is_authenticated %}
     <aside id="sidebar" class="sidebar">
 		<ul class="sidebar-nav" id="sidebar-nav">
+			{% if request.user.voters.registered is True %}
 			<li class="nav-item">
 				<a class="nav-link " href="{% url 'voters_homepage' %}">
 					<i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span>
@@ -241,16 +241,22 @@
 					<i class="bi bi-bar-chart-line-fill"></i><span>Election Polls</span>
 				</a>
 			</li>
-
+			
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#modal-registration">
-					<i class="bi bi-calendar2-check-fill"></i><span>Voter Registration</span>
+					<i class="bi bi-calendar2-check-fill"></i><span>Registration Status</span>
 				</a>
 			</li>
-			{% if request.user.voters.registered is True %}
+			
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#vie-post">
 					<i class="bi bi-award-fill"></i><span>Vie for electoral seat</span>
+				</a>
+			</li>
+			{% if request.user.voters.aspirants.name is not None %}
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#blog">
+					<i class="bi bi-reply-all-fill"></i><span>What's on your mind?</span>
 				</a>
 			</li>
 			{% endif %}
@@ -259,7 +265,7 @@
 					<i class="bi bi-archive-fill"></i><span>Vote</span>
 				</a>
 			</li>
-
+			{% endif %}
 			<li><hr class="dropdown-divider"></li>
 			
 			<li class="nav-heading">Pages</li>

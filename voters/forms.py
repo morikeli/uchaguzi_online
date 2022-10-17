@@ -1,7 +1,8 @@
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.core.validators import FileExtensionValidator
+from django.contrib.auth.models import User
 from django import forms
-from .models import Voters, Aspirants
+from .models import Voters, Aspirants, Blog
 
 
 class LoginForm(AuthenticationForm):
@@ -106,13 +107,14 @@ class ElectoralPostApplicationForm(forms.ModelForm):
         ('Governor', 'Governor'),
         ('President', 'President')
     )
+    alias = forms.CharField(widget=forms.TextInput(attrs={'class': 'mb-2', 'placeholder': 'Enter your nickname (optional)'}), label='', required=False)
     bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'mb-2', 'placeholder': 'Type your manifesto...'}), label='')
     post = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_ELECTORAL_POST)
-    slogan = forms.ChoiceField(widget=forms.Select(attrs={'type': 'text', 'class': 'mb-2', 'placeholder': 'What\'s your slogan?'}), label='', help_text='Slogan, e.g. "Yes we can!", "Tuchape kazi", "Equality.Transparency.Honest"')
+    slogan = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2', 'placeholder': 'What\'s your slogan?'}), label='', help_text='Slogan, e.g. "Yes we can!", "Tuchape kazi", "Equality.Transparency.Honest"')
 
     class Meta:
         model = Aspirants
-        fields = ['post', 'bio', 'slogan', 'pic']
+        fields = ['alias', 'post', 'bio', 'slogan', 'pic']
 
 class UploadNominationForm(forms.ModelForm):
     SELECT_ELECTORAL_POST = (
@@ -124,10 +126,19 @@ class UploadNominationForm(forms.ModelForm):
         ('Governor', 'Governor'),
         ('President', 'President')
     )
-    bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'mb-2', 'placeholder': 'Type your manifesto...'}), label='', disabled=True)
-    post = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_ELECTORAL_POST, disabled=True)
-    slogan = forms.ChoiceField(widget=forms.Select(attrs={'type': 'text', 'class': 'mb-2', 'placeholder': 'What\'s your slogan?'}), label='', help_text='Slogan, e.g. "Yes we can!", "Tuchape kazi", "Equality.Transparency.Honest"', disabled=True)
-
+    bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'mb-2'}), label='Your Manifesto',  disabled=True)
+    post = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), choices=SELECT_ELECTORAL_POST, disabled=True)
+    slogan = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}), label='Your slogan', disabled=True)
+    form = forms.FileField(widget=forms.FileInput(attrs={'type': 'file', 'class': 'mb-1'}), help_text='Upload nomination form. <b> NB: Only ".pdf" files can be uploaded.</b>', validators=[FileExtensionValidator(['.doc', '.docx', '.odt', '.pdf'])])
+    
     class Meta:
         model = Aspirants
-        fields = ['form']
+        fields = ['post', 'bio', 'slogan', 'form']
+
+
+class BlogForm(forms.ModelForm):
+    message = forms.CharField(widget=forms.Textarea(attrs={'class': 'mb-2', 'placeholder': "What's on your mind ..."}), label='')
+    
+    class Meta:
+        model = Blog
+        fields = ['message']

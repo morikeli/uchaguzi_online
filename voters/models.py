@@ -13,8 +13,8 @@ class Voters(models.Model):
     profile_pic = models.ImageField(upload_to='VotersDps/', default='default.jpg')
     reg_no = models.CharField(max_length=14, blank=False)
     school = models.CharField(max_length=70, blank=False)
-    year = models.CharField(max_length=10, blank=False)
-    semester = models.CharField(max_length=10, blank=False)
+    year = models.CharField(max_length=12, blank=False)
+    semester = models.CharField(max_length=1, blank=False)
     registered = models.BooleanField(default=False, editable=False)
     created = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
@@ -39,16 +39,16 @@ class Voters(models.Model):
 
 class Aspirants(models.Model):
     id = models.CharField(max_length=15, primary_key=True, editable=False, unique=True)
-    name = models.ForeignKey(Voters, on_delete=models.CASCADE, editable=False)
+    name = models.OneToOneField(Voters, on_delete=models.CASCADE, editable=False)
     alias = models.CharField(max_length=25, blank=True)
     bio = models.TextField(blank=False)
-    post = models.CharField(max_length=20, blank=False)
+    post = models.CharField(max_length=30, blank=False)
     slogan = models.CharField(max_length=50, blank=True)
-    pic = models.ImageField(upload_to='Aspirant-Dps/', default='default.jpg')
+    pic = models.ImageField(upload_to='Aspirant-Dps/', default='default.png')
     form = models.FileField(upload_to='Nomination-Forms/')
     nominate = models.BooleanField(default=False)
     votes = models.PositiveIntegerField(default=0)
-    apply = models.DateTimeField(auto_now_add=True)
+    applied = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
@@ -61,8 +61,23 @@ class Aspirants(models.Model):
             dp.save(self.pic.path)
     
     def __str__(self):
-        return f'{self.aspirant.voter}'
+        return f'{self.name.voter}'
 
     class Meta:
         verbose_name_plural = 'Aspirants'
         ordering = ['name']
+
+
+class Blog(models.Model):
+    id = models.CharField(max_length=15, primary_key=True, editable=False)
+    blogger = models.ForeignKey(Aspirants, on_delete=models.CASCADE, editable=True)
+    message = models.TextField(blank=False)
+    written = models.DateTimeField(auto_now_add=True)
+    edited = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = 'Blogs'
+        ordering = ['written']
+    
+    def __str__(self):
+        return f'{self.message}'[:20]
