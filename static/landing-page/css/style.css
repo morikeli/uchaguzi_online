@@ -650,11 +650,10 @@ section {
 	text-align: center;
 }
 .clients img {
-	max-width: 45%;
+	max-width: 70%;
 	transition: all 0.4s ease-in-out;
 	display: inline-block;
 	padding: 15px 0;
-	filter: grayscale(100);
 }
 .clients img:hover {
 	filter: none;
@@ -662,7 +661,7 @@ section {
 }
 @media (max-width: 768px) {
 	.clients img {
-		max-width: 40%;
+		max-width: 60%;
 	}
 }
 
