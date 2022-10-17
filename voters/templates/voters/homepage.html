@@ -104,7 +104,7 @@
 									<div class="modal-body">
 										<form action="" method="post" enctype="multipart/form-data">
 											{% csrf_token %}
-											{% if request.user.voters.aspirants.name is not None %}
+											{% if request.user.voters.aspirants.name != "" %}
 											{{upload_NominationForm|crispy}}											
 											{% else %}
 											{{contestant_form|crispy}}
@@ -117,7 +117,6 @@
 								</div>
 							</div>
 						</div>
-
 						<div class="modal fade" id="blog" tabindex="-1">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -373,6 +372,7 @@
 							<h5 class="card-title"><i class="bi bi-compass-fill"></i> Who is who?</h5>
 
 							<div class="activity">
+								{% if blogs %}
 								{% for blog in blogs %}
 								<div class="activity-item d-flex">
 									<div class="activity-label">{{ blog.written|timesince|slice:":3" }}</div>
@@ -384,6 +384,7 @@
 									</div>
 								</div>
 								{% endfor %}
+								{% endif %}
 								<hr class="dropdown-divider">
 								<a href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#all-blogs" class="read-more">View more</a>
 							</div>

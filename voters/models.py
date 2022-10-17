@@ -39,10 +39,10 @@ class Voters(models.Model):
 
 class Aspirants(models.Model):
     id = models.CharField(max_length=15, primary_key=True, editable=False, unique=True)
-    name = models.OneToOneField(Voters, on_delete=models.CASCADE, editable=False)
+    name = models.OneToOneField(Voters, on_delete=models.CASCADE, editable=True)
     alias = models.CharField(max_length=25, blank=True)
     bio = models.TextField(blank=False)
-    post = models.CharField(max_length=30, blank=False)
+    post = models.CharField(max_length=32, blank=False)
     slogan = models.CharField(max_length=50, blank=True)
     pic = models.ImageField(upload_to='Aspirant-Dps/', default='default.png')
     form = models.FileField(upload_to='Nomination-Forms/')
