@@ -38,7 +38,7 @@
 								</li>
 
 								<li class="nav-item">
-									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">{% if request.user.voters.registered is False %}Get Registered{% else %}Edit Profile{% endif %}</button>
+									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">{% if request.user.voters.registered is False %}Get Registered <i class="bi-exclamation-circle-fill" style="color: #e71b1b;"></i>{% else %}Edit Profile{% endif %}</button>
 								</li>
 								{% if request.user.voters.registered is True %}
 								<li class="nav-item">
