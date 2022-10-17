@@ -90,8 +90,8 @@ class EditProfileForm(forms.ModelForm):
     dob = forms.CharField(widget=forms.TextInput(attrs={'type': 'date', 'class': 'mb-2'}), label='Date of Birth', disabled=True)
     reg_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}), label='Reg. No.', disabled=True)
     school = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), choices=SELECT_SCHOOL, disabled=True)
-    year = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='Year of Study', choices=SELECT_YEAR)
-    semester = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), choices=SELECT_SEMESTER)
+    year = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='Year of Study', choices=SELECT_YEAR, disabled=True)
+    semester = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), choices=SELECT_SEMESTER, disabled=True)
 
     class Meta:
         model = Voters
