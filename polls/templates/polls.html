@@ -1,0 +1,135 @@
+{% extends 'voters/base.html' %}{% block title %}Polls{% endblock %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+</head>
+<body>
+	{% block content %}
+	<main id="main" class="main">
+		<section class="section profile">
+			<div class="row">
+				<div class="col-xl-4">
+					<div class="card">
+						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+							<img src="{{request.user.voters.voter|title}}" alt="Profile" class="rounded-circle">
+							<h2>{{ request.user.voters.school }}</h2>
+							<h3>{{ request.user.voters.reg_no }}</h3>
+							<h4>{{ request.user.voter.year }}</h4>
+							<h4>{{ request.user.voter.semester }}</h4>
+						</div>
+					</div>
+                    <div class="card">
+                        <div class="card-body profile-card pt-3 d-flex flex-column align-items-center">
+                            <table class="table table-condensed table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Electoral Post</th>
+                                        <th>Vote status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Academic Representative</td><td><span class="badge bg-primary"></span></td>
+                                        <td>Gen. Academic Representative</td><td><span class="badge bg-primary"></span></td>
+                                        <td>Ladies Representative</td><td><span class="badge bg-primary"></span></td>
+                                        <td>Treasurer</td><td><span class="badge bg-primary"></span></td>
+                                        <td>Governor</td><td><span class="badge bg-primary"></span></td>
+                                        <td>President</td><td><span class="badge bg-primary"></span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+				</div>
+
+				<div class="col-xl-8">
+					<div class="card">
+						<div class="card-body pt-3">
+							<ul class="nav nav-tabs nav-tabs-bordered">
+
+								<li class="nav-item">
+									<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#academic-rep">Overview</button>
+								</li>
+
+								<li class="nav-item">
+									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#gen-rep">{% if request.user.voters.registered is False %}Get Registered <i class="bi-exclamation-circle-fill" style="color: #e71b1b;"></i>{% else %}Edit Profile{% endif %}</button>
+								</li>
+								{% if request.user.voters.registered is True %}
+								<li class="nav-item">
+									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#ladies-rep">Change Password</button>
+								</li>
+								{% endif %}
+
+							</ul>
+							<div class="tab-content pt-2">
+								{% include 'messages.html' %}
+								<div class="tab-pane fade show active profile-overview" id="academic-rep">
+									
+								</div>
+
+								<div class="tab-pane fade profile-edit pt-3" id="gen-rep">
+									<form action="" method="post">
+										{% csrf_token %}
+										<div class="row mb-2">
+											<div class="col-md-8 col-lg-12">
+												<table class="table table-sm table-condensed">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Image</th>
+                                                            <th>Details</th>
+                                                            <th>Vote</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for aspirant in aspirants %}
+                                                        <tr>
+                                                            <td><img src="{{ aspirant.pic.url }}" class="rounded-circle" height="70px" width="70px" alt="img"></td>
+                                                            <td>
+                                                                <h4>Name: <b>{{ aspirant.|title }}</b></h4>
+                                                                <h4>Reg. No.: <b>{{ aspirant. }}</b></h4>
+                                                                <h4>Post: <b>{{ aspirant. }}</b></h4>
+                                                                <h4>Slogan: <b>{{ aspirant.slogan|default:" -- " }}</b></h4>
+                                                            </td>
+                                                            <td><input type="radio" name="vote" value="{{ aspirant.id }}"></td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+											</div>
+										</div>
+										<div class="text-center d-grid gap-2">
+											<button type="submit" class="btn btn-primary"><i class="bi bi-box-arrow-in-down"></i> Cast Vote</button>
+										</div>
+									</form>
+
+								</div>
+
+								<div class="tab-pane fade pt-3" id="ladies-rep">
+									<form action="" method="post">
+                                        {% csrf_token %}
+										<div class="row mb-2">
+                                            <div class="col-md-8 col-lg-12">
+                                                <table class="table table-sm table-condensed">
+
+                                                </table>
+                                            </div>
+                                        </div>
+										<div class="text-center">
+										    <button type="submit" class="btn btn-primary">Vote</button>
+										</div>
+									</form>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+	{% endblock %}
+</body>
+</html>
