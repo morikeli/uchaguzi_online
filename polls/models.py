@@ -19,6 +19,7 @@ class Polls(models.Model):
 class Polled(models.Model):
     id = models.CharField(max_length=18, editable=False, primary_key=True, unique=True)
     user_id = models.CharField(max_length=20)
+    post = models.CharField(max_length=32, blank=False)
     polled = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
 
