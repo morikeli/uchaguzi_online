@@ -3,8 +3,8 @@ from .models import Polls, Polled
 
 @admin.register(Polls)
 class Polls(admin.ModelAdmin):
-    list_display = ['name', 'total_polls']
+    list_display = ['name', 'post', 'total_polls']
 
 @admin.register(Polled)
 class PolledList(admin.ModelAdmin):
-    list_display = ['user_id', 'polled']
+    list_display = ['user_id', 'academic', 'general_rep', 'ladies_rep', 'treasurer', 'governor', 'president', 'polled']

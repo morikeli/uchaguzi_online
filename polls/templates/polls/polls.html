@@ -14,11 +14,19 @@
 				<div class="col-xl-4">
 					<div class="card">
 						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-							<img src="{{request.user.voters.voter|title}}" alt="Profile" class="rounded-circle">
-							<h2>{{ request.user.voters.school }}</h2>
-							<h3>{{ request.user.voters.reg_no }}</h3>
-							<h4>{{ request.user.voter.year }}</h4>
-							<h4>{{ request.user.voter.semester }}</h4>
+							<img src="{{request.user.voters.profile_pic.url}}" alt="Profile" class="rounded-circle">
+							<h2>
+								{{ request.user.voters.voter|title }}
+								{% if request.user.voters.registered is True %}
+								<i class="bi-check-circle-fill" style="color: #18d26c;"></i>
+								{% if request.user.voters.aspirants.nominate is True %}
+								<i class="bi-award-fill" style="color: #df1d1d;"></i>
+								{% endif %}
+								{% endif %}
+							</h2>
+							<h3>{{ request.user.voters.gender }}</h3>
+							<h3>{{ request.user.voters.year }} | {{ request.user.voters.reg_no }}</h4>
+							<h4></h4>
 						</div>
 					</div>
                     <div class="card">
@@ -27,18 +35,83 @@
                                 <thead>
                                     <tr>
                                         <th>Electoral Post</th>
-                                        <th>Vote status</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Academic Representative</td><td><span class="badge bg-primary"></span></td>
-                                        <td>Gen. Academic Representative</td><td><span class="badge bg-primary"></span></td>
-                                        <td>Ladies Representative</td><td><span class="badge bg-primary"></span></td>
-                                        <td>Treasurer</td><td><span class="badge bg-primary"></span></td>
-                                        <td>Governor</td><td><span class="badge bg-primary"></span></td>
-                                        <td>President</td><td><span class="badge bg-primary"></span></td>
-                                    </tr>
+                                        <td>Academic Rep.</td>
+										<td>
+											<span class="badge bg-primary">
+												{% if UserhasPolled %}
+												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
+												{% else %}
+												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+												{% endif %}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td>General Acad. Rep.</td>
+										<td>
+											<span class="badge bg-primary">
+												{% if UserhasPolled %}
+												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
+												{% else %}
+												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+												{% endif %}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td>Ladies Rep.</td>
+										<td>
+											<span class="badge bg-primary">
+												{% if UserhasPolled %}
+												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
+												{% else %}
+												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+												{% endif %}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td>Treasurer</td>
+										<td>
+											<span class="badge bg-primary">
+												{% if UserhasPolled %}
+												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
+												{% else %}
+												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+												{% endif %}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td>Governor</td>
+										<td>
+											<span class="badge bg-primary">
+												{% if UserhasPolled %}
+												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
+												{% else %}
+												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+												{% endif %}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td>President</td>
+										<td>
+											<span class="badge bg-primary">
+												{% if UserhasPolled %}
+												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
+												{% else %}
+												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+												{% endif %}
+											</span>
+										</td>
+									</tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -49,23 +122,34 @@
 					<div class="card">
 						<div class="card-body pt-3">
 							<ul class="nav nav-tabs nav-tabs-bordered">
+								{% if aspirants %}
 
 								<li class="nav-item">
-									<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#academic-rep">Overview</button>
+									<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#academic-rep">
+										Academic Rep. {% if UserhasPolled %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
+									</button>
 								</li>
 
 								<li class="nav-item">
-									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#gen-rep">{% if request.user.voters.registered is False %}Get Registered <i class="bi-exclamation-circle-fill" style="color: #e71b1b;"></i>{% else %}Edit Profile{% endif %}</button>
+									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#gen-rep">
+										Gen. Rep. {% if UserhasPolled %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
+									</button>
 								</li>
-								{% if request.user.voters.registered is True %}
+
 								<li class="nav-item">
-									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#ladies-rep">Change Password</button>
+									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#ladies-rep">
+										Ladies Rep. {% if UserhasPolled %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
+									</button>
+								</li>
+								{% else %}
+								<li class="nav-item">
+									<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#404">No aspirants available</button>
 								</li>
 								{% endif %}
-
 							</ul>
 							<div class="tab-content pt-2">
 								{% include 'messages.html' %}
+								{% if aspirants %}
 								<div class="tab-pane fade show active profile-overview" id="academic-rep">
 									
 								</div>
@@ -123,6 +207,13 @@
 									</form>
 
 								</div>
+								{% else %}
+								<div class="tab-pane show active fade 404 pt-3 text-center" id="404">
+									<i class="bi-bar-chart-line-fill" style="font-size: 100px; color: #13bb46; text-align: center;"></i>
+									<hr class="dropdown-divider">
+									<h5 class="text-center">Polls coming soon ...</h5>
+								</div>
+								{% endif %}
 							</div>
 						</div>
 					</div>
