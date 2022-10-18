@@ -9,7 +9,14 @@ def polling_view(request):
     if request.method == 'POST':
         form = request.POST['vote']
 
-        if Polled
+        if Polled.objects.filter().exists():
+            return redirect('')
+        else:
+            elected_aspirant = Polls.objects.get(id=form)
+            elected_aspirant.total_polls += 1
+            elected_aspirant.save()
+
+            
         
 
     context = {}
