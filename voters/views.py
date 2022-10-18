@@ -124,7 +124,7 @@ def homepage_view(request):
         blog_form = BlogForm()
 
         if request.method == 'POST':
-            contest_form = ElectoralPostApplicationForm(request.POST)
+            contest_form = ElectoralPostApplicationForm(request.POST, request.FILES)
 
             if contest_form.is_valid():
                 form = contest_form.save(commit=False)
