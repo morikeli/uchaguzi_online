@@ -21,8 +21,9 @@ def polling_view(request, pk, school):
 
             return redirect('poll', pk, school)        
 
+    nominated_aspirants = Polls.objects.all().order_by('post', 'name')
     
-    context = {}
+    context = {'aspirants': nominated_aspirants, }
     return render(request, 'voters/homepage.html', context)
 
 @login_required(login_url='voters_login')

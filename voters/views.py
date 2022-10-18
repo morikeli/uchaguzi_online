@@ -138,14 +138,19 @@ def homepage_view(request):
                 else:
                     form.name = request.user.voters
                     form.save()
-                    messages.success(request, f'You are vying for {form.post}. Kindly submit your nomination form in time.')
+                    if form.post == 'President':
+                        messages.success(request, 'You are vying for the "Presidential" seat. Kindly submit your nomination form in time.')
+                    elif form.post == 'Governor':
+                        messages.success(request, 'You are vying for the "Gubernatorial" seat. Kindly submit your nomination form in time.')
+                    else:
+                        messages.success(request, f'You are vying for {form.post} electoral seat. Kindly submit your nomination form in time.')
                     return redirect('voters_homepage')
 
             
     registered_voters = Voters.objects.filter(registered=True, school=request.user.voters.school)
     pollers = Polled.objects.all().count()
     total_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school).count()
-    blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school).all()
+    blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school).all().order_by('-written')
     
     context = {
         'contestant_form': contest_form, 'upload_NominationForm': nomination_form, 'blog_form': blog_form,

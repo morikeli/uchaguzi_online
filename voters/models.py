@@ -39,7 +39,7 @@ class Voters(models.Model):
 
 class Aspirants(models.Model):
     id = models.CharField(max_length=15, primary_key=True, editable=False, unique=True)
-    name = models.OneToOneField(Voters, on_delete=models.CASCADE, editable=True)
+    name = models.OneToOneField(Voters, on_delete=models.CASCADE, editable=False)
     alias = models.CharField(max_length=25, blank=True)
     bio = models.TextField(blank=False)
     post = models.CharField(max_length=32, blank=False)
