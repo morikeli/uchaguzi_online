@@ -5,6 +5,7 @@ from voters.models import Aspirants, Voters
 class Polls(models.Model):
     id = models.CharField(max_length=15, primary_key=True, editable=False)
     name = models.OneToOneField(Aspirants, on_delete=models.CASCADE, editable=False)
+    post = models.CharField(max_length=32, blank=False)
     total_polls = models.PositiveIntegerField(default=0, editable=False)
     created = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)

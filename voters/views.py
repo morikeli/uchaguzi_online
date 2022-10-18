@@ -146,16 +146,22 @@ def homepage_view(request):
                         messages.success(request, f'You are vying for {form.post} electoral seat. Kindly submit your nomination form in time.')
                     return redirect('voters_homepage')
 
-            
+    try:
+        polled_obj = Polled.objects.get(user_id=request.user.voters.id)
+    except Polled.DoesNotExist:
+        polled_obj = ''
+        
+
     registered_voters = Voters.objects.filter(registered=True, school=request.user.voters.school)
     pollers = Polled.objects.all().count()
     total_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school).count()
     blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school).all().order_by('-written')
-    
+
+
     context = {
         'contestant_form': contest_form, 'upload_NominationForm': nomination_form, 'blog_form': blog_form,
         'blogs': blogs, 'total_aspirants': total_aspirants, 'total_reg_voters': registered_voters.count(),
-        'polled': pollers, 'reg_voters': registered_voters,
+        'polled': pollers, 'reg_voters': registered_voters, 'user_has_polled': polled_obj,
         }
     
     return render(request, 'voters/homepage.html', context)

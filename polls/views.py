@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Polled, Polls
 from voters.models import Aspirants
 
+
 @login_required(login_url='voters_login')
 @user_passes_test(lambda user: user.is_staff is False)
 def polling_view(request, pk, school):
@@ -21,10 +22,11 @@ def polling_view(request, pk, school):
 
             return redirect('poll', pk, school)        
 
-    nominated_aspirants = Polls.objects.all().order_by('post', 'name')
+    nominated_aspirants = Polls.objects.all().order_by('name.post', 'name')
     
-    context = {'aspirants': nominated_aspirants, }
-    return render(request, 'voters/homepage.html', context)
+
+    context = {'aspirants': nominated_aspirants}
+    return render(request, 'voters/polls.html', context)
 
 @login_required(login_url='voters_login')
 @user_passes_test(lambda user: user.is_staff is False)
