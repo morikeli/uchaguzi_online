@@ -25,7 +25,9 @@ def polling_view(request, pk, school):
 
             polled_user = Polled.objects.filter(user_id=pk).exists()
             if polled_user is True:
-                if elected_aspirant.post == 'General Academic Representative':
+                if elected_aspirant.post == 'Academic Representative':
+                    polled_obj.academic = True
+                elif elected_aspirant.post == 'General Academic Representative':
                     polled_obj.general_rep = True
                 elif elected_aspirant.post == 'Ladies Representative':
                     polled_obj.ladies_rep = True
@@ -46,7 +48,7 @@ def polling_view(request, pk, school):
                 elif elected_aspirant.post == 'Ladies Representative':
                     polling_user.ladies_rep = True
                 
-                polled_user.save()
+                polling_user.save()
 
             elected_aspirant.save()
             return redirect('poll', pk, school)        
