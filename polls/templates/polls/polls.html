@@ -182,7 +182,7 @@
 																	<h6>Post: <b>{{ aspirant.post }}</b></h5>
 																	<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h5>
 																</td>
-																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}"></td>
+																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}" required></td>
 															</tr>
 															{% endif %}
 															{% endfor %}
@@ -229,7 +229,7 @@
 																	<h6>Post: <b>{{ aspirant.post }}</b></h5>
 																	<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h5>
 																</td>
-																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}"></td>
+																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}" required></td>
 															</tr>
 															{% endif %}
 															{% endfor %}
@@ -276,7 +276,7 @@
 																	<h6>Post: <b>{{ aspirant.post }}</b></h5>
 																	<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h5>
 																</td>
-																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}"></td>
+																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}" required></td>
 															</tr>
 															{% endif %}
 															{% endfor %}
@@ -309,19 +309,19 @@
 
 								<li class="nav-item">
 									<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#treasurer">
-										Treasurer {% if UserhasPolled.academic is True %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
+										Treasurer {% if UserhasPolled.treasurer is True %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
 									</button>
 								</li>
 
 								<li class="nav-item">
 									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#governor">
-										Governor {% if UserhasPolled.general_rep is True %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
+										Governor {% if UserhasPolled.governor is True %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
 									</button>
 								</li>
 
 								<li class="nav-item">
 									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#president">
-										President {% if UserhasPolled.ladies_rep is True %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
+										President {% if UserhasPolled.president is True %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
 									</button>
 								</li>
 								{% else %}
@@ -364,7 +364,7 @@
 																	<h6>Post: <b>{{ aspirant.post }}</b></h5>
 																	<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h5>
 																</td>
-																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}"></td>
+																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}" required></td>
 															</tr>
 															{% endif %}
 															{% endfor %}
@@ -411,7 +411,7 @@
 																	<h6>Post: <b>{{ aspirant.post }}</b></h5>
 																	<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h5>
 																</td>
-																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}"></td>
+																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}" required></td>
 															</tr>
 															{% endif %}
 															{% endfor %}
@@ -458,7 +458,7 @@
 																	<h6>Post: <b>{{ aspirant.post }}</b></h5>
 																	<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h5>
 																</td>
-																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}"></td>
+																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}" required></td>
 															</tr>
 															{% endif %}
 															{% endfor %}
