@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Polled, Polls
 from voters.models import Aspirants
@@ -13,18 +13,31 @@ def polling_view(request, pk, school):
     except Polled.DoesNotExist:
         polled_obj = ''
 
-
+    print(f'Voter id: {request.user.voters.id}')
     if request.method == 'POST':
         form = request.POST['vote']
 
-        if Polled.objects.filter().exists():
+        if Polled.objects.filter(user_id=request.user.voters).exists():
             return redirect('poll', pk, school)
         else:
             elected_aspirant = Polls.objects.get(id=form)
             elected_aspirant.total_polls += 1
-            elected_aspirant.save()
+            
+            polling_user = Polled.objects.create(user_id=request.user.voters.id)
+            if elected_aspirant.post == 'Academic Representative':
+                polling_user.academic = True
+            elif elected_aspirant.post == 'General Academic Representative':
+                polling_user.general_rep = True
+            elif elected_aspirant.post == 'Ladies Representative':
+                polling_user.ladies_rep = True
+            elif elected_aspirant.post == 'Treasurer':
+                polling_user.treasurer = True
+            elif elected_aspirant.post == 'Governor':
+                polling_user.governor = True
+            elif elected_aspirant.post == 'President':
+                polling_user.president = True
 
-            polling_user = Polled.objects.create(user_id=request.user.voters.voter.id)
+            elected_aspirant.save()
             polling_user.save()
 
             return redirect('poll', pk, school)        

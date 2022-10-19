@@ -43,7 +43,7 @@
                                         <td>Academic Rep.</td>
 										<td>
 											<span class="badge bg-primary">
-												{% if UserhasPolled %}
+												{% if UserhasPolled.academic is True %}
 												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
 												{% else %}
 												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -55,7 +55,7 @@
 										<td>General Acad. Rep.</td>
 										<td>
 											<span class="badge bg-primary">
-												{% if UserhasPolled %}
+												{% if UserhasPolled.general_rep is True %}
 												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
 												{% else %}
 												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -67,7 +67,7 @@
 										<td>Ladies Rep.</td>
 										<td>
 											<span class="badge bg-primary">
-												{% if UserhasPolled %}
+												{% if UserhasPolled.ladies_rep is True %}
 												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
 												{% else %}
 												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -79,7 +79,7 @@
 										<td>Treasurer</td>
 										<td>
 											<span class="badge bg-primary">
-												{% if UserhasPolled %}
+												{% if UserhasPolled.treasurer is True %}
 												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
 												{% else %}
 												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -91,7 +91,7 @@
 										<td>Governor</td>
 										<td>
 											<span class="badge bg-primary">
-												{% if UserhasPolled %}
+												{% if UserhasPolled.governor is True %}
 												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
 												{% else %}
 												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -103,7 +103,7 @@
 										<td>President</td>
 										<td>
 											<span class="badge bg-primary">
-												{% if UserhasPolled %}
+												{% if UserhasPolled.president is True %}
 												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
 												{% else %}
 												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -126,19 +126,19 @@
 
 								<li class="nav-item">
 									<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#academic-rep">
-										Academic Rep. {% if UserhasPolled %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
+										Academic Rep. {% if UserhasPolled.academic is True %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
 									</button>
 								</li>
 
 								<li class="nav-item">
 									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#gen-rep">
-										Gen. Rep. {% if UserhasPolled %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
+										Gen. Rep. {% if UserhasPolled.general_rep is True %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
 									</button>
 								</li>
 
 								<li class="nav-item">
 									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#ladies-rep">
-										Ladies Rep. {% if UserhasPolled %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
+										Ladies Rep. {% if UserhasPolled.ladies_rep is True %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
 									</button>
 								</li>
 								{% else %}
@@ -150,42 +150,80 @@
 							<div class="tab-content pt-2">
 								{% include 'messages.html' %}
 								{% if aspirants %}
-								<div class="tab-pane fade show active profile-overview" id="academic-rep">
-									
-								</div>
-
-								<div class="tab-pane fade profile-edit pt-3" id="gen-rep">
+								<div class="tab-pane fade show active" id="academic-rep">
 									<form action="" method="post">
 										{% csrf_token %}
 										<div class="row mb-2">
 											<div class="col-md-8 col-lg-12">
-												<table class="table table-sm table-condensed">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Image</th>
-                                                            <th>Details</th>
-                                                            <th>Vote</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% for aspirant in aspirants %}
-                                                        <tr>
-                                                            <td><img src="{{ aspirant.pic.url }}" class="rounded-circle" height="70px" width="70px" alt="img"></td>
-                                                            <td>
-                                                                <h4>Name: <b>{{ aspirant.|title }}</b></h4>
-                                                                <h4>Reg. No.: <b>{{ aspirant. }}</b></h4>
-                                                                <h4>Post: <b>{{ aspirant. }}</b></h4>
-                                                                <h4>Slogan: <b>{{ aspirant.slogan|default:" -- " }}</b></h4>
-                                                            </td>
-                                                            <td><input type="radio" name="vote" value="{{ aspirant.id }}"></td>
-                                                        </tr>
-                                                        {% endfor %}
-                                                    </tbody>
-                                                </table>
+												<div class="table-responsive">
+													<table class="table table-sm table-bordered table-condensed text-center">
+														<thead>
+															<tr>
+																<th>Image</th>
+																<th>Details</th>
+																<th>Vote</th>
+															</tr>
+														</thead>
+														<tbody>
+															{% for aspirant in aspirants %}
+															<tr class="p-3">
+																<td>
+																	<img src="{{ aspirant.name.pic.url }}" class="rounded-circle" height="70px" width="70px" alt="img">
+																</td>
+																<td class="text-start">
+																	<h6>Name: <b>{{ aspirant.name|title }}</b></h5>
+																	<h6>Post: <b>{{ aspirant.post }}</b></h5>
+																	<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h5>
+																</td>
+																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}"></td>
+															</tr>
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="d-grid gap-2">
+											<button type="submit" class="btn btn-success"><i class="bi-save-fill"></i> Cast Vote</button>
+										</div>
+									</form>
+								</div>
+
+								<div class="tab-pane fade pt-3" id="gen-rep">
+									<form action="" method="post">
+										{% csrf_token %}
+										<div class="row mb-2">
+											<div class="col-md-8 col-lg-12">
+												<div class="table-responsive">
+													<table class="table table-sm table-bordered table-condensed text-center">
+														<thead>
+															<tr>
+																<th>Image</th>
+																<th>Details</th>
+																<th>Vote</th>
+															</tr>
+														</thead>
+														<tbody>
+															{% for aspirant in aspirants %}
+															<tr class="p-3">
+																<td>
+																	<img src="{{ aspirant.name.pic.url }}" class="rounded-circle" height="70px" width="70px" alt="img">
+																</td>
+																<td class="text-start">
+																	<h6>Name: <b>{{ aspirant.name|title }}</b></h5>
+																	<h6>Post: <b>{{ aspirant.post }}</b></h5>
+																	<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h5>
+																</td>
+																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}"></td>
+															</tr>
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
 											</div>
 										</div>
 										<div class="text-center d-grid gap-2">
-											<button type="submit" class="btn btn-primary"><i class="bi bi-box-arrow-in-down"></i> Cast Vote</button>
+											<button type="submit" class="btn btn-primary"><i class="bi-save-fill"></i> Cast Vote</button>
 										</div>
 									</form>
 
@@ -196,13 +234,38 @@
                                         {% csrf_token %}
 										<div class="row mb-2">
                                             <div class="col-md-8 col-lg-12">
-                                                <table class="table table-sm table-condensed">
-
-                                                </table>
+                                                <div class="table-responsive">
+													<table class="table table-sm table-bordered table-condensed text-center">
+														<thead>
+															<tr>
+																<th>Image</th>
+																<th>Details</th>
+																<th>Vote</th>
+															</tr>
+														</thead>
+														<tbody>
+															{% for aspirant in aspirants %}
+															<tr class="p-3">
+																<td>
+																	<img src="{{ aspirant.name.pic.url }}" class="rounded-circle" height="70px" width="70px" alt="img">
+																</td>
+																<td class="text-start">
+																	<h6>Name: <b>{{ aspirant.name|title }}</b></h5>
+																	<h6>Post: <b>{{ aspirant.post }}</b></h5>
+																	<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h5>
+																</td>
+																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}"></td>
+															</tr>
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
                                             </div>
                                         </div>
 										<div class="text-center">
-										    <button type="submit" class="btn btn-primary">Vote</button>
+											<div class="d-grid gap-2">
+												<button type="submit" class="btn btn-success"><i class="bi-save-fill"></i> Vote</button>
+											</div>
 										</div>
 									</form>
 

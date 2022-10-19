@@ -23,7 +23,7 @@ class Polls(models.Model):
 class Polled(models.Model):
     id = models.CharField(max_length=18, editable=False, primary_key=True, unique=True)
     user_id = models.CharField(max_length=20, editable=False)
-    academic = models.BooleanField(default=False, blank=False)
+    academic = models.BooleanField(default=False, blank=False, editable=False)
     general_rep = models.BooleanField(default=False, editable=False)
     ladies_rep = models.BooleanField(default=False, editable=False)
     treasurer = models.BooleanField(default=False, editable=False)
