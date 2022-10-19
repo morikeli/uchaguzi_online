@@ -9,11 +9,11 @@ from voters.models import Aspirants
 @user_passes_test(lambda user: user.voters.registered is True)
 def polling_view(request, pk, school):
     try:
-        polled_obj = Polled.objects.get(user_id=request.user.voters.id)
+        polled_obj = Polled.objects.get(user_id=pk)
+        print(f'Object: {polled_obj}')
     except Polled.DoesNotExist:
         polled_obj = ''
 
-    print(f'Voter id: {request.user.voters.id}')
     if request.method == 'POST':
         form = request.POST['vote']
 
@@ -22,24 +22,33 @@ def polling_view(request, pk, school):
         else:
             elected_aspirant = Polls.objects.get(id=form)
             elected_aspirant.total_polls += 1
+
+            polled_user = Polled.objects.filter(user_id=pk).exists()
+            if polled_user is True:
+                if elected_aspirant.post == 'General Academic Representative':
+                    polled_obj.general_rep = True
+                elif elected_aspirant.post == 'Ladies Representative':
+                    polled_obj.ladies_rep = True
+                elif elected_aspirant.post == 'Treasurer':
+                    polled_obj.treasurer = True
+                elif elected_aspirant.post == 'Governor':
+                    polled_obj.governor = True
+                elif elected_aspirant.post == 'President':
+                    polled_obj.president = True 
+                polled_obj.save()   
             
-            polling_user = Polled.objects.create(user_id=request.user.voters.id)
-            if elected_aspirant.post == 'Academic Representative':
-                polling_user.academic = True
-            elif elected_aspirant.post == 'General Academic Representative':
-                polling_user.general_rep = True
-            elif elected_aspirant.post == 'Ladies Representative':
-                polling_user.ladies_rep = True
-            elif elected_aspirant.post == 'Treasurer':
-                polling_user.treasurer = True
-            elif elected_aspirant.post == 'Governor':
-                polling_user.governor = True
-            elif elected_aspirant.post == 'President':
-                polling_user.president = True
+            else:
+                polling_user = Polled.objects.create(user_id=pk)
+                if elected_aspirant.post == 'Academic Representative':
+                    polling_user.academic = True
+                elif elected_aspirant.post == 'General Academic Representative':
+                    polling_user.general_rep = True
+                elif elected_aspirant.post == 'Ladies Representative':
+                    polling_user.ladies_rep = True
+                
+                polled_user.save()
 
             elected_aspirant.save()
-            polling_user.save()
-
             return redirect('poll', pk, school)        
 
 

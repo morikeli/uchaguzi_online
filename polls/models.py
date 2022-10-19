@@ -5,7 +5,7 @@ from voters.models import Aspirants
 class Polls(models.Model):
     id = models.CharField(max_length=15, primary_key=True, editable=False)
     name = models.OneToOneField(Aspirants, on_delete=models.CASCADE, editable=False)
-    post = models.CharField(max_length=32, blank=False)
+    post = models.CharField(max_length=32, blank=False, editable=False)
     total_polls = models.PositiveIntegerField(default=0, editable=False)
     created = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
@@ -18,7 +18,7 @@ class Polls(models.Model):
 
     class Meta:
         verbose_name_plural = 'Polls'
-        ordering = ['total_polls']
+        ordering = ['-total_polls']
 
 class Polled(models.Model):
     id = models.CharField(max_length=18, editable=False, primary_key=True, unique=True)

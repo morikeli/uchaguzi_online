@@ -148,7 +148,6 @@
 								{% endif %}
 							</ul>
 							<div class="tab-content pt-2">
-								{% include 'messages.html' %}
 								{% if aspirants %}
 								<div class="tab-pane fade show active" id="academic-rep">
 									<form action="" method="post">
@@ -166,6 +165,7 @@
 														</thead>
 														<tbody>
 															{% for aspirant in aspirants %}
+															{% if aspirant.post == "Academic Representative" %}
 															<tr class="p-3">
 																<td>
 																	<img src="{{ aspirant.name.pic.url }}" class="rounded-circle" height="70px" width="70px" alt="img">
@@ -177,6 +177,7 @@
 																</td>
 																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}"></td>
 															</tr>
+															{% endif %}
 															{% endfor %}
 														</tbody>
 													</table>
@@ -205,6 +206,7 @@
 														</thead>
 														<tbody>
 															{% for aspirant in aspirants %}
+															{% if aspirant.post == "General Academic Representative" %}
 															<tr class="p-3">
 																<td>
 																	<img src="{{ aspirant.name.pic.url }}" class="rounded-circle" height="70px" width="70px" alt="img">
@@ -216,6 +218,7 @@
 																</td>
 																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}"></td>
 															</tr>
+															{% endif %}
 															{% endfor %}
 														</tbody>
 													</table>
@@ -245,6 +248,7 @@
 														</thead>
 														<tbody>
 															{% for aspirant in aspirants %}
+															{% if aspirant.post == "Ladies Representative" %}
 															<tr class="p-3">
 																<td>
 																	<img src="{{ aspirant.name.pic.url }}" class="rounded-circle" height="70px" width="70px" alt="img">
@@ -256,6 +260,7 @@
 																</td>
 																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}"></td>
 															</tr>
+															{% endif %}
 															{% endfor %}
 														</tbody>
 													</table>
