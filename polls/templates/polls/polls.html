@@ -150,6 +150,13 @@
 							<div class="tab-content pt-2">
 								{% if aspirants %}
 								<div class="tab-pane fade show active" id="academic-rep">
+									{% if UserhasPolled.academic is True %}
+									<div class="pt-3 text-center">
+										<i class="bi-check-circle-fill" style="font-size: 50px; color: #13bb46; text-align: center;"></i>
+										<hr class="dropdown-divider">
+										<small class="fw-bold">Remember to view poll results at your homepage once you have voted for all aspirants.</small>
+									</div>
+									{% else %}
 									<form action="" method="post">
 										{% csrf_token %}
 										<div class="row mb-2">
@@ -188,9 +195,15 @@
 											<button type="submit" class="btn btn-success"><i class="bi-save-fill"></i> Cast Vote</button>
 										</div>
 									</form>
+									{% endif %}
 								</div>
 
 								<div class="tab-pane fade pt-3" id="gen-rep">
+									{% if UserhasPolled.general_rep is True %}
+									<div class="pt-3 text-center">
+										<i class="bi-clock-fill" style="font-size: 50px; color: #13bb46; text-align: center;"></i>
+									</div>
+									{% else %}
 									<form action="" method="post">
 										{% csrf_token %}
 										<div class="row mb-2">
@@ -229,10 +242,15 @@
 											<button type="submit" class="btn btn-primary"><i class="bi-save-fill"></i> Cast Vote</button>
 										</div>
 									</form>
-
+									{% endif %}
 								</div>
 
 								<div class="tab-pane fade pt-3" id="ladies-rep">
+									{% if UserhasPolled.ladies_rep is True %}
+									<div class="pt-3 text-center">
+										<i class="bi-check-circle-fill" style="font-size: 50px; color: #13bb46; text-align: center;"></i>
+									</div>
+									{% else %}
 									<form action="" method="post">
                                         {% csrf_token %}
 										<div class="row mb-2">
@@ -273,13 +291,11 @@
 											</div>
 										</div>
 									</form>
-
+									{% endif %}
 								</div>
 								{% else %}
-								<div class="tab-pane show active fade 404 pt-3 text-center" id="404">
-									<i class="bi-bar-chart-line-fill" style="font-size: 100px; color: #13bb46; text-align: center;"></i>
-									<hr class="dropdown-divider">
-									<h5 class="text-center">Polls coming soon ...</h5>
+								<div class="pt-3 text-center">
+									<i class="bi-check-circle-fill" style="font-size: 50px; color: #13bb46; text-align: center;"></i>
 								</div>
 								{% endif %}
 							</div>
