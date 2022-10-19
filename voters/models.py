@@ -20,7 +20,7 @@ class Voters(models.Model):
     edited = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.voter.username}'
+        return f'{str(self.voter.username).title()}'
 
     def save(self, *args, **kwargs):
         super(Voters, self).save(*args, **kwargs)
@@ -61,7 +61,7 @@ class Aspirants(models.Model):
             dp.save(self.pic.path)
     
     def __str__(self):
-        return f'{self.name.voter}'
+        return f'{str(self.name.voter).title()}'
 
     class Meta:
         verbose_name_plural = 'Aspirants'
@@ -70,7 +70,7 @@ class Aspirants(models.Model):
 
 class Blog(models.Model):
     id = models.CharField(max_length=15, primary_key=True, editable=False)
-    blogger = models.ForeignKey(Aspirants, on_delete=models.CASCADE, editable=True)
+    blogger = models.ForeignKey(Aspirants, on_delete=models.CASCADE, editable=False)
     message = models.TextField(blank=False)
     written = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)

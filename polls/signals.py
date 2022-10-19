@@ -1,3 +1,4 @@
+from django.db.utils import IntegrityError
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from .models import Polls, Polled
@@ -16,6 +17,12 @@ def voters_polled(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Aspirants)
 def nominated_candidate_poll(sender, instance, created, **kwargs):
-    if created:
+    if created is False:
         if instance.nominate is True:
-            Polls.objects.create(name=instance)
+            Polls.objects.create(name=instance, post=instance.post)
+    try:
+        pass
+    except IntegrityError:
+        obj = Polls.objects.get(name_id=instance.name_id)
+        print(f'Object: {obj}')
+        obj.delete()

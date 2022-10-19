@@ -10,6 +10,9 @@ class Polls(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f'{str(self.name).title()}'
+
     def save(self, *args, **kwargs):
         return super(Polls, self).save(*args, **kwargs)
 
@@ -28,6 +31,9 @@ class Polled(models.Model):
     president = models.BooleanField(default=False, editable=False)
     polled = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.user_id}'
 
     def save(self, *args, **kwargs):
         return super(Polled, self).save(*args, **kwargs)
