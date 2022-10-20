@@ -34,22 +34,24 @@
 														<thead>
 															<tr>
 																<th>Image</th>
-																<th>Aspirants Profile</th>
-																<th>Vote</th>
+																<th>Aspirants Details</th>
+																<th>Total polls</th>
+																<th><b>&percnt;</b></th>
 															</tr>
 														</thead>
 														<tbody>
-															{% for aspirant in aspirants %}
+															{% for aspirant in polls %}
 															<tr>
 																<td class="text-center">
-																	<img src="{{aspirant.pic.url}}" alt="profile-photo" height="70px" width="70px">
+																	<img src="{{aspirant.name.pic.url}}" class="rounded-circle" alt="profile-photo" height="70px" width="70px">
 																</td>
-																<td>
-
+																<td class="text-start">
+																	<h6>Name: <b>{{ aspirant.name|title }}</b></h6>
+																	<h6>Post: <b>{{ aspirant.post }}</b></h6>
+																	<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h6>
 																</td>
-																<td>
-																	<input type="radio" name="vote" value="{{aspirant.id}}" required>
-																</td>
+																<td>{{ aspirant.total_polls }}</td>
+																<td></td>
 															</tr>
 															{% endfor %}
 														</tbody>
@@ -59,7 +61,7 @@
 										</form>
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-success w-25"><i class="bi bi-box-arrow-in-down"></i> Vote</button>
+										<p class="fw-bold text-start">Results are subject to change</p>
 									</div>
 								</div>
 							</div>

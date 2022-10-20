@@ -7,14 +7,14 @@ from .forms import (
     BlogForm
     )
 from .models import Voters, Aspirants, Blog
-from polls.models import Polled
+from polls.models import Polled, Polls
 from datetime import datetime
 
 
 def indexpage_view(request):
-    nominated_aspirants_sch = Aspirants.objects.filter(nominate=False).all()
+    nominated_aspirants_sch = Aspirants.objects.filter(nominate=True).all()
     if request.user.is_authenticated:
-        nominated_aspirants_sch = Aspirants.objects.filter(nominate=False, name__school=request.user.voters.school).all()
+        nominated_aspirants_sch = Aspirants.objects.filter(nominate=True, name__school=request.user.voters.school).all()
 
     nom_aspirants = Aspirants.objects.filter(nominate=False).all()
 
@@ -154,6 +154,7 @@ def homepage_view(request):
 
     registered_voters = Voters.objects.filter(registered=True, school=request.user.voters.school)
     pollers = Polled.objects.all().count()
+    polls = Polls.objects.all().order_by('post', 'total_polls')
     total_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school).count()
     blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school).all().order_by('-written')
 
@@ -161,9 +162,10 @@ def homepage_view(request):
     context = {
         'contestant_form': contest_form, 'upload_NominationForm': nomination_form, 'blog_form': blog_form,
         'blogs': blogs, 'total_aspirants': total_aspirants, 'total_reg_voters': registered_voters.count(),
-        'polled': pollers, 'reg_voters': registered_voters, 'user_has_polled': polled_obj,
+        'polled': pollers, 'reg_voters': registered_voters, 'user_has_polled': polled_obj, 'polls': polls,
+
         }
-    
+        
     return render(request, 'voters/homepage.html', context)
 
 
