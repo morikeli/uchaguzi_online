@@ -49,7 +49,7 @@
 																<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h6>
 															</td>
 															<td>{{ aspirant.total_polls }}</td>
-															<td></td>
+															<td>{{ percentage }}</td>
 														</tr>
 														{% endfor %}
 													</tbody>
@@ -308,7 +308,7 @@
 									<li class="dropdown-header text-start">
 										<h6>Filter</h6>
 									</li>
-									<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#poll-results">View all</a></li>
+									<li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-polls">View all</a></li>
 								</ul>
 								</div>
 
@@ -332,7 +332,7 @@
 													<td>{{ aspirant.name|title }}</td>
 													<td>{{ aspirant.post }}</td>
 													<td>{{ aspirant.total_polls }}</td>
-													<td><a href="" data-bs-toggle="modal" data-bs-target="#modal-polls">{{ aspirant. }}</a></td>
+													<td>{{ percentage }}</td>
 												</tr>
 												{% endfor %}
 											</tbody>

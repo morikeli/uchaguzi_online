@@ -157,15 +157,15 @@ def homepage_view(request):
     polls = Polls.objects.all().order_by('post', 'total_polls')
     total_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school).count()
     blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school).all().order_by('-written')
-
+    polls_percentage = (pollers/registered_voters.count())*100
 
     context = {
         'contestant_form': contest_form, 'upload_NominationForm': nomination_form, 'blog_form': blog_form,
         'blogs': blogs, 'total_aspirants': total_aspirants, 'total_reg_voters': registered_voters.count(),
         'polled': pollers, 'reg_voters': registered_voters, 'user_has_polled': polled_obj, 'polls': polls,
+        'percentage': polls_percentage,
 
-        }
-        
+    }    
     return render(request, 'voters/homepage.html', context)
 
 
