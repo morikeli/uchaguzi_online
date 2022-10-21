@@ -163,7 +163,8 @@ def homepage_view(request):
         'contestant_form': contest_form, 'upload_NominationForm': nomination_form, 'blog_form': blog_form,
         'blogs': blogs, 'total_aspirants': total_aspirants, 'total_reg_voters': registered_voters.count(),
         'polled': pollers, 'reg_voters': registered_voters, 'user_has_polled': polled_obj, 'polls': polls,
-        'percentage': polls_percentage,
+        'percentage': polls_percentage, 'nominated': Aspirants.objects.filter(nominate=True, name__school=request.user.voters.school),
+
 
     }    
     return render(request, 'voters/homepage.html', context)
