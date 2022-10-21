@@ -9,7 +9,7 @@ import uuid
 def aspirant_polls(sender, instance, **kwargs):
     if instance.id == "":
         instance.id = str(uuid.uuid4()).replace('-', '')[:15]
-        
+
 
 @receiver(pre_save, sender=Polled)
 def voters_polled(sender, instance, **kwargs):
@@ -21,10 +21,3 @@ def nominated_candidate_poll(sender, instance, created, **kwargs):
     if created is False:
         if instance.nominate is True:
             Polls.objects.create(name=instance, post=instance.post)
-
-@receiver(post_save, sender=Polls)
-def calculate_polls_percentage(sender, instance, created, **kwargs):
-    total_voters = Voters.objects.filter(registered=True).count()
-    instance.percentage = (instance.total_polls/total_voters)*100
-    print(f'Percentage: {instance.percentage}')
-    
