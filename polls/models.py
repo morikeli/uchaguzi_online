@@ -7,7 +7,7 @@ class Polls(models.Model):
     name = models.OneToOneField(Aspirants, on_delete=models.CASCADE, editable=False)
     post = models.CharField(max_length=32, blank=False, editable=False)
     total_polls = models.PositiveIntegerField(default=0, editable=False)
-    percentage = models.DecimalField(max_digits=4, decimal_places=1)
+    percentage = models.DecimalField(max_digits=4, decimal_places=1, default=0)
     created = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
 

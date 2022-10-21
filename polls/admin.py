@@ -3,7 +3,7 @@ from .models import Polls, Polled
 
 @admin.register(Polls)
 class Polls(admin.ModelAdmin):
-    list_display = ['name', 'post', 'total_polls']
+    list_display = ['name', 'post', 'total_polls', 'percentage']
 
 @admin.register(Polled)
 class PolledList(admin.ModelAdmin):

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Polled, Polls
-from voters.models import Aspirants
+from voters.models import Aspirants, Voters
 
 
 @login_required(login_url='voters_login')
@@ -22,6 +22,9 @@ def polling_view(request, pk, school):
         else:
             elected_aspirant = Polls.objects.get(id=form)
             elected_aspirant.total_polls += 1
+
+            total_voters = Voters.objects.filter(registered=True).count()
+            elected_aspirant.percentage = (round(elected_aspirant.total_polls/total_voters, 1))*100
 
             polled_user = Polled.objects.filter(user_id=pk).exists()
             if polled_user is True:
