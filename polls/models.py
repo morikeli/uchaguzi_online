@@ -15,9 +15,6 @@ class Polls(models.Model):
         return f'{str(self.name).title()}'
 
     def save(self, *args, **kwargs):
-        try:
-            percentage = 0
-            self.percentage = (self.total_polls)*100
         return super(Polls, self).save(*args, **kwargs)
 
     class Meta:
