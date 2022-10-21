@@ -23,8 +23,8 @@ def polling_view(request, pk, school):
             elected_aspirant = Polls.objects.get(id=form)
             elected_aspirant.total_polls += 1
 
-            total_voters = Voters.objects.filter(registered=True).count()
-            elected_aspirant.percentage = (round(elected_aspirant.total_polls/total_voters, 1))*100
+            total_voters = Voters.objects.filter(registered=True, school=request.user.voters.school).count()
+            elected_aspirant.percentage = (round(elected_aspirant.total_polls/total_voters, 3))*100
 
             polled_user = Polled.objects.filter(user_id=pk).exists()
             if polled_user is True:
