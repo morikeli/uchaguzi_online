@@ -20,9 +20,3 @@ def nominated_candidate_poll(sender, instance, created, **kwargs):
     if created is False:
         if instance.nominate is True:
             Polls.objects.create(name=instance, post=instance.post)
-    try:
-        pass
-    except IntegrityError:
-        obj = Polls.objects.get(name_id=instance.name_id)
-        print(f'Object: {obj}')
-        obj.delete()
