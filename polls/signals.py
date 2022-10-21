@@ -2,7 +2,7 @@ from django.db.utils import IntegrityError
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from .models import Polls, Polled
-from voters.models import Aspirants
+from voters.models import Aspirants, Voters
 import uuid
 
 @receiver(pre_save, sender=Polls)
@@ -20,3 +20,13 @@ def nominated_candidate_poll(sender, instance, created, **kwargs):
     if created is False:
         if instance.nominate is True:
             Polls.objects.create(name=instance, post=instance.post)
+
+@receiver(post_save, sender=Polls)
+def calculate_polls_percentage(sender, instance, created, **kwargs):
+    try:
+        total_voters = Voters.objects.filter(registered=True).count()
+        instance.percentage = (instance.polls/total_voters)*100
+
+    except:
+        return
+        
