@@ -45,8 +45,3 @@ def profile_signal(sender, instance, created, **kwargs):
     if created:
         if instance.is_staff is False and instance.is_superuser is False:
             Voters.objects.create(voter=instance)
-        
-@receiver(post_save, sender=Aspirants)
-def create_blog(sender, instance, created, **kwargs):
-    if created is False:
-        Blog.objects.create(blogger=instance)
