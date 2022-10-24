@@ -114,13 +114,18 @@ def homepage_view(request):
         polled_obj = Polled.objects.get(user_id=request.user.voters.id)
     except Polled.DoesNotExist:
         polled_obj = ''
-        
 
+    current_time = datetime.now().strftime("%H:%M:%S")
+    posted_blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school)
+    for blog in posted_blogs:
+        print(blog.written)
+    strip_time =  str()
+    
     registered_voters = Voters.objects.filter(registered=True, school=request.user.voters.school)
     pollers = Polled.objects.all().count()
     polls = Polls.objects.all().order_by('post', 'total_polls')
     total_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school).count()
-    blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school).all().order_by('-written')
+    blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school, ).all().order_by('-written')
     polls_percentage = (pollers/registered_voters.count())*100
 
     context = {
@@ -145,7 +150,7 @@ def electoralpost_view(request, id, aspirant_name):
             if nomination_form.is_valid():
                 nomination_form.save()
                 messages.success(request, 'Nomination form uploaded successfully!')
-                return redirect('')
+                return redirect('voters_vie', id, aspirant_name)
     
     except Aspirants.DoesNotExist:
         if request.method == 'POST':
@@ -169,7 +174,7 @@ def electoralpost_view(request, id, aspirant_name):
                         messages.success(request, 'You are vying for the "Gubernatorial" seat. Kindly submit your nomination form in time.')
                     else:
                         messages.success(request, f'You are vying for {form.post} electoral seat. Kindly submit your nomination form in time.')
-                    return redirect('voters_homepage')
+                    return redirect('voters_vie', id, aspirant_name)
 
 
     context = {'application_form': contest_form, 'nomination_form': nomination_form}

@@ -12,6 +12,7 @@
 		<section class="section profile">
 			<div class="row">
 				<div class="col-xl-4">
+					{% if request.user.voters.aspirants.name != "" %}
 					<div class="card">
 						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 							<img src="{{request.user.voters.aspirants.pic.url}}" alt="Profile" class="rounded-circle">
@@ -21,10 +22,12 @@
 								<i class="bi-award-fill" style="color: #df1d1d"></i>
 								{% endif %}
 							</h2>
-							<h3>{{request.user.voters.aspirants.post}}</h3>
-							<h3>~ {{request.user.voters.aspirants.slogan|default:" -- "}} ~</h3>
+							<h3 class="text-center">{{request.user.voters.aspirants.post}}</h3>
+							<h3 class="text-center">" {{request.user.voters.aspirants.slogan|default:" -- "}} "</h3>
 						</div>
 					</div>
+					{% endif %}
+					{% if request.user.voters.aspirants.name != "" %}
                     <div class="card">
 						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center table-responsive">
 							<table class="table table-condensed table-striped table-bordered">
@@ -50,7 +53,7 @@
 									<tr>
 										<td><b>Nomination Form:</b></td>
 										<td>
-											{% if request.user.voters.aspirants.form is not None %}
+											{% if request.user.voters.aspirants.form.url is not None %}
 											<span class="badge bg-primary">Submitted <i class="bi-check-circle-fill" style="color: #13bb46"></i></span>
 											{% endif %}
 										</td>
@@ -62,34 +65,52 @@
 							</table>
 						</div>
 					</div>
-
+					{% endif %}
 				</div>
 
 				<div class="col-xl-8">
 					<div class="card">
 						<div class="card-body pt-3">
 							<ul class="nav nav-tabs nav-tabs-bordered">
+								{% if request.user.voters.aspirants.name != "" %}
+								<li class="nav-item">
+									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#manifesto">
+										Manifesto
+                                    </button>
+								</li>
+								{% endif %}
 								<li class="nav-item">
 									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#preview">
-										{% if request.user.voters.aspirants.form is None  %}
-                                        Application Form/Nomination Form
-										{% else %}{{ request.user.voters.aspirants.name }}'s Manifesto{% endif %}
+										{% if request.user.voters.aspirants.name == "" %}
+										Apply <i class="bi-info-circle-fill" style="color: #18d26c"></i>
+										{% else %}
+										Preview
+										{% endif %}
                                     </button>
 								</li>
 
 							</ul>
 							<div class="tab-content pt-2">
 								{% include 'messages.html' %}
-								{% if request.user.voters.aspirants.form is None %}
-								<div class="tab-pane fade show active profile-edit pt-3" id="preview">
+								<div class="tab-pane fade show active profile-edit pt-3" id="manifesto">
+									{% if request.user.voters.aspirants.name != "" %}
+									<p class="small fst-italic">
+										{{ request.user.voters.aspirants.bio }}<br>
+									</p>
+									<hr class="dropdown-divider">
+									<div class="text-center">
+										{% if request.user.aspirants.name != "" and request.user.voters.aspirants.form.url is not None %}
+										<a class="text-center" href="{{ request.user.voters.aspirants.form.url }}">
+											Click to preview your nomination form
+										</a>
+										{% endif %}
+									</div>
+									{% endif %}
+								</div>
+
+								<div class="tab-pane fade show  pt-3" id="preview">
 									<form action="" method="post" enctype="multipart/form-data">
 										{% csrf_token %}
-										<div class="row mb-3">
-											<label for="image" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-											<div class="col-md-8 col-lg-9">
-												<img src="{{request.user.voters.profile_pic.url}}" alt="Profile">
-											</div>
-										</div>
 										<div class="row mb-2">
 											<div class="col-md-8 col-lg-12">
 												{% if request.user.voters.aspirants.name != "" %}
@@ -103,18 +124,8 @@
 											<button type="submit" class="btn btn-primary">Submit</button>
 										</div>
 									</form>
-
-								</div>
-								{% else %}
-								<p class="small fst-italic">
-									{{ request.user.voters.aspirants.bio }}<br>
-								</p>
-								<hr class="dropdown-divider">
-								<div class="text-center">
-									<a class="text-center" href="{{ request.user.voters.aspirants.form.url }}">Click to preview your nomination form</a>
 								</div>
 
-								{% endif %}
 							</div>
 						</div>
 					</div>
