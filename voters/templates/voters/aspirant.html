@@ -55,6 +55,10 @@
 										<td>
 											{% if request.user.voters.aspirants.form.url is not None %}
 											<span class="badge bg-primary">Submitted <i class="bi-check-circle-fill" style="color: #13bb46"></i></span>
+											{% else %}
+											<span class="badge bg-primary">
+												<span class="spinner-border spinner-border-sm"></span>
+											</span>
 											{% endif %}
 										</td>
 									</tr>
@@ -114,7 +118,8 @@
 										<i class="bi-check-circle-fill" style="font-size: 50px; color: #13bb46; text-align: center;"></i>
 										<hr class="dropdown-divider">
 										<small class="fw-bold">
-											Once nominated you will see this icon <i class="bi-award-fill" style="color: #df1d1d"></i> on your card.
+											Once nominated you will see this icon <i class="bi-award-fill" style="color: #df1d1d"></i>
+											on your aspirant profile card (located to the left on tablets and laptops, and top on smaller devices).
 										</small>
 									</div>
 									{% else %}
