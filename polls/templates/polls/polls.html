@@ -301,7 +301,7 @@
 							</div>
 						</div>
 					</div>
-
+					{% if UserhasPolled.academic is True and UserhasPolled.general_rep is True and UserhasPolled.ladies_rep is True %}
 					<div class="card">
 						<div class="card-body pt-3">
 							<ul class="nav nav-tabs nav-tabs-bordered">
@@ -483,6 +483,7 @@
 							</div>
 						</div>
 					</div>
+					{% endif %}
 
 				</div>
 			</div>
