@@ -15,7 +15,12 @@
 					<div class="card">
 						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 							<img src="{{request.user.voters.aspirants.pic.url}}" alt="Profile" class="rounded-circle">
-							<h2>{{request.user.voters.aspirants.name|title}}{% if request.user.voters.aspirants.nominate is True %}<i class="bi-award-fill" style="color: #df1d1d"></i>{% endif %}</h2>
+							<h2>{{request.user.voters.aspirants.name|title}}
+								{% if request.user.voters.registered is True %}<i class="bi-check-circle-fill" style="color: #18d26e"></i>{% endif %}
+								{% if request.user.voters.aspirants.nominate is True %}
+								<i class="bi-award-fill" style="color: #df1d1d"></i>
+								{% endif %}
+							</h2>
 							<h3>{{request.user.voters.aspirants.post}}</h3>
 							<h3>~ {{request.user.voters.aspirants.slogan|default:" -- "}} ~</h3>
 						</div>
@@ -66,13 +71,16 @@
 							<ul class="nav nav-tabs nav-tabs-bordered">
 								<li class="nav-item">
 									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#preview">
+										{% if request.user.voters.aspirants.form is None  %}
                                         Application Form/Nomination Form
+										{% else %}{{ request.user.voters.aspirants.name }}'s Manifesto{% endif %}
                                     </button>
 								</li>
 
 							</ul>
 							<div class="tab-content pt-2">
 								{% include 'messages.html' %}
+								{% if request.user.voters.aspirants.form is None %}
 								<div class="tab-pane fade show active profile-edit pt-3" id="preview">
 									<form action="" method="post" enctype="multipart/form-data">
 										{% csrf_token %}
@@ -92,42 +100,21 @@
 											</div>
 										</div>
 										<div class="text-center d-grid gap-2">
-											<button type="submit" class="btn btn-primary">Save Changes</button>
+											<button type="submit" class="btn btn-primary">Submit</button>
 										</div>
 									</form>
 
 								</div>
-
-								<div class="tab-pane fade pt-3" id="profile-change-password">
-									<form action="" method="post">
-
-										<div class="row mb-3">
-										<label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-										<div class="col-md-8 col-lg-9">
-											<input name="password" type="password" class="form-control" id="currentPassword">
-										</div>
-										</div>
-
-										<div class="row mb-3">
-										<label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
-										<div class="col-md-8 col-lg-9">
-											<input name="newpassword" type="password" class="form-control" id="newPassword">
-										</div>
-										</div>
-
-										<div class="row mb-3">
-										<label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-										<div class="col-md-8 col-lg-9">
-											<input name="renewpassword" type="password" class="form-control" id="renewPassword">
-										</div>
-										</div>
-
-										<div class="text-center">
-										<button type="submit" class="btn btn-primary">Change Password</button>
-										</div>
-									</form>
-
+								{% else %}
+								<p class="small fst-italic">
+									{{ request.user.voters.aspirants.bio }}<br>
+								</p>
+								<hr class="dropdown-divider">
+								<div class="text-center">
+									<a class="text-center" href="{{ request.user.voters.aspirants.form.url }}">Click to preview your nomination form</a>
 								</div>
+
+								{% endif %}
 							</div>
 						</div>
 					</div>
