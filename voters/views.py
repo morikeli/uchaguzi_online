@@ -101,11 +101,11 @@ def homepage_view(request):
     nomination_form = UploadNominationForm()
     blog_form = BlogForm()
     try:
-        nomination_form = UploadNominationForm(instance=request.user.voters.aspirants.name)
+        nomination_form = UploadNominationForm(instance=request.user.voters.aspirants)
         blog_form = BlogForm()
         
         if request.method == 'POST':
-            nomination_form = UploadNominationForm(request.POST, request.FILES, instance=request.user.voters.aspirants.name)
+            nomination_form = UploadNominationForm(request.POST, request.FILES, instance=request.user.voters.aspirants)
             blog_form = BlogForm(request.POST)
 
             if nomination_form.is_valid():
