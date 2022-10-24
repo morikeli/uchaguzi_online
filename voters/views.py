@@ -116,9 +116,11 @@ def homepage_view(request):
         polled_obj = ''
 
     current_time = datetime.now().strftime("%H:%M:%S")
-    posted_blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school)
+    current_day = datetime.now().strftime("%Y-%m-%d")
+    posted_blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school, written__date=current_day)
+
     for blog in posted_blogs:
-        print(blog.written)
+        print(blog.written.strftime("%Y-%m-%d %H:%M:%S"))
     strip_time =  str()
     
     registered_voters = Voters.objects.filter(registered=True, school=request.user.voters.school)
