@@ -44,7 +44,7 @@ class Aspirants(models.Model):
     bio = models.TextField(blank=False)
     post = models.CharField(max_length=32, blank=False)
     slogan = models.CharField(max_length=50, blank=True)
-    pic = models.ImageField(upload_to='Aspirant-Dps/', default='default.png')
+    pic = models.ImageField(upload_to='Aspirant-Dps/', null=False)
     form = models.FileField(upload_to='Nomination-Forms/')
     nominate = models.BooleanField(default=False)
     votes = models.PositiveIntegerField(default=0)
