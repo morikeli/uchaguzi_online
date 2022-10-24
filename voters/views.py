@@ -97,31 +97,57 @@ def votersprofile_view(request):
 @user_passes_test(lambda user: user.is_staff is False)
 @user_passes_test(lambda user: user.voters.registered is True)
 def homepage_view(request):
-    contest_form = ElectoralPostApplicationForm()
-    nomination_form = UploadNominationForm()
     blog_form = BlogForm()
+        
+        
+    if request.method == 'POST':
+        blog_form = BlogForm(request.POST)
+
+        if blog_form.is_valid():
+            form = blog_form.save(commit=False)
+            form.blogger = request.user.voters.aspirants
+            form.save()
+            messages.info(request, 'Blog uploaded successfully!')
+            return redirect('voters_homepage')
+    
+    try:
+        polled_obj = Polled.objects.get(user_id=request.user.voters.id)
+    except Polled.DoesNotExist:
+        polled_obj = ''
+        
+
+    registered_voters = Voters.objects.filter(registered=True, school=request.user.voters.school)
+    pollers = Polled.objects.all().count()
+    polls = Polls.objects.all().order_by('post', 'total_polls')
+    total_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school).count()
+    blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school).all().order_by('-written')
+    polls_percentage = (pollers/registered_voters.count())*100
+
+    context = {
+        'blog_form': blog_form,
+        'blogs': blogs, 'total_aspirants': total_aspirants, 'total_reg_voters': registered_voters.count(),
+        'polled': pollers, 'reg_voters': registered_voters, 'user_has_polled': polled_obj, 'polls': polls,
+        'percentage': polls_percentage, 'nominated': Aspirants.objects.filter(nominate=True, name__school=request.user.voters.school),
+
+
+    }    
+    return render(request, 'voters/homepage.html', context)
+
+@login_required(login_url='voters_login')
+@user_passes_test(lambda user: user.is_staff is False)
+def electoralpost_view(request):
+    nomination_form = UploadNominationForm()
+    contest_form = ElectoralPostApplicationForm()
     try:
         nomination_form = UploadNominationForm(instance=request.user.voters.aspirants)
-        blog_form = BlogForm()
-        
         if request.method == 'POST':
             nomination_form = UploadNominationForm(request.POST, request.FILES, instance=request.user.voters.aspirants)
-            blog_form = BlogForm(request.POST)
-
             if nomination_form.is_valid():
                 nomination_form.save()
-                messages.success(request, f'Nomination form submitted successfully!')
-                return redirect('voters_homepage')
-
-            elif blog_form.is_valid():
-                form = blog_form.save(commit=False)
-                form.blogger = request.user.voters.aspirants
-                form.save()
-                messages.info(request, 'Blog uploaded successfully!')
-                return redirect('voters_homepage')
+                messages.success(request, 'Nomination form uploaded successfully!')
+                return redirect('')
     
-
-    except Aspirants.DoesNotExist:  
+    except Aspirants.DoesNotExist:
         if request.method == 'POST':
             contest_form = ElectoralPostApplicationForm(request.POST, request.FILES)
 
@@ -145,29 +171,9 @@ def homepage_view(request):
                         messages.success(request, f'You are vying for {form.post} electoral seat. Kindly submit your nomination form in time.')
                     return redirect('voters_homepage')
 
-    try:
-        polled_obj = Polled.objects.get(user_id=request.user.voters.id)
-    except Polled.DoesNotExist:
-        polled_obj = ''
-        
 
-    registered_voters = Voters.objects.filter(registered=True, school=request.user.voters.school)
-    pollers = Polled.objects.all().count()
-    polls = Polls.objects.all().order_by('post', 'total_polls')
-    total_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school).count()
-    blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school).all().order_by('-written')
-    polls_percentage = (pollers/registered_voters.count())*100
-
-    context = {
-        'contestant_form': contest_form, 'upload_NominationForm': nomination_form, 'blog_form': blog_form,
-        'blogs': blogs, 'total_aspirants': total_aspirants, 'total_reg_voters': registered_voters.count(),
-        'polled': pollers, 'reg_voters': registered_voters, 'user_has_polled': polled_obj, 'polls': polls,
-        'percentage': polls_percentage, 'nominated': Aspirants.objects.filter(nominate=True, name__school=request.user.voters.school),
-
-
-    }    
-    return render(request, 'voters/homepage.html', context)
-
+    context = {'application_form': contest_form, 'nomination_form': nomination_form}
+    return render(request, 'voters/aspirant.html', context)
 
 class LogoutVoter(LogoutView):
     template_name = 'voters/logout.html'
