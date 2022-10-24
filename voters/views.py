@@ -12,16 +12,16 @@ from datetime import datetime
 
 
 def indexpage_view(request):
-    nominated_aspirants_sch = Aspirants.objects.filter(nominate=True).all()
+    nominated_aspirants_sch = Aspirants.objects.filter(nominate=True).all().order_by('post')
     if request.user.is_authenticated:
-        nominated_aspirants_sch = Aspirants.objects.filter(nominate=True, name__school=request.user.voters.school).all()
+        nominated_aspirants_sch = Aspirants.objects.filter(nominate=True, name__school=request.user.voters.school).all().order_by('post')
 
     nom_aspirants = Aspirants.objects.filter(nominate=False).all()
 
     context = {
         'nominated_aspirants': nom_aspirants, 'nominatedAspirants_CurrentUser': nominated_aspirants_sch,
         'nom': Aspirants.objects.filter(nominate=True).count(), 'reg': Voters.objects.filter(registered=True).count(),
-        'asp': Aspirants.objects.filter(nominate=False).count(),
+        'asp': Aspirants.objects.all().count(),
         }
     return render(request, 'index.html', context)
 
@@ -115,14 +115,6 @@ def homepage_view(request):
     except Polled.DoesNotExist:
         polled_obj = ''
 
-    current_time = datetime.now().strftime("%H:%M:%S")
-    current_day = datetime.now().strftime("%Y-%m-%d")
-    posted_blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school, written__date=current_day)
-
-    for blog in posted_blogs:
-        print(blog.written.strftime("%Y-%m-%d %H:%M:%S"))
-    strip_time =  str()
-    
     registered_voters = Voters.objects.filter(registered=True, school=request.user.voters.school)
     pollers = Polled.objects.all().count()
     polls = Polls.objects.all().order_by('post', 'total_polls')

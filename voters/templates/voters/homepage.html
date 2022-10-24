@@ -165,7 +165,7 @@
 							<div class="modal-dialog modal-dialog-scrollable">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h5 class="modal-title"><img src="{{request.user.voters.aspirants.pic.url}}" alt="img" class="rounded-circle" height="40px" width="40px"> Blog form</h5>
+										<h5 class="modal-title"><img src="{{request.user.voters.aspirants.pic.url}}" alt="img" class="rounded-circle" height="40px" width="40px"> Blogs</h5>
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body">
@@ -173,11 +173,13 @@
 											{% for blog in blogs %}
 											<div class="activity-item d-flex">
 												<div class="activity-label">{{ blog.written|timesince|slice:":6" }}</div>
-												<img src="{{ blog.blogger.pic.url }}" class="rounded-circle activity-badge align-self-start" height="50px" width="50px" alt="">
+												<img src="{{ blog.blogger.pic.url }}" class="rounded-circle activity-badge align-self-start mt-3" height="50px" width="50px" alt="">
 												<div class="activity-content">
 													<a href="{% url 'voters_homepage' %}" class="fw-bold text-dark" data-bs-toggle="modal" data-bs-target="#all-blogs">
 														{{ blog.message }}
 													</a>
+													<hr class="dropdown-divider">
+
 												</div>
 											</div>
 											{% endfor %}
