@@ -98,12 +98,14 @@ def votersprofile_view(request):
 @user_passes_test(lambda user: user.voters.registered is True)
 def homepage_view(request):
     contest_form = ElectoralPostApplicationForm()
+    nomination_form = UploadNominationForm()
+    blog_form = BlogForm()
     try:
-        nomination_form = UploadNominationForm(instance=request.user.voters.aspirants)
+        nomination_form = UploadNominationForm(instance=request.user.voters.aspirants.name)
         blog_form = BlogForm()
         
         if request.method == 'POST':
-            nomination_form = UploadNominationForm(request.POST, request.FILES, instance=request.user.voters.aspirants)
+            nomination_form = UploadNominationForm(request.POST, request.FILES, instance=request.user.voters.aspirants.name)
             blog_form = BlogForm(request.POST)
 
             if nomination_form.is_valid():
@@ -120,9 +122,6 @@ def homepage_view(request):
     
 
     except Aspirants.DoesNotExist:  
-        nomination_form = UploadNominationForm()
-        blog_form = BlogForm()
-
         if request.method == 'POST':
             contest_form = ElectoralPostApplicationForm(request.POST, request.FILES)
 
