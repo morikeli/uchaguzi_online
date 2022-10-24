@@ -15,8 +15,9 @@
 					<div class="card">
 						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 							<img src="{{request.user.voters.aspirants.pic.url}}" alt="Profile" class="rounded-circle">
-							<h2>{{request.user.voters.aspirants.name|title}}</h2>
-							<h3>{{request.user.voters.year}}</h3>
+							<h2>{{request.user.voters.aspirants.name|title}}{% if request.user.voters.aspirants.nominate is True %}<i class="bi-award-fill" style="color: #df1d1d"></i>{% endif %}</h2>
+							<h3>{{request.user.voters.aspirants.post}}</h3>
+							<h3>~ {{request.user.voters.aspirants.slogan|default:" -- "}} ~</h3>
 						</div>
 					</div>
 
@@ -35,7 +36,6 @@
 							</ul>
 							<div class="tab-content pt-2">
 								{% include 'messages.html' %}
-									
 								<div class="tab-pane fade show active profile-edit pt-3" id="preview">
 									<form action="" method="post" enctype="multipart/form-data">
 										{% csrf_token %}
@@ -47,7 +47,7 @@
 										</div>
 										<div class="row mb-2">
 											<div class="col-md-8 col-lg-12">
-												{% if request.user.voters.gender == "" %}
+												{% if request.user.voters.aspirants.name != "" %}
 												{{nomination_form|crispy}}
 												{% else %}
 												{{application_form|crispy}}

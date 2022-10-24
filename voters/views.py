@@ -135,7 +135,7 @@ def homepage_view(request):
 
 @login_required(login_url='voters_login')
 @user_passes_test(lambda user: user.is_staff is False)
-def electoralpost_view(request):
+def electoralpost_view(request, id, aspirant_name):
     nomination_form = UploadNominationForm()
     contest_form = ElectoralPostApplicationForm()
     try:

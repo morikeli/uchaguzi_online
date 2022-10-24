@@ -8,6 +8,6 @@ urlpatterns = [
     path('create-account/', views.signup_view, name='voters_signup'),
     path('voters/profile-page/', views.votersprofile_view, name='voters_profile'),
     path('voter-homepage/', views.homepage_view, name='voters_homepage'),
-
+    path('voters/<str:id>=<str:aspirant_name>/', views.electoralpost_view, name='voters_vie'),
     path('logout/logged-out', views.LogoutVoter.as_view(), name='logout_voters')
 ]
