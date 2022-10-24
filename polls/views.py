@@ -10,7 +10,6 @@ from voters.models import Aspirants, Voters
 def polling_view(request, pk, school):
     try:
         polled_obj = Polled.objects.get(user_id=pk)
-        print(f'Object: {polled_obj}')
     except Polled.DoesNotExist:
         polled_obj = ''
 
