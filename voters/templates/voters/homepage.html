@@ -521,17 +521,16 @@
 									type: 'doughnut',
 									data: {
 									labels: [
-										{% for voters in reg_voters %} "{{ voters.gender}}(s)", {% endfor %}
+										'Female', 'Male'
 									],
 									datasets: [{
-										label: 'My First Dataset',
+										label: 'Registered Voters',
 										data: [
-											{% for voters in reg_voters %}, {{reg_males}}, {{reg_females}} {% endfor %}
+											{{male_reg_voters}}, {{female_reg_voters}}
 										],
 										backgroundColor: [
-										'rgb(255, 99, 132)',
-										'rgb(54, 162, 235)',
-										'rgb(255, 205, 86)'
+										'#f53232',
+										'#09ac52',
 										],
 										hoverOffset: 4
 									}]

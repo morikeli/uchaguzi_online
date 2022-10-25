@@ -125,9 +125,11 @@ def homepage_view(request):
     context = {
         'blog_form': blog_form,
         'blogs': blogs, 'total_aspirants': total_aspirants, 'total_reg_voters': registered_voters.count(),
-        'polled': pollers, 'reg_voters': registered_voters, 'user_has_polled': polled_obj, 'polls': polls,
-        'percentage': polls_percentage, 'nominated': Aspirants.objects.filter(nominate=True, name__school=request.user.voters.school),
-
+        'polled': pollers, 'user_has_polled': polled_obj, 'polls': polls, 'percentage': polls_percentage,
+        'nominated': Aspirants.objects.filter(nominate=True, name__school=request.user.voters.school),
+        'male_reg_voters': registered_voters.filter(registered=True, gender='Male', school=request.user.voters.school).count(),
+        'female_reg_voters': registered_voters.filter(registered=True, gender='Female', school=request.user.voters.school).count(),
+        'TotalRegVoters': Voters.objects.filter(school=request.user.voters.school, registered=True).all(),
     }    
     return render(request, 'voters/homepage.html', context)
 
