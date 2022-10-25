@@ -250,11 +250,11 @@
 								
 								<div class="card-body">
 									<h5 class="card-title">Registered Voters per school</h5>
-									<div id="reportsChart"></div>
+									<div id="RegVotersChart"></div>
 
 									<script>
 										document.addEventListener("DOMContentLoaded", () => {
-										new ApexCharts(document.querySelector("#reportsChart"), {
+										new ApexCharts(document.querySelector("#RegVotersChart"), {
 											series: [{
 											name: 'SSAES',
 											data: [31, 40, 28, 51, 42, 82, 56],
@@ -529,8 +529,8 @@
 											{{male_reg_voters}}, {{female_reg_voters}}
 										],
 										backgroundColor: [
-										'#09ac52',
-										'#ec0b0b',
+											'#09ac52',
+											'#ec0b0b',
 										],
 										hoverOffset: 4
 									}]
