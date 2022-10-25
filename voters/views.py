@@ -128,7 +128,6 @@ def homepage_view(request):
         'polled': pollers, 'reg_voters': registered_voters, 'user_has_polled': polled_obj, 'polls': polls,
         'percentage': polls_percentage, 'nominated': Aspirants.objects.filter(nominate=True, name__school=request.user.voters.school),
 
-
     }    
     return render(request, 'voters/homepage.html', context)
 

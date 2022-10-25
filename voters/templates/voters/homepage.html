@@ -172,7 +172,7 @@
 										<div class="activity">
 											{% for blog in blogs %}
 											<div class="activity-item d-flex">
-												<div class="activity-label">{{ blog.written|timesince|slice:":6" }}</div>
+												<div class="activity-label">{{ blog.written|timesince|slice:":4" }}</div>
 												<img src="{{ blog.blogger.pic.url }}" class="rounded-circle activity-badge align-self-start mt-3" height="50px" width="50px" alt="">
 												<div class="activity-content">
 													<a href="{% url 'voters_homepage' %}" class="fw-bold text-dark" data-bs-toggle="modal" data-bs-target="#all-blogs">
