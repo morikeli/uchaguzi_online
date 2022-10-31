@@ -237,7 +237,6 @@
 			</li>
 
 			<li class="nav-item">
-				{% if nominated %}
 				{% if user_has_polled == "" %}
 				<a href="{% url 'poll' request.user.voters.id request.user.voters.school %}" target="_blank" class="nav-link">
 					<i class="bi-bar-chart-line-fill"></i><span>Election Polls</span>
@@ -245,7 +244,6 @@
 				<a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#modal-polls">
 					<i class="bi bi-bar-chart-line-fill"></i><span>Election Polls</span>
 				</a>
-				{% endif %}
 				{% endif %}
 			</li>
 			

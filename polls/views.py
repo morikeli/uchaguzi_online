@@ -56,7 +56,7 @@ def polling_view(request, pk, school):
             return redirect('poll', pk, school)        
 
 
-    nominated_aspirants = Polls.objects.all().order_by('post', 'name')
+    nominated_aspirants = Polls.objects.filter(name__name__school=request.user.voters.voter).order_by('post', 'name')
     
     context = {'aspirants': nominated_aspirants, 'UserhasPolled': polled_obj}
     return render(request, 'polls/polls.html', context)

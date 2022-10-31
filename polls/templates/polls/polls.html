@@ -29,6 +29,7 @@
 							<h4></h4>
 						</div>
 					</div>
+					{% if aspirants %}
                     <div class="card">
                         <div class="card-body profile-card pt-3 d-flex flex-column align-items-center">
                             <table class="table table-condensed table-striped">
@@ -116,6 +117,7 @@
                             </table>
                         </div>
                     </div>
+					{% endif %}
 				</div>
 
 				<div class="col-xl-8">
@@ -295,7 +297,7 @@
 								</div>
 								{% else %}
 								<div class="pt-3 text-center">
-									<i class="bi-check-circle-fill" style="font-size: 50px; color: #13bb46; text-align: center;"></i>
+									<i class="bi-exclamation-triangle-fill" style="font-size: 50px; color: #ffc107; text-align: center;"></i>
 								</div>
 								{% endif %}
 							</div>
@@ -477,7 +479,7 @@
 								</div>
 								{% else %}
 								<div class="pt-3 text-center">
-									<i class="bi-check-circle-fill" style="font-size: 50px; color: #13bb46; text-align: center;"></i>
+									<i class="bi-exclamation-triangle-fill" style="font-size: 50px; color: #ffc107; text-align: center;"></i>
 								</div>
 								{% endif %}
 							</div>
