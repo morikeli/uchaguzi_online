@@ -130,7 +130,9 @@ class UploadNominationForm(forms.ModelForm):
     bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'mb-2'}), label='Your Manifesto',  disabled=True)
     post = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), choices=SELECT_ELECTORAL_POST, disabled=True)
     slogan = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}), label='Your slogan', disabled=True)
-    form = forms.FileField(widget=forms.FileInput(attrs={'type': 'file', 'class': 'mb-1'}), help_text='Upload nomination form. <b> NB: Only ".pdf" files can be uploaded.</b>', validators=[FileExtensionValidator(['doc', 'docx', 'odt', 'pdf'])])
+    form = forms.FileField(widget=forms.FileInput(attrs={'type': 'file', 'class': 'mb-1'}), 
+        help_text='Upload nomination form. <b> NB: Only ".doc", ".docx", ".odt", ".pdf" files can be uploaded.</b>', 
+        validators=[FileExtensionValidator(['doc', 'docx', 'odt', 'pdf'])])
     
     class Meta:
         model = Aspirants

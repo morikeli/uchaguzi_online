@@ -76,17 +76,15 @@
 					<div class="card">
 						<div class="card-body pt-3">
 							<ul class="nav nav-tabs nav-tabs-bordered">
-								{% if request.user.voters.aspirants.name != "" %}
 								<li class="nav-item">
 									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#manifesto">
 										Manifesto
                                     </button>
 								</li>
-								{% endif %}
 								<li class="nav-item">
 									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#preview">
 										{% if request.user.voters.aspirants.name == "" %}
-										Apply <i class="bi-info-circle-fill" style="color: #18d26c"></i>
+										Apply here <i class="bi-info-circle-fill" style="color: #18d26c"></i>
 										{% else %}
 										Preview
 										{% endif %}
@@ -96,7 +94,7 @@
 							</ul>
 							<div class="tab-content pt-2">
 								{% include 'messages.html' %}
-								<div class="tab-pane fade show active profile-edit pt-3" id="manifesto">
+								<div class="tab-pane fade show active pt-3" id="manifesto">
 									{% if request.user.voters.aspirants.name != "" %}
 									<p class="small fst-italic">
 										{{ request.user.voters.aspirants.bio }}<br>
@@ -109,11 +107,15 @@
 										</a>
 										{% endif %}
 									</div>
+									{% else %}
+										<p class="small fst-italic text-muted text-center">
+											Your manifesto will be displayed here.
+										</p>
 									{% endif %}
 								</div>
 
-								<div class="tab-pane fade show  pt-3" id="preview">
-									{% if request.user.voters.aspirants.form.url is not None %}
+								<div class="tab-pane fade show pt-3" id="preview">
+									{% if request.user.voters.aspirants.form.url is not None and request.user.voters.aspirants.name != "" %}
 									<div class="pt-3 text-center">
 										<i class="bi-check-circle-fill" style="font-size: 50px; color: #13bb46; text-align: center;"></i>
 										<hr class="dropdown-divider">
