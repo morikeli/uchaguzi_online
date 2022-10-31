@@ -402,7 +402,7 @@ h1, h2, h3, h4, h5, h6 {
   	transform: scale(1.08);
 }
 #hero .icon-box:hover .title a {
-  	color: #2487ce;
+  	color: #18d26e;
 }
 @media (min-width: 1024px) {
 	#hero {

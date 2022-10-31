@@ -20,8 +20,9 @@ def indexpage_view(request):
 
     context = {
         'nominated_aspirants': nom_aspirants, 'nominatedAspirants_CurrentUser': nominated_aspirants_sch,
-        'nom': Aspirants.objects.filter(nominate=True).count(), 'reg': Voters.objects.filter(registered=True).count(),
-        'asp': Aspirants.objects.all().count(),
+        'TotalNominatedAspirants': Aspirants.objects.filter(nominate=True).count(),
+        'TotalRegisteredVoters': Voters.objects.filter(registered=True).count(),
+        'TotalAspirants': Aspirants.objects.all().count(),
         }
     return render(request, 'index.html', context)
 
