@@ -1040,7 +1040,7 @@ section {
   	margin-top: 40px;
 }
 .contact .info .email:hover i, .contact .info .address:hover i, .contact .info .phone:hover i {
-	background: #2487ce;
+	background: rgba(19, 187, 70, 0.4);
 	color: #fff;
 }
 .contact .php-email-form {
@@ -1111,7 +1111,7 @@ section {
 	border-radius: 4px;
 }
 .contact .php-email-form button[type=submit]:hover {
-  	background: #3194db;
+	background: rgba(19, 187, 70, 0.4);
 }
 @-webkit-keyframes animate-loading {
 	0% {

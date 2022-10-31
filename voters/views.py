@@ -16,7 +16,7 @@ def indexpage_view(request):
     if request.user.is_authenticated:
         nominated_aspirants_sch = Aspirants.objects.filter(nominate=True, name__school=request.user.voters.school).all().order_by('post')
 
-    nom_aspirants = Aspirants.objects.filter(nominate=False).all()
+    nom_aspirants = Aspirants.objects.filter(nominate=True).all()
 
     context = {
         'nominated_aspirants': nom_aspirants, 'nominatedAspirants_CurrentUser': nominated_aspirants_sch,
