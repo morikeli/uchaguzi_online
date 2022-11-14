@@ -6,7 +6,7 @@ from .forms import (
     LoginForm, SignupForm, VoterRegistrationForm, EditProfileForm, ElectoralPostApplicationForm, UploadNominationForm,
     BlogForm
     )
-from .models import Voters, Aspirants, Blog
+from .models import Voters, Aspirants, Blog, Voted
 from polls.models import Polled, Polls
 from datetime import datetime
 
@@ -176,7 +176,7 @@ def electoralpost_view(request, id, aspirant_name):
     context = {'application_form': contest_form, 'nomination_form': nomination_form}
     return render(request, 'voters/aspirant.html', context)
 
-def polling_view(request, pk, school):
+def voting_view(request, pk, school):
     try:
         voted_obj = Voted.objects.get(user_id=pk)
     except Voted.DoesNotExist:
@@ -227,7 +227,7 @@ def polling_view(request, pk, school):
 
     nominated_aspirants = Polls.objects.filter(name__name__school=request.user.voters.voter).order_by('post', 'name')
     
-    context = {'aspirants': nominated_aspirants, 'UserhasPolled': polled_obj}
+    context = {'aspirants': nominated_aspirants, 'UserhasPolled': voted_obj}
     return render(request, 'voters/voting.html', context)
 
 

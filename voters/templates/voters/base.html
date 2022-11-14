@@ -272,7 +272,7 @@
 			</li>
 			{% endif %}
 			<li class="nav-item">
-				<a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#modal-elections">
+				<a class="nav-link" href="{% url 'elect_leaders' request.user.voters.id request.user.voters.school %}" target="_blank">
 					<i class="bi bi-archive-fill"></i><span>Vote</span>
 				</a>
 			</li>
