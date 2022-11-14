@@ -10,7 +10,7 @@ class Voters(models.Model):
     phone_no = models.CharField(max_length=14, blank=False)
     age = models.PositiveIntegerField(default=0, editable=False)
     dob = models.DateField(null=True, blank=False)
-    profile_pic = models.ImageField(upload_to='VotersDps/', default='default.jpg')
+    profile_pic = models.ImageField(upload_to='VotersDps/', default='default.png')
     reg_no = models.CharField(max_length=14, blank=False)
     school = models.CharField(max_length=70, blank=False)
     year = models.CharField(max_length=12, blank=False)

@@ -186,15 +186,23 @@ def voting_view(request, pk, school):
         form = request.POST['vote']
 
         if Voted.objects.filter(user_id=request.user.voters).exists():
-            return redirect('poll', pk, school)
+            return redirect('elect_leaders', pk, school)
         else:
             elected_aspirant = Aspirants.objects.get(id=form)
             elected_aspirant.votes += 1
-
-            total_voters = Voters.objects.filter(registered=True, school=request.user.voters.school).count()
-
+            # print(f'Form: {form} | Elected Aspirant: {elected_aspirant}')
             voting_user = Voted.objects.filter(user_id=pk).exists()
-            if voting_user is True:
+            if voting_user is False:
+                new_record = Voted.objects.create(user_id=pk)
+                if elected_aspirant.post == 'Academic Representative':
+                    new_record.academic = True
+                elif elected_aspirant.post == 'General Academic Representative':
+                    new_record.general_rep = True
+                elif elected_aspirant.post == 'Ladies Representative':
+                    new_record.ladies_rep = True
+                new_record.save()
+
+            else:
                 if elected_aspirant.post == 'Academic Representative':
                     voted_obj.academic = True
                 elif elected_aspirant.post == 'General Academic Representative':
@@ -209,24 +217,10 @@ def voting_view(request, pk, school):
                     voted_obj.president = True 
                 voted_obj.save()   
             
-            else:
-                voting_user = Voted.objects.create(user_id=pk)
-                if elected_aspirant.post == 'Academic Representative':
-                    voting_user.academic = True
-                elif elected_aspirant.post == 'General Academic Representative':
-                    voting_user.general_rep = True
-                elif elected_aspirant.post == 'Ladies Representative':
-                    voting_user.ladies_rep = True
-                
-                voting_user.save()
-
             elected_aspirant.save()
-            return redirect('poll', pk, school)        
-
+            return redirect('elect_leaders', pk, school)        
 
     nominated_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school).order_by('post', 'name')
-    print('Awesome')
-    print(f'Nominated Aspirants: {nominated_aspirants} |', 'Awesome')
     context = {'aspirants': nominated_aspirants, 'UserhasPolled': voted_obj}
     return render(request, 'voters/voting.html', context)
 
