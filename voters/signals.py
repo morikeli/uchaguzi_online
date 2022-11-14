@@ -1,7 +1,7 @@
 from django.db.models.signals import pre_save, post_save
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from .models import Voters, Aspirants, Blog
+from .models import Voters, Aspirants, Blog, Voted
 from datetime import datetime
 import uuid
 
@@ -39,6 +39,11 @@ def generate_aspirant_id(sender, instance, **kwargs):
 def generate_blogId(sender, instance, **kwargs):
     if instance.id == "":
         instance.id = str(uuid.uuid4()).replace('-', '')[:15]
+
+@receiver(pre_save, sender=Voted)
+def generate_VotedId(sender, instance, **kwargs):
+    if instance.id == "":
+        instance.id = str(uuid.uuid4()).upper().swapcase().replace('-', '')[:18]
 
 @receiver(post_save, sender=User)
 def profile_signal(sender, instance, created, **kwargs):
