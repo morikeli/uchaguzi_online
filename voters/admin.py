@@ -15,4 +15,4 @@ class BlogTable(admin.ModelAdmin):
 
 @admin.register(Voted)
 class VotedTable(admin.ModelAdmin):
-    list_display = ['academic', 'general_rep', 'ladies_rep', 'treasurer', 'governor', 'president']
+    list_display = ['id', 'academic', 'general_rep', 'ladies_rep', 'treasurer', 'governor', 'president']
