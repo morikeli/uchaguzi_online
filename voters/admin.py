@@ -7,7 +7,7 @@ class VotersTable(admin.ModelAdmin):
 
 @admin.register(Aspirants)
 class AspirantsTable(admin.ModelAdmin):
-    list_display = ['name', 'post', 'slogan', 'nominate']
+    list_display = ['name', 'post', 'slogan', 'nominate', 'votes']
 
 @admin.register(Blog)
 class BlogTable(admin.ModelAdmin):
