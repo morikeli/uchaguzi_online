@@ -189,13 +189,12 @@ def voting_view(request, pk, school):
             return redirect('poll', pk, school)
         else:
             elected_aspirant = Aspirants.objects.get(id=form)
-            elected_aspirant.total_polls += 1
+            elected_aspirant.votes += 1
 
             total_voters = Voters.objects.filter(registered=True, school=request.user.voters.school).count()
-            elected_aspirant.percentage = (round(elected_aspirant.total_polls/total_voters, 3))*100
 
             voting_user = Voted.objects.filter(user_id=pk).exists()
-            if polled_user is True:
+            if voting_user is True:
                 if elected_aspirant.post == 'Academic Representative':
                     voted_obj.academic = True
                 elif elected_aspirant.post == 'General Academic Representative':
@@ -219,7 +218,7 @@ def voting_view(request, pk, school):
                 elif elected_aspirant.post == 'Ladies Representative':
                     voting_user.ladies_rep = True
                 
-                polling_user.save()
+                voting_user.save()
 
             elected_aspirant.save()
             return redirect('poll', pk, school)        
