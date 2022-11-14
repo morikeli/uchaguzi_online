@@ -194,7 +194,7 @@ def voting_view(request, pk, school):
             total_voters = Voters.objects.filter(registered=True, school=request.user.voters.school).count()
             elected_aspirant.percentage = (round(elected_aspirant.total_polls/total_voters, 3))*100
 
-            polled_user = Polled.objects.filter(user_id=pk).exists()
+            voting_user = Voted.objects.filter(user_id=pk).exists()
             if polled_user is True:
                 if elected_aspirant.post == 'Academic Representative':
                     voted_obj.academic = True
@@ -225,11 +225,11 @@ def voting_view(request, pk, school):
             return redirect('poll', pk, school)        
 
 
-    nominated_aspirants = Polls.objects.filter(name__name__school=request.user.voters.voter).order_by('post', 'name')
-    
+    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school).order_by('post', 'name')
+    print('Awesome')
+    print(f'Nominated Aspirants: {nominated_aspirants} |', 'Awesome')
     context = {'aspirants': nominated_aspirants, 'UserhasPolled': voted_obj}
     return render(request, 'voters/voting.html', context)
-
 
 
 class LogoutVoter(LogoutView):
