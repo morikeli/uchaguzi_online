@@ -1,4 +1,4 @@
-#!/home/bro_code/Documents/Coding/Django/uchaguzi_online/env/bin/python3
+#!/home/bro_code/Documents/Coding/Django/uchaguzi_online/env/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

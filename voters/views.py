@@ -176,5 +176,61 @@ def electoralpost_view(request, id, aspirant_name):
     context = {'application_form': contest_form, 'nomination_form': nomination_form}
     return render(request, 'voters/aspirant.html', context)
 
+def polling_view(request, pk, school):
+    try:
+        voted_obj = Voted.objects.get(user_id=pk)
+    except Voted.DoesNotExist:
+        voted_obj = ''
+
+    if request.method == 'POST':
+        form = request.POST['vote']
+
+        if Voted.objects.filter(user_id=request.user.voters).exists():
+            return redirect('poll', pk, school)
+        else:
+            elected_aspirant = Aspirants.objects.get(id=form)
+            elected_aspirant.total_polls += 1
+
+            total_voters = Voters.objects.filter(registered=True, school=request.user.voters.school).count()
+            elected_aspirant.percentage = (round(elected_aspirant.total_polls/total_voters, 3))*100
+
+            polled_user = Polled.objects.filter(user_id=pk).exists()
+            if polled_user is True:
+                if elected_aspirant.post == 'Academic Representative':
+                    voted_obj.academic = True
+                elif elected_aspirant.post == 'General Academic Representative':
+                    voted_obj.general_rep = True
+                elif elected_aspirant.post == 'Ladies Representative':
+                    voted_obj.ladies_rep = True
+                elif elected_aspirant.post == 'Treasurer':
+                    voted_obj.treasurer = True
+                elif elected_aspirant.post == 'Governor':
+                    voted_obj.governor = True
+                elif elected_aspirant.post == 'President':
+                    voted_obj.president = True 
+                voted_obj.save()   
+            
+            else:
+                voting_user = Voted.objects.create(user_id=pk)
+                if elected_aspirant.post == 'Academic Representative':
+                    voting_user.academic = True
+                elif elected_aspirant.post == 'General Academic Representative':
+                    voting_user.general_rep = True
+                elif elected_aspirant.post == 'Ladies Representative':
+                    voting_user.ladies_rep = True
+                
+                polling_user.save()
+
+            elected_aspirant.save()
+            return redirect('poll', pk, school)        
+
+
+    nominated_aspirants = Polls.objects.filter(name__name__school=request.user.voters.voter).order_by('post', 'name')
+    
+    context = {'aspirants': nominated_aspirants, 'UserhasPolled': polled_obj}
+    return render(request, 'voters/voting.html', context)
+
+
+
 class LogoutVoter(LogoutView):
     template_name = 'voters/logout.html'
