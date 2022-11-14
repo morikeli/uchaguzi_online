@@ -53,7 +53,7 @@ def polling_view(request, pk, school):
                 polling_user.save()
 
             elected_aspirant.save()
-            return redirect('poll', pk, school)        
+            return redirect('poll', pk, school)       
 
 
     nominated_aspirants = Polls.objects.filter(name__name__school=request.user.voters.voter).order_by('post', 'name')

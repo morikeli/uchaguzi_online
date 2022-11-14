@@ -1,0 +1,496 @@
+{% extends 'voters/base.html' %}{% block title %}Polls{% endblock %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+</head>
+<body>
+	{% block content %}
+	<main id="main" class="main">
+		<section class="section profile">
+			<div class="row">
+				<div class="col-xl-4">
+					<div class="card">
+						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+							<img src="{{request.user.voters.profile_pic.url}}" alt="Profile" class="rounded-circle">
+							<h2>
+								{{ request.user.voters.voter|title }}
+								{% if request.user.voters.registered is True %}
+								<i class="bi-check-circle-fill" style="color: #18d26c;"></i>
+								{% if request.user.voters.aspirants.nominate is True %}
+								<i class="bi-award-fill" style="color: #df1d1d;"></i>
+								{% endif %}
+								{% endif %}
+							</h2>
+							<h3>{{ request.user.voters.gender }}</h3>
+							<h3>{{ request.user.voters.year }} | {{ request.user.voters.reg_no }}</h4>
+							<h4></h4>
+						</div>
+					</div>
+					{% if aspirants %}
+                    <div class="card">
+                        <div class="card-body profile-card pt-3 d-flex flex-column align-items-center">
+                            <table class="table table-condensed table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Electoral Post</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Academic Rep.</td>
+										<td>
+											<span class="badge bg-primary">
+												{% if UserhasPolled.academic is True %}
+												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
+												{% else %}
+												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+												{% endif %}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td>General Acad. Rep.</td>
+										<td>
+											<span class="badge bg-primary">
+												{% if UserhasPolled.general_rep is True %}
+												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
+												{% else %}
+												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+												{% endif %}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td>Ladies Rep.</td>
+										<td>
+											<span class="badge bg-primary">
+												{% if UserhasPolled.ladies_rep is True %}
+												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
+												{% else %}
+												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+												{% endif %}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td>Treasurer</td>
+										<td>
+											<span class="badge bg-primary">
+												{% if UserhasPolled.treasurer is True %}
+												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
+												{% else %}
+												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+												{% endif %}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td>Governor</td>
+										<td>
+											<span class="badge bg-primary">
+												{% if UserhasPolled.governor is True %}
+												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
+												{% else %}
+												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+												{% endif %}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td>President</td>
+										<td>
+											<span class="badge bg-primary">
+												{% if UserhasPolled.president is True %}
+												Voted <i class="bi-check-circle-fill" style="color: #18d26e;"></i>
+												{% else %}
+												Pending <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+												{% endif %}
+											</span>
+										</td>
+									</tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+					{% endif %}
+				</div>
+
+				<div class="col-xl-8">
+					<div class="card">
+						<div class="card-body pt-3">
+							<ul class="nav nav-tabs nav-tabs-bordered">
+								{% if aspirants %}
+
+								<li class="nav-item">
+									<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#academic-rep">
+										Academic Rep. {% if UserhasPolled.academic is True %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
+									</button>
+								</li>
+
+								<li class="nav-item">
+									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#gen-rep">
+										Gen. Rep. {% if UserhasPolled.general_rep is True %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
+									</button>
+								</li>
+
+								<li class="nav-item">
+									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#ladies-rep">
+										Ladies Rep. {% if UserhasPolled.ladies_rep is True %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
+									</button>
+								</li>
+								{% else %}
+								<li class="nav-item">
+									<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#404">No aspirants available</button>
+								</li>
+								{% endif %}
+							</ul>
+							<div class="tab-content pt-2">
+								{% if aspirants %}
+								<div class="tab-pane fade show active" id="academic-rep">
+									{% if UserhasPolled.academic is True %}
+									<div class="pt-3 text-center">
+										<i class="bi-check-circle-fill" style="font-size: 50px; color: #13bb46; text-align: center;"></i>
+										<hr class="dropdown-divider">
+										<small class="fw-bold">Remember to view poll results at your homepage once you have voted for all aspirants.</small>
+									</div>
+									{% else %}
+									<form action="" method="post">
+										{% csrf_token %}
+										<div class="row mb-2">
+											<div class="col-md-8 col-lg-12">
+												<div class="table-responsive">
+													<table class="table table-sm table-bordered table-condensed text-center">
+														<thead>
+															<tr>
+																<th>Image</th>
+																<th>Details</th>
+																<th>Vote</th>
+															</tr>
+														</thead>
+														<tbody>
+															{% for aspirant in aspirants %}
+															{% if aspirant.post == "Academic Representative" %}
+															<tr class="p-3">
+																<td>
+																	<img src="{{ aspirant.name.pic.url }}" class="rounded-circle" height="70px" width="70px" alt="img">
+																</td>
+																<td class="text-start">
+																	<h6>Name: <b>{{ aspirant.name|title }}</b></h5>
+																	<h6>Post: <b>{{ aspirant.post }}</b></h5>
+																	<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h5>
+																</td>
+																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}" required></td>
+															</tr>
+															{% endif %}
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="d-grid gap-2">
+											<button type="submit" class="btn btn-success"><i class="bi-save-fill"></i> Cast Vote</button>
+										</div>
+									</form>
+									{% endif %}
+								</div>
+
+								<div class="tab-pane fade pt-3" id="gen-rep">
+									{% if UserhasPolled.general_rep is True %}
+									<div class="pt-3 text-center">
+										<i class="bi-check-circle-fill" style="font-size: 50px; color: #13bb46; text-align: center;"></i>
+									</div>
+									{% else %}
+									<form action="" method="post">
+										{% csrf_token %}
+										<div class="row mb-2">
+											<div class="col-md-8 col-lg-12">
+												<div class="table-responsive">
+													<table class="table table-sm table-bordered table-condensed text-center">
+														<thead>
+															<tr>
+																<th>Image</th>
+																<th>Details</th>
+																<th>Vote</th>
+															</tr>
+														</thead>
+														<tbody>
+															{% for aspirant in aspirants %}
+															{% if aspirant.post == "General Academic Representative" %}
+															<tr class="p-3">
+																<td>
+																	<img src="{{ aspirant.name.pic.url }}" class="rounded-circle" height="70px" width="70px" alt="img">
+																</td>
+																<td class="text-start">
+																	<h6>Name: <b>{{ aspirant.name|title }}</b></h5>
+																	<h6>Post: <b>{{ aspirant.post }}</b></h5>
+																	<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h5>
+																</td>
+																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}" required></td>
+															</tr>
+															{% endif %}
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="text-center d-grid gap-2">
+											<button type="submit" class="btn btn-success"><i class="bi-save-fill"></i> Cast Vote</button>
+										</div>
+									</form>
+									{% endif %}
+								</div>
+
+								<div class="tab-pane fade pt-3" id="ladies-rep">
+									{% if UserhasPolled.ladies_rep is True %}
+									<div class="pt-3 text-center">
+										<i class="bi-check-circle-fill" style="font-size: 50px; color: #13bb46; text-align: center;"></i>
+									</div>
+									{% else %}
+									<form action="" method="post">
+                                        {% csrf_token %}
+										<div class="row mb-2">
+                                            <div class="col-md-8 col-lg-12">
+                                                <div class="table-responsive">
+													<table class="table table-sm table-bordered table-condensed text-center">
+														<thead>
+															<tr>
+																<th>Image</th>
+																<th>Details</th>
+																<th>Vote</th>
+															</tr>
+														</thead>
+														<tbody>
+															{% for aspirant in aspirants %}
+															{% if aspirant.post == "Ladies Representative" %}
+															<tr class="p-3">
+																<td>
+																	<img src="{{ aspirant.name.pic.url }}" class="rounded-circle" height="70px" width="70px" alt="img">
+																</td>
+																<td class="text-start">
+																	<h6>Name: <b>{{ aspirant.name|title }}</b></h5>
+																	<h6>Post: <b>{{ aspirant.post }}</b></h5>
+																	<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h5>
+																</td>
+																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}" required></td>
+															</tr>
+															{% endif %}
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+                                            </div>
+                                        </div>
+										<div class="text-center">
+											<div class="d-grid gap-2">
+												<button type="submit" class="btn btn-success"><i class="bi-save-fill"></i> Vote</button>
+											</div>
+										</div>
+									</form>
+									{% endif %}
+								</div>
+								{% else %}
+								<div class="pt-3 text-center">
+									<i class="bi-exclamation-triangle-fill" style="font-size: 50px; color: #ffc107; text-align: center;"></i>
+								</div>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+					{% if UserhasPolled.academic is True and UserhasPolled.general_rep is True and UserhasPolled.ladies_rep is True %}
+					<div class="card">
+						<div class="card-body pt-3">
+							<ul class="nav nav-tabs nav-tabs-bordered">
+								{% if aspirants %}
+
+								<li class="nav-item">
+									<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#treasurer">
+										Treasurer {% if UserhasPolled.treasurer is True %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
+									</button>
+								</li>
+
+								<li class="nav-item">
+									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#governor">
+										Governor {% if UserhasPolled.governor is True %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
+									</button>
+								</li>
+
+								<li class="nav-item">
+									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#president">
+										President {% if UserhasPolled.president is True %}<i class="bi-check-circle-fill" style="color: #18d26e;"></i>{% else %} <i class="bi-x-circle-fill" style="color: #df1d1d;"></i>{% endif %}
+									</button>
+								</li>
+								{% else %}
+								<li class="nav-item">
+									<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#404">No aspirants available</button>
+								</li>
+								{% endif %}
+							</ul>
+
+							<div class="tab-content pt-2">
+								{% if aspirants %}
+								<div class="tab-pane fade show active" id="treasurer">
+									{% if UserhasPolled.treasurer is True %}
+									<div class="pt-3 text-center">
+										<i class="bi-check-circle-fill" style="font-size: 50px; color: #13bb46; text-align: center;"></i>
+									</div>
+									{% else %}
+									<form action="" method="post">
+										{% csrf_token %}
+										<div class="row mb-2">
+											<div class="col-md-8 col-lg-12">
+												<div class="table-responsive">
+													<table class="table table-sm table-bordered table-condensed text-center">
+														<thead>
+															<tr>
+																<th>Image</th>
+																<th>Details</th>
+																<th>Vote</th>
+															</tr>
+														</thead>
+														<tbody>
+															{% for aspirant in aspirants %}
+															{% if aspirant.post == "Treasurer" %}
+															<tr class="p-3">
+																<td>
+																	<img src="{{ aspirant.name.pic.url }}" class="rounded-circle" height="70px" width="70px" alt="img">
+																</td>
+																<td class="text-start">
+																	<h6>Name: <b>{{ aspirant.name|title }}</b></h5>
+																	<h6>Post: <b>{{ aspirant.post }}</b></h5>
+																	<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h5>
+																</td>
+																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}" required></td>
+															</tr>
+															{% endif %}
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="d-grid gap-2">
+											<button type="submit" class="btn btn-success"><i class="bi-save-fill"></i> Cast Vote</button>
+										</div>
+									</form>
+									{% endif %}
+								</div>
+
+								<div class="tab-pane fade pt-3" id="governor">
+									{% if UserhasPolled.governor is True %}
+									<div class="pt-3 text-center">
+										<i class="bi-clock-fill" style="font-size: 50px; color: #13bb46; text-align: center;"></i>
+									</div>
+									{% else %}
+									<form action="" method="post">
+										{% csrf_token %}
+										<div class="row mb-2">
+											<div class="col-md-8 col-lg-12">
+												<div class="table-responsive">
+													<table class="table table-sm table-bordered table-condensed text-center">
+														<thead>
+															<tr>
+																<th>Image</th>
+																<th>Details</th>
+																<th>Vote</th>
+															</tr>
+														</thead>
+														<tbody>
+															{% for aspirant in aspirants %}
+															{% if aspirant.post == "Governor" %}
+															<tr class="p-3">
+																<td>
+																	<img src="{{ aspirant.name.pic.url }}" class="rounded-circle" height="70px" width="70px" alt="img">
+																</td>
+																<td class="text-start">
+																	<h6>Name: <b>{{ aspirant.name|title }}</b></h5>
+																	<h6>Post: <b>{{ aspirant.post }}</b></h5>
+																	<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h5>
+																</td>
+																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}" required></td>
+															</tr>
+															{% endif %}
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										<div class="text-center d-grid gap-2">
+											<button type="submit" class="btn btn-success"><i class="bi-save-fill"></i> Cast Vote</button>
+										</div>
+									</form>
+									{% endif %}
+								</div>
+
+								<div class="tab-pane fade pt-3" id="president">
+									{% if UserhasPolled.president is True %}
+									<div class="pt-3 text-center">
+										<i class="bi-check-circle-fill" style="font-size: 50px; color: #13bb46; text-align: center;"></i>
+									</div>
+									{% else %}
+									<form action="" method="post">
+                                        {% csrf_token %}
+										<div class="row mb-2">
+                                            <div class="col-md-8 col-lg-12">
+                                                <div class="table-responsive">
+													<table class="table table-sm table-bordered table-condensed text-center">
+														<thead>
+															<tr>
+																<th>Image</th>
+																<th>Details</th>
+																<th>Vote</th>
+															</tr>
+														</thead>
+														<tbody>
+															{% for aspirant in aspirants %}
+															{% if aspirant.post == "President" %}
+															<tr class="p-3">
+																<td>
+																	<img src="{{ aspirant.name.pic.url }}" class="rounded-circle" height="70px" width="70px" alt="img">
+																</td>
+																<td class="text-start">
+																	<h6>Name: <b>{{ aspirant.name|title }}</b></h5>
+																	<h6>Post: <b>{{ aspirant.post }}</b></h5>
+																	<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h5>
+																</td>
+																<td class="pt-4"><input type="radio" name="vote" value="{{ aspirant.id }}" required></td>
+															</tr>
+															{% endif %}
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+                                            </div>
+                                        </div>
+										<div class="text-center">
+											<div class="d-grid gap-2">
+												<button type="submit" class="btn btn-success"><i class="bi-save-fill"></i> Vote</button>
+											</div>
+										</div>
+									</form>
+									{% endif %}
+								</div>
+								{% else %}
+								<div class="pt-3 text-center">
+									<i class="bi-exclamation-triangle-fill" style="font-size: 50px; color: #ffc107; text-align: center;"></i>
+								</div>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+					{% endif %}
+
+				</div>
+			</div>
+		</section>
+	</main>
+	{% endblock %}
+</body>
+</html>

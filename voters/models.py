@@ -81,3 +81,26 @@ class Blog(models.Model):
     
     def __str__(self):
         return f'{self.message}'[:20]
+
+
+class Voted(models.Model):
+    id = models.CharField(max_length=18, editable=False, primary_key=True, unique=True)
+    user_id = models.CharField(max_length=20, editable=False)
+    academic = models.BooleanField(default=False, blank=False, editable=False)
+    general_rep = models.BooleanField(default=False, editable=False)
+    ladies_rep = models.BooleanField(default=False, editable=False)
+    treasurer = models.BooleanField(default=False, editable=False)
+    governor = models.BooleanField(default=False, editable=False)
+    president = models.BooleanField(default=False, editable=False)
+    polled = models.DateTimeField(auto_now_add=True)
+    edited = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.user_id}'
+
+    def save(self, *args, **kwargs):
+        return super(Voted, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name_plural = 'Voted'
+
