@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Voters, Aspirants, Blog
+from .models import Voters, Aspirants, Blog, Voted
 
 @admin.register(Voters)
 class VotersTable(admin.ModelAdmin):
@@ -12,3 +12,7 @@ class AspirantsTable(admin.ModelAdmin):
 @admin.register(Blog)
 class BlogTable(admin.ModelAdmin):
     list_display = ['blogger', 'message', 'written']
+
+@admin.register(Voted)
+class VotedTable(admin.ModelAdmin):
+    list_display = ['academic', 'general_rep', 'ladies_rep', 'treasurer', 'governor', 'president']
