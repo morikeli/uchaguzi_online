@@ -191,7 +191,7 @@ def voting_view(request, pk, school):
 
         current_voting_session = auth.authenticate(username=request.user.username, password=auth_password)
         verify_token = Voters.objects.get(id=pk)
-        print(f'Token: {auth_token} | Password: {auth_password}')
+        
         if current_voting_session is None and auth_token != verify_token:
             messages.error(request, 'Invalid Credentials! You have 3 tries left!')
             return redirect('elect_leaders', pk, school)
