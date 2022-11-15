@@ -11,6 +11,48 @@
 	<main id="main" class="main">
 		<section class="section profile">
 			<div class="row">
+				<div class="modal fade" id="auth-voter" tabindex="-1">
+					<div class="modal-dialog modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title"><i class="bi-"></i></h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<form action="" method="post">
+									{% csrf_token %}
+									<div class="col-md-12">
+										<div class="form-group">
+											<input type="text" placeholder="Enter your token ..." name="token" class="form-control">
+										</div>
+									</div>
+									<button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#auth-user">Verify</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="auth-user" tabindex="-1">
+					<div class="modal-dialog modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title"><i class="bi-"></i></h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<form action="" method="post">
+									{% csrf_token %}
+									<div class="col-md-12">
+										<div class="form-group">
+											<input type="text" placeholder="Enter your password ..." name="token" class="form-control">
+										</div>
+									</div>
+									<button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#auth-user">Submit</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="col-xl-4">
 					<div class="card">
 						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
