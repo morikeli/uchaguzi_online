@@ -1,4 +1,4 @@
-{% extends 'voters/base.html' %}{% block title %}Polls{% endblock %}
+{% extends 'voters/base.html' %}{% block title %}Voting page{% endblock %}
 {% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
@@ -11,6 +11,59 @@
 	<main id="main" class="main">
 		<section class="section profile">
 			<div class="row">
+				{% if user_is_authorized is False %}
+				<div class="modal fade" id="auth-voter" tabindex="-1">
+					<div class="modal-dialog modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title"><i class="bi-shield-fill-exclamation" style="color: #df1d1d;"></i> Access token verification</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<form action="" method="post">
+									{% csrf_token %}
+									<div class="col-md-12">
+										<div class="form-group">
+											<input type="password" placeholder="Enter your token ..." name="auth1" class="form-control">
+										</div>
+									</div>
+									<a href="" type="submit" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#auth-user">Verify</a>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal fade" id="auth-user" tabindex="-1">
+					<div class="modal-dialog modal-dialog-scrollable">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title"><i class="bi-shield-lock-fill" style="color: #ffc107;"></i> Password verification</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<form action="" method="post">
+									{% csrf_token %}
+									<div class="col-md-12">
+										<div class="form-group">
+											<input type="password" placeholder="Enter your password ..." name="auth2" class="form-control">
+										</div>
+									</div>
+									<button type="submit" class="btn btn-primary mt-2">Submit</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 offset-sm-3">
+					<div class="card">
+						<div class="card-body profile-card pt-1 text-center">
+							<h3 class="card-title text-start">Voting access panel</h3>
+							{% include 'messages.html' %}
+							<a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#auth-voter">Start</a>
+						</div>
+					</div>
+				</div>
+				{% else %}
 				<div class="col-xl-4">
 					<div class="card">
 						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
@@ -488,6 +541,7 @@
 					{% endif %}
 
 				</div>
+				{% endif %}
 			</div>
 		</section>
 	</main>

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
+from django.contrib import messages, auth
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import (
@@ -179,16 +179,23 @@ def electoralpost_view(request, id, aspirant_name):
 @login_required(login_url='voters_login')
 @user_passes_test(lambda user:user.is_staff is False and user.voters.registered is True)
 def voting_view(request, pk, school):
+    authorized = False
     try:
         voted_obj = Voted.objects.get(user_id=pk)
     except Voted.DoesNotExist:
         voted_obj = ''
 
     if request.method == 'POST':
-        form = request.POST['vote']
+        auth_token = request.POST.get('auth1')
+        auth_password = request.POST.get('auth2')
 
-        if Voted.objects.filter(user_id=request.user.voters).exists():
+        current_voting_session = auth.authenticate(username=request.user.username, password=auth_password)
+        verify_token = Voters.objects.get(id=pk)
+        
+        if current_voting_session is None and auth_token != verify_token:
+            messages.error(request, 'Invalid Credentials! You have 3 tries left!')
             return redirect('elect_leaders', pk, school)
+        
         else:
             elected_aspirant = Aspirants.objects.get(id=form)
             elected_aspirant.votes += 1
@@ -204,26 +211,43 @@ def voting_view(request, pk, school):
                     new_record.ladies_rep = True
                 new_record.save()
 
+            if Voted.objects.filter(user_id=request.user.voters).exists():
+                return redirect('elect_leaders', pk, school)
             else:
-                if elected_aspirant.post == 'Academic Representative':
-                    voted_obj.academic = True
-                elif elected_aspirant.post == 'General Academic Representative':
-                    voted_obj.general_rep = True
-                elif elected_aspirant.post == 'Ladies Representative':
-                    voted_obj.ladies_rep = True
-                elif elected_aspirant.post == 'Treasurer':
-                    voted_obj.treasurer = True
-                elif elected_aspirant.post == 'Governor':
-                    voted_obj.governor = True
-                elif elected_aspirant.post == 'President':
-                    voted_obj.president = True 
-                voted_obj.save()   
-            
-            elected_aspirant.save()
-            return redirect('elect_leaders', pk, school)        
+                elected_aspirant = Aspirants.objects.get(id=form)
+                elected_aspirant.votes += 1
+
+                voting_user = Voted.objects.filter(user_id=pk).exists()
+                if voting_user is False:
+                    new_record = Voted.objects.create(user_id=pk)
+                    if elected_aspirant.post == 'Academic Representative':
+                        new_record.academic = True
+                    elif elected_aspirant.post == 'General Academic Representative':
+                        new_record.general_rep = True
+                    elif elected_aspirant.post == 'Ladies Representative':
+                        new_record.ladies_rep = True
+                    new_record.save()
+
+                else:
+                    if elected_aspirant.post == 'Academic Representative':
+                        voted_obj.academic = True
+                    elif elected_aspirant.post == 'General Academic Representative':
+                        voted_obj.general_rep = True
+                    elif elected_aspirant.post == 'Ladies Representative':
+                        voted_obj.ladies_rep = True
+                    elif elected_aspirant.post == 'Treasurer':
+                        voted_obj.treasurer = True
+                    elif elected_aspirant.post == 'Governor':
+                        voted_obj.governor = True
+                    elif elected_aspirant.post == 'President':
+                        voted_obj.president = True 
+                    voted_obj.save()   
+                
+                elected_aspirant.save()
+                return redirect('elect_leaders', pk, school)        
 
     nominated_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school).order_by('post', 'name')
-    context = {'aspirants': nominated_aspirants, 'UserhasPolled': voted_obj}
+    context = {'aspirants': nominated_aspirants, 'UserhasPolled': voted_obj, 'user_is_authorized': authorized}
     return render(request, 'voters/voting.html', context)
 
 
