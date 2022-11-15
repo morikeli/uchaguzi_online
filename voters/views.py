@@ -192,7 +192,7 @@ def voting_view(request, pk, school):
         else:
             elected_aspirant = Aspirants.objects.get(id=form)
             elected_aspirant.votes += 1
-            # print(f'Form: {form} | Elected Aspirant: {elected_aspirant}')
+            
             voting_user = Voted.objects.filter(user_id=pk).exists()
             if voting_user is False:
                 new_record = Voted.objects.create(user_id=pk)
