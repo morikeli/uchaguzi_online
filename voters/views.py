@@ -176,6 +176,8 @@ def electoralpost_view(request, id, aspirant_name):
     context = {'application_form': contest_form, 'nomination_form': nomination_form}
     return render(request, 'voters/aspirant.html', context)
 
+@login_required(login_url='voters_login')
+@user_passes_test(lambda user:user.is_staff is False and user.voters.registered is True)
 def voting_view(request, pk, school):
     authorized = False
     try:
