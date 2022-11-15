@@ -1,4 +1,4 @@
-{% extends 'voters/base.html' %}{% block title %}Polls{% endblock %}
+{% extends 'voters/base.html' %}{% block title %}Voting page{% endblock %}
 {% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
@@ -11,6 +11,7 @@
 	<main id="main" class="main">
 		<section class="section profile">
 			<div class="row">
+				{% if user_is_authorized is False %}
 				<div class="modal fade" id="auth-voter" tabindex="-1">
 					<div class="modal-dialog modal-dialog-scrollable">
 						<div class="modal-content">
@@ -23,7 +24,7 @@
 									{% csrf_token %}
 									<div class="col-md-12">
 										<div class="form-group">
-											<input type="text" placeholder="Enter your token ..." name="token" class="form-control">
+											<input type="text" placeholder="Enter your token ..." name="auth1" class="form-control">
 										</div>
 									</div>
 									<button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#auth-user">Verify</button>
@@ -44,7 +45,7 @@
 									{% csrf_token %}
 									<div class="col-md-12">
 										<div class="form-group">
-											<input type="text" placeholder="Enter your password ..." name="token" class="form-control">
+											<input type="text" placeholder="Enter your password ..." name="auth2" class="form-control">
 										</div>
 									</div>
 									<button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#auth-user">Submit</button>
@@ -53,6 +54,10 @@
 						</div>
 					</div>
 				</div>
+				<div class="col-xl-4">
+
+				</div>
+				{% else %}
 				<div class="col-xl-4">
 					<div class="card">
 						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
@@ -530,6 +535,7 @@
 					{% endif %}
 
 				</div>
+				{% endif %}
 			</div>
 		</section>
 	</main>
