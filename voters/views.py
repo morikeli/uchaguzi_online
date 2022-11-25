@@ -203,6 +203,7 @@ def voting_view(request, pk, school):
 
         if Voted.objects.filter(user_id=request.user.voters).exists():
             return redirect('elect_leaders', pk, school)
+            
         else:
             elected_aspirant = Aspirants.objects.get(id=form)
             elected_aspirant.votes += 1

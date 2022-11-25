@@ -19,7 +19,7 @@ def polling_view(request, pk, school):
         if Polled.objects.filter(user_id=request.user.voters).exists():
             return redirect('poll', pk, school)
         else:
-            elected_aspirant = Polls.objects.get(id=form)
+            elected_aspirant = Polls.objects.get(name__id=form)
             elected_aspirant.total_polls += 1
 
             total_voters = Voters.objects.filter(registered=True, school=request.user.voters.school).count()
@@ -56,7 +56,7 @@ def polling_view(request, pk, school):
             return redirect('poll', pk, school)       
 
 
-    nominated_aspirants = Polls.objects.filter(name__name__school=request.user.voters.voter).order_by('post', 'name')
+    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school).order_by('post', 'name')
     
     context = {'aspirants': nominated_aspirants, 'UserhasPolled': polled_obj}
     return render(request, 'polls/polls.html', context)
