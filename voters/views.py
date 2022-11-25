@@ -179,7 +179,7 @@ def electoralpost_view(request, id, aspirant_name):
 
 @login_required(login_url='voters_login')
 @user_passes_test(lambda user:user.is_staff is False and user.is_superuser is False)
-@user_passes_test(lambda user: user.voters.registered is False)
+@user_passes_test(lambda user: user.voters.registered is True)
 def voting_view(request, pk, school):
     authorized = False
     try:
@@ -192,17 +192,6 @@ def voting_view(request, pk, school):
         elected_aspirant = Aspirants.objects.get(id=form)
         elected_aspirant.votes += 1
         
-        voting_user = Voted.objects.filter(user_id=pk).exists()
-        if voting_user is False:
-            new_record = Voted.objects.create(user_id=pk)
-            if elected_aspirant.post == 'Academic Representative':
-                new_record.academic = True
-            elif elected_aspirant.post == 'General Academic Representative':
-                new_record.general_rep = True
-            elif elected_aspirant.post == 'Ladies Representative':
-                new_record.ladies_rep = True
-            new_record.save()
-
         if Voted.objects.filter(user_id=request.user.voters).exists():
             return redirect('elect_leaders', pk, school)
             
@@ -210,6 +199,7 @@ def voting_view(request, pk, school):
             elected_aspirant = Aspirants.objects.get(id=form)
             elected_aspirant.votes += 1
             voting_user = Voted.objects.filter(user_id=pk).exists()
+            
             if voting_user is False:
                 new_record = Voted.objects.create(user_id=pk)
                 if elected_aspirant.post == 'Academic Representative':
