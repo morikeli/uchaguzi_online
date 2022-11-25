@@ -50,7 +50,7 @@ def signup_view(request):
     return render(request, 'voters/signup.html', context)
 
 @login_required(login_url='voters_login')
-@user_passes_test(lambda user: user.is_staff is False)
+@user_passes_test(lambda user: user.is_staff is False and user.is_superuser is False)
 def votersprofile_view(request):
     voterregist_form = VoterRegistrationForm(instance=request.user.voters)
     edit_form = EditProfileForm(instance=request.user.voters)
@@ -95,7 +95,7 @@ def votersprofile_view(request):
 
 
 @login_required(login_url='voters_login')
-@user_passes_test(lambda user: user.is_staff is False)
+@user_passes_test(lambda user: user.is_staff is False and user.is_superuser is False)
 @user_passes_test(lambda user: user.voters.registered is True)
 def homepage_view(request):
     blog_form = BlogForm()
@@ -135,7 +135,8 @@ def homepage_view(request):
     return render(request, 'voters/homepage.html', context)
 
 @login_required(login_url='voters_login')
-@user_passes_test(lambda user: user.is_staff is False)
+@user_passes_test(lambda user: user.is_staff is False and user.is_superuser is False)
+@user_passes_test(lambda user: user.voters.registered is True)
 def electoralpost_view(request, id, aspirant_name):
     nomination_form = UploadNominationForm()
     contest_form = ElectoralPostApplicationForm()
@@ -177,7 +178,8 @@ def electoralpost_view(request, id, aspirant_name):
     return render(request, 'voters/aspirant.html', context)
 
 @login_required(login_url='voters_login')
-@user_passes_test(lambda user:user.is_staff is False and user.voters.registered is True)
+@user_passes_test(lambda user:user.is_staff is False and user.is_superuser is False)
+@user_passes_test(lambda user: user.voters.registered is False)
 def voting_view(request, pk, school):
     authorized = False
     try:
