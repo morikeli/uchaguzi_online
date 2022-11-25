@@ -355,7 +355,6 @@
 							<h5 class="card-title"><i class="bi bi-compass-fill"></i> Who is who?</h5>
 
 							<div class="activity">
-								{% if blogs %}
 								{% for blog in blogs %}
 								<div class="activity-item d-flex">
 									<div class="activity-label">{{ blog.written|timesince|slice:":4" }}</div>
@@ -366,8 +365,13 @@
 										</a>
 									</div>
 								</div>
+								{% empty %}
+								<div class="activity-item">
+									<h6 class="small fw-bold text-center">
+										See what your leaders have to say ...
+									</h6>
+								</div>
 								{% endfor %}
-								{% endif %}
 								<hr class="dropdown-divider">
 								<div class="text-center">
 									<a href="{% url 'voters_homepage' %}" class="badge bg-primary p-2" data-bs-toggle="modal" data-bs-target="#all-blogs">View more</a>
