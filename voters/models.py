@@ -92,7 +92,7 @@ class Voted(models.Model):
     treasurer = models.BooleanField(default=False, editable=False)
     governor = models.BooleanField(default=False, editable=False)
     president = models.BooleanField(default=False, editable=False)
-    polled = models.DateTimeField(auto_now_add=True)
+    voted = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -103,4 +103,5 @@ class Voted(models.Model):
 
     class Meta:
         verbose_name_plural = 'Voted'
+        
 
