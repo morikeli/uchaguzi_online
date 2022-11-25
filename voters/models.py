@@ -47,7 +47,7 @@ class Aspirants(models.Model):
     pic = models.ImageField(upload_to='Aspirant-Dps/', null=False)
     form = models.FileField(upload_to='Nomination-Forms/')
     nominate = models.BooleanField(default=False)
-    votes = models.PositiveIntegerField(default=0)
+    votes = models.PositiveIntegerField(default=0, editable=False)
     applied = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
 

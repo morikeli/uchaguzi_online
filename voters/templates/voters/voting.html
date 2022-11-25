@@ -11,7 +11,7 @@
 	<main id="main" class="main">
 		<section class="section profile">
 			<div class="row">
-				{% if user_is_authorized is False %}
+				{% comment %}{% if user_is_authorized is False %}
 				<div class="modal fade" id="auth-voter" tabindex="-1">
 					<div class="modal-dialog modal-dialog-scrollable">
 						<div class="modal-content">
@@ -62,8 +62,8 @@
 							<a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#auth-voter">Start</a>
 						</div>
 					</div>
-				</div>
-				{% else %}
+				</div>{% endcomment %}
+				
 				<div class="col-xl-4">
 					<div class="card">
 						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
@@ -170,7 +170,7 @@
                             </table>
                         </div>
                     </div>
-					{% endif %}
+					
 				</div>
 
 				<div class="col-xl-8">
