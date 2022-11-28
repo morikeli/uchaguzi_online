@@ -21,14 +21,14 @@
 									<div class="pt-4 pb-2">
 										<h5 class="card-title text-center pb-0 fs-4">Create Account</h5>
 									</div>
-									<form action="" method="post" class="row g-3 needs-validation">
+									<form action="" method="post" class="p-3">
 										{% csrf_token %}
-										<div class="row g-3">
+										<div class="row">
 											<div class="col-12">
 												{% include 'messages.html' %}{{signup_form|crispy}}
 											</div>
 										</div>
-										<div class="col-12">
+										<div class="col-12 mt-3">
 											<button class="btn btn-success w-100" type="submit">Sign Up</button>
 										</div>
 										<div class="col-12">
