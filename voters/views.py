@@ -229,10 +229,10 @@ def polling_view(request, pk, school):
             return redirect('poll', pk, school)       
 
 
-    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school).order_by('post', 'name')
+    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True).order_by('post', 'name')
     
     context = {'aspirants': nominated_aspirants, 'UserhasPolled': polled_obj}
-    return render(request, 'polls/polls.html', context)
+    return render(request, 'voters/polls.html', context)
 
 @login_required(login_url='voters_login')
 @user_passes_test(lambda user: user.is_staff is False)
@@ -293,7 +293,7 @@ def voting_view(request, pk, school):
             elected_aspirant.save()
             return redirect('elect_leaders', pk, school)       
 
-    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school).order_by('post', 'name')
+    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True).order_by('post', 'name')
     context = {'aspirants': nominated_aspirants, 'UserhasPolled': voted_obj, 'user_is_authorized': authorized}
     return render(request, 'voters/voting.html', context)
 
