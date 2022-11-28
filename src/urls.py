@@ -10,7 +10,6 @@ admin.site.index_title = 'Welcome back ...'
 
 urlpatterns = [
     path('voters/', include('voters.urls')),
-    path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
 ]
 

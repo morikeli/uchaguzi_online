@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Voters, Aspirants, Blog, Voted
+from .models import Voters, Aspirants, Blog, Voted, Polls, Polled
 
 @admin.register(Voters)
 class VotersTable(admin.ModelAdmin):
@@ -23,3 +23,10 @@ class VotedTable(admin.ModelAdmin):
     list_display = ['id', 'academic', 'general_rep', 'ladies_rep', 'treasurer', 'governor', 'president', 'voted']
     ordering = ['-voted']
 
+@admin.register(Polls)
+class Polls(admin.ModelAdmin):
+    list_display = ['name', 'post', 'total_polls', 'percentage']
+
+@admin.register(Polled)
+class PolledList(admin.ModelAdmin):
+    list_display = ['user_id', 'academic', 'general_rep', 'ladies_rep', 'treasurer', 'governor', 'president', 'polled']
