@@ -110,11 +110,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    BASE_DIR, 'static',
-    BASE_DIR, 'static/landing-page',
+    BASE_DIR/'static',
+    BASE_DIR/'static/landing-page',
     
 ]
-STATIC_ROOT = 'home/brocode254/uchaguzi_online/static'
+# STATIC_ROOT = 'home/brocode254/uchaguzi_online/static'
 
 MEDIA_URL = 'mediaFiles/'
 MEDIA_ROOT = BASE_DIR/'media/'
