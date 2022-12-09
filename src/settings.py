@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-x#o^v=ghexd27rkda!vi(mv4n%kh#3)wxib&8o723of2-%ghmh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['brocode254.pythonanywhere.com', '127.0.0.1']
+ALLOWED_HOSTS = ['brocode254.pythonanywhere.com']
 
 
 # Application definition
@@ -47,7 +47,7 @@ ROOT_URLCONF = 'src.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR, 'templates', BASE_DIR, 'voters/templates', BASE_DIR, 'polls/templates',],
+        'DIRS': [BASE_DIR, 'templates/', BASE_DIR, 'voters/templates', BASE_DIR, 'polls/templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
