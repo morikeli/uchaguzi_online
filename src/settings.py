@@ -114,7 +114,7 @@ STATIC_URL = 'static/'
 #     BASE_DIR/'static/landing-page',
     
 # ]
-STATIC_ROOT = '/home/brocode254/uchaguzi_online/static'
+STATIC_ROOT = BASE_DIR/'static'
 
 MEDIA_URL = 'mediaFiles/'
 MEDIA_ROOT = BASE_DIR/'media/'
