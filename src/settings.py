@@ -12,9 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-x#o^v=ghexd27rkda!vi(mv4n%kh#3)wxib&8o723of2-%ghmh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['brocode254.pythonanywhere.com']
+ALLOWED_HOSTS = ['brocode254.pythonanywhere.com', '127.0.0.1']
 
 
 # Application definition
@@ -114,7 +114,7 @@ STATICFILES_DIRS = [
     BASE_DIR/'static/landing-page',
     
 ]
-# STATIC_ROOT = 'home/brocode254/uchaguzi_online/static'
+STATIC_ROOT = 'home/brocode254/uchaguzi_online/static'
 
 MEDIA_URL = 'mediaFiles/'
 MEDIA_ROOT = BASE_DIR/'media/'
