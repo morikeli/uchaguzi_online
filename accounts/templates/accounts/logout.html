@@ -1,0 +1,26 @@
+{% extends 'accounts/base.html' %}{% block title %}Logout{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% block content %}
+    <main>
+        <div class="container logout">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-body p-3">
+                        <h1 class="text-muted text-center">Goodbye... See you soon.</h1>
+                        <h5 class="text-muted text-center">You are logged out.</h5><hr class="dropdown-divider">
+                        <a href="{% url 'voters_login' %}" class="btn btn-primary">Login again</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% endblock %}
+</body>
+</html>
