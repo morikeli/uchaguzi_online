@@ -1,0 +1,155 @@
+{% extends 'voters/base.html' %}{% block title %}Electoral Post Application{% endblock %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+</head>
+<body>
+	{% block content %}
+	<main id="main" class="main">
+		<section class="section profile">
+			<div class="row">
+				<div class="col-xl-4">
+					{% if request.user.voters.aspirants.name != "" %}
+					<div class="card">
+						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+							<img src="{{request.user.voters.aspirants.pic.url}}" alt="Profile" class="rounded-circle">
+							<h2 class="text-center">{{request.user.voters.aspirants.name|title}}
+								{% if request.user.voters.registered is True %}<i class="bi-check-circle-fill" style="color: #18d26e"></i>{% endif %}
+								{% if request.user.voters.aspirants.nominate is True %}
+								<i class="bi-award-fill" style="color: #df1d1d"></i>
+								{% endif %}
+							</h2>
+							<h3 class="text-center">{{request.user.voters.aspirants.post}}</h3>
+							<h3 class="text-center">" {{request.user.voters.aspirants.slogan|default:" -- "}} "</h3>
+						</div>
+					</div>
+					{% endif %}
+					{% if request.user.voters.aspirants.name != "" %}
+                    <div class="card">
+						<div class="card-body profile-card pt-4 mr-3 table-responsive">
+							<table class="table table-condensed table-striped table-bordered">
+								<thead>
+									<tr class="table-success">
+										<th>#</th>
+										<th>Aspirant Details</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><b>Name:</b></td><td>{{ request.user.voters.aspirants.name|title }}</td>
+									</tr>
+									<tr>
+										<td><b>Alias:</b></td><td>{{ request.user.voters.aspirants.alias|default:" -- " }}</td>
+									</tr>
+									<tr>
+										<td><b>Post:</b></td><td>{{ request.user.voters.aspirants.post }}</td>
+									</tr>
+									<tr>
+										<td><b>Slogan:</b></td><td>{{ request.user.voters.aspirants.slogan }}</td>
+									</tr>
+									<tr>
+										<td><b>Nomination Form:</b></td>
+										<td>
+											{% if request.user.voters.aspirants.form.url is not None %}
+											<span class="badge bg-primary">Submitted <i class="bi-check-circle-fill" style="color: #13bb46"></i></span>
+											{% else %}
+											<span class="badge bg-primary">
+												<span class="spinner-border spinner-border-sm"></span>
+											</span>
+											{% endif %}
+										</td>
+									</tr>
+									<tr>
+										<td><b>Nominated:</b></td><td>{% if request.user.voters.aspirants.nominate is True %} <i class="bi-check-circle-fill" style="color: #13bb46"></i>{% endif %}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					{% endif %}
+				</div>
+
+				<div class="col-xl-8">
+					<div class="card">
+						<div class="card-body pt-3">
+							<ul class="nav nav-tabs nav-tabs-bordered">
+								<li class="nav-item">
+									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#manifesto">
+										Manifesto
+                                    </button>
+								</li>
+								<li class="nav-item">
+									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#preview">
+										{% if request.user.voters.aspirants.name == "" %}
+										Apply here <i class="bi-info-circle-fill" style="color: #18d26c"></i>
+										{% else %}
+										Preview
+										{% endif %}
+                                    </button>
+								</li>
+
+							</ul>
+							<div class="tab-content pt-2">
+								{% include 'messages.html' %}
+								<div class="tab-pane fade show active pt-3" id="manifesto">
+									{% if request.user.voters.aspirants.name != "" %}
+									<p class="small fst-italic">
+										{{ request.user.voters.aspirants.bio }}<br>
+									</p>
+									<hr class="dropdown-divider">
+									<div class="text-center">
+										{% if request.user.aspirants.name != "" and request.user.voters.aspirants.form.url is not None %}
+										<a class="text-center" href="{{ request.user.voters.aspirants.form.url }}">
+											Click to preview your nomination form
+										</a>
+										{% endif %}
+									</div>
+									{% else %}
+										<p class="small fst-italic text-muted text-center">
+											Your manifesto will be displayed here.
+										</p>
+									{% endif %}
+								</div>
+
+								<div class="tab-pane fade show pt-3" id="preview">
+									{% if request.user.voters.aspirants.form.url is not None and request.user.voters.aspirants.name != "" %}
+									<div class="pt-3 text-center">
+										<i class="bi-check-circle-fill" style="font-size: 50px; color: #13bb46; text-align: center;"></i>
+										<hr class="dropdown-divider">
+										<small class="fw-bold">
+											Once nominated you will see this icon <i class="bi-award-fill" style="color: #df1d1d"></i>
+											on your aspirant profile card (located to the left i.e on tablets and laptops, and top i.e on smaller devices).
+										</small>
+									</div>
+									{% else %}
+									<form action="" method="post" enctype="multipart/form-data">
+										{% csrf_token %}
+										<div class="row mb-2">
+											<div class="col-md-8 col-lg-12">
+												{% if request.user.voters.aspirants.name != "" %}
+												{{nomination_form|crispy}}
+												{% else %}
+												{{application_form|crispy}}
+												{% endif %}
+											</div>
+										</div>
+										<div class="text-center d-grid gap-2">
+											<button type="submit" class="btn btn-primary">Submit</button>
+										</div>
+									</form>
+									{% endif %}
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+	{% endblock %}
+</body>
+</html>
