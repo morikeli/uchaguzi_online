@@ -6,8 +6,11 @@ from .forms import LoginForm, SignupForm
 
 class VoterLogin(LoginView):
     authentication_form = LoginForm
-    template_name = 'voters/login.html'
+    template_name = 'accounts/login.html'
 
+# class OfficialsLoginView(LoginView):
+#     authentication_form = LoginForm
+#     template_name
 
 def signup_view(request):
     form = SignupForm()
@@ -23,6 +26,7 @@ def signup_view(request):
 
     context = {'signup_form': form}
     return render(request, 'voters/signup.html', context)
+
 
 
 
