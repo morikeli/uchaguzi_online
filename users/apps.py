@@ -1,9 +1,9 @@
 from django.apps import AppConfig
 
 
-class VotersConfig(AppConfig):
+class UsersConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'voters'
+    name = 'users'
 
     def ready(self):
-        import voters.signals
+        import users.signals

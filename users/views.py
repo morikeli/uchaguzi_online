@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
-from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import (
-    LoginForm, SignupForm, VoterRegistrationForm, EditProfileForm, ElectoralPostApplicationForm, UploadNominationForm,
+    VoterRegistrationForm, EditProfileForm, ElectoralPostApplicationForm, UploadNominationForm,
     BlogForm
     )
 from .models import Voters, Aspirants, Blog, Polls, Polled, Voted
@@ -28,25 +27,6 @@ def indexpage_view(request):
 def page404_view(request):
     return render(request, 'page404.html')
 
-class VoterLogin(LoginView):
-    authentication_form = LoginForm
-    template_name = 'voters/login.html'
-
-
-def signup_view(request):
-    form = SignupForm()
-    if request.method == 'POST':
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            new_voter = form.save(commit=False)
-            new_voter.username = new_voter.first_name+' '+new_voter.last_name
-            new_voter.save()
-
-            messages.success(request, 'New account created successfully!')
-            return redirect('voters_profile')
-
-    context = {'signup_form': form}
-    return render(request, 'voters/signup.html', context)
 
 @login_required(login_url='voters_login')
 @user_passes_test(lambda user: user.is_staff is False and user.is_superuser is False)
@@ -297,6 +277,3 @@ def voting_view(request, pk, school):
     context = {'aspirants': nominated_aspirants, 'UserhasPolled': voted_obj, 'user_is_authorized': authorized}
     return render(request, 'voters/voting.html', context)
 
-
-class LogoutVoter(LogoutView):
-    template_name = 'voters/logout.html'
