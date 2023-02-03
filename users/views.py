@@ -277,3 +277,27 @@ def voting_view(request, pk, school):
     context = {'aspirants': nominated_aspirants, 'UserhasPolled': voted_obj, 'user_is_authorized': authorized}
     return render(request, 'voters/voting.html', context)
 
+
+# Views for electoral officers HTTP requests
+
+@login_required(login_url='user_login')
+@user_passes_test(lambda user: user.is_staff is True and user.officials.is_official is True and user.officials.registered is True)
+def officials_profile_view(request):
+
+    context = {}
+    return render(request, 'officials/profile.html', context)
+
+@login_required(login_url='user_login')
+@user_passes_test(lambda user: user.is_staff is True and user.officials.is_official is True and user.officials.registered is True)
+def officials_homepage(request):
+
+    context = {}
+    return render(request, 'officials/homepage.html', context)
+
+@login_required(login_url='user_login')
+@user_passes_test(lambda user: user.is_staff is True and user.officials.is_official is True and user.officials.registered is True)
+def nominate_aspirants_view(request):
+
+    context = {}
+    return render(request, 'officials/', context)
+

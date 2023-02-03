@@ -2,7 +2,8 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.core.validators import FileExtensionValidator
 from django.contrib.auth.models import User
 from django import forms
-from .models import Voters, Aspirants, Blog
+from .models import Aspirants, Blog
+from accounts.models import Voters, Officials
 
 class VoterRegistrationForm(forms.ModelForm):
     SELECT_GENDER = (
@@ -126,3 +127,59 @@ class BlogForm(forms.ModelForm):
     class Meta:
         model = Blog
         fields = ['message']
+
+
+# Electoral officers forms
+class UpdateOfficialProfileForm(forms.ModelForm):
+    SELECT_GENDER = (
+        (None, '-- Select your gender --'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+    )
+    SELECT_SCHOOL = (
+        (None, '-- Select your school --'),
+        ('School of Arts, Social Sciences and Business', 'School of Arts, Social Sciences and Business (SASSB)'),
+        ('School of Education', 'School of Education (SE)'),
+        ('School of Information, Communication & Media Studies', 'School of Information, Communication & Media Studies (INFOCOMS)'),
+        ('School of Science, Agriculture & Environmental Science', 'School of Science, Agriculture & Environmental Science (SSAES)'),
+    )
+    SELECT_ROLE = (
+        (None, '-- Select your rank --'),
+        ('Chairperson', 'Chairperson'),
+        ('Assistant Commisioner', 'Assistant Commisioner'),
+        ('Registration Officer', 'Registration Officer'),
+
+    )
+
+    gender = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_GENDER)
+    phone_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel', 'class': 'mt-2 mb-2', 'placeholder': 'Enter your mobile no.'}), label='', )
+    dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label='', help_text='Enter your date of birth. Date format: MM/DD/YYYY e.g. 07/31/2022')
+    school = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_SCHOOL)
+
+    class Meta:
+        model = Officials
+        fields = ['gender', 'phone_no', 'dob', 'school', 'role', 'profile_pic']
+
+
+class EditOfficialProfileForm(forms.ModelForm):
+    SELECT_GENDER = (
+        (None, '-- Select your gender --'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+    )
+    SELECT_SCHOOL = (
+        (None, '-- Select your school --'),
+        ('School of Arts, Social Sciences and Business', 'School of Arts, Social Sciences and Business (SASSB)'),
+        ('School of Education', 'School of Education (SE)'),
+        ('School of Information, Communication & Media Studies', 'School of Information, Communication & Media Studies (INFOCOMS)'),
+        ('School of Science, Agriculture & Environmental Science', 'School of Science, Agriculture & Environmental Science (SSAES)'),
+    )
+    
+    gender = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_GENDER, disabled=True)
+    phone_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel', 'class': 'mt-2 mb-2', 'placeholder': 'Enter your mobile no.'}), label='', )
+    dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label='', help_text='Enter your date of birth. Date format: MM/DD/YYYY e.g. 07/31/2022')
+    school = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_SCHOOL, disabled=True)
+
+    class Meta:
+        model = Officials
+        fields = ['gender', 'phone_no', 'dob', 'school', 'role', 'profile_pic']
