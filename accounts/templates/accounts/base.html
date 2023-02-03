@@ -15,7 +15,7 @@
             <span class="d-none d-lg-block">Uchaguzi Online</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>{% else %}
-        <a href="{% url 'voters_login' %}" class="logo d-flex align-items-center">
+        <a href="{% url 'user_login' %}" class="logo d-flex align-items-center">
             <span class="d-none d-lg-block">Uchaguzi Online</span>
         </a>
         {% endif %}
@@ -212,7 +212,7 @@
                         <hr class="dropdown-divider">
                     </li>
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="{% url 'logout_voters' %}">
+                        <a class="dropdown-item d-flex align-items-center" href="{% url 'logout_user' %}">
                             <i class="bi bi-box-arrow-right"></i>
                             <span>Sign Out</span>
                         </a>
@@ -288,7 +288,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout_voters' %}">
+            <a class="nav-link" href="{% url 'logout_user' %}">
                 <i class="bi bi-door-open-fill"></i>
                 <span>Logout</span>
             </a>
