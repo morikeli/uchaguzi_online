@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import auth
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
@@ -56,7 +56,7 @@ def voters_signup_view(request):
 
 def officials_signup_view(request):
     form = SignupForm()
-    
+
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
