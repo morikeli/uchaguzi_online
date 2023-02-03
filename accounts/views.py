@@ -55,6 +55,8 @@ def voters_signup_view(request):
 
 
 def officials_signup_view(request):
+    form = SignupForm()
+    
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
