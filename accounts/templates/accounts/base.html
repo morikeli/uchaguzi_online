@@ -1,0 +1,320 @@
+{% load static %}
+<title>Uchaguzi Online | {% block title %}{% endblock %}</title>
+<link href="{% static 'img/voters/ballot.png' %}" rel="icon">
+<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+
+<header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+        {% if user.is_authenticated %}
+        <a href="{% url 'voters_homepage' %}" class="logo d-flex align-items-center">
+            <span class="d-none d-lg-block">Uchaguzi Online</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>{% else %}
+        <a href="{% url 'user_login' %}" class="logo d-flex align-items-center">
+            <span class="d-none d-lg-block">Uchaguzi Online</span>
+        </a>
+        {% endif %}
+    </div>
+    {% if user.is_authenticated %}
+    <div class="search-bar mt-3">
+        <form class="search-form d-flex align-items-center" method="POST" action="#">
+            <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+            <li class="nav-item d-block d-lg-none">
+                <a class="nav-link nav-icon search-bar-toggle " href="#">
+                    <i class="bi bi-search"></i>
+                </a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                    <i class="bi bi-bell-fill"></i>
+                    <span class="badge bg-danger badge-number">4</span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                    <li class="dropdown-header">
+                        You have 4 new notifications
+                        <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li class="notification-item">
+                        <i class="bi bi-exclamation-circle text-warning"></i>
+                        <div>
+                            <h4>Lorem Ipsum</h4>
+                            <p>Quae dolorem earum veritatis oditseno</p>
+                            <p>30 min. ago</p>
+                        </div>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li class="notification-item">
+                        <i class="bi bi-x-circle text-danger"></i>
+                        <div>
+                            <h4>Atque rerum nesciunt</h4>
+                            <p>Quae dolorem earum veritatis oditseno</p>
+                            <p>1 hr. ago</p>
+                        </div>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li class="notification-item">
+                        <i class="bi bi-check-circle text-success"></i>
+                        <div>
+                            <h4>Sit rerum fuga</h4>
+                            <p>Quae dolorem earum veritatis oditseno</p>
+                            <p>2 hrs. ago</p>
+                        </div>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li class="notification-item">
+                    <i class="bi bi-info-circle text-primary"></i>
+                    <div>
+                        <h4>Dicta reprehenderit</h4>
+                        <p>Quae dolorem earum veritatis oditseno</p>
+                        <p>4 hrs. ago</p>
+                    </div>
+                    </li>
+
+                    <li>
+                    <hr class="dropdown-divider">
+                    </li>
+                    <li class="dropdown-footer">
+                    <a href="#">Show all notifications</a>
+                    </li>
+
+                </ul>
+
+            </li>
+
+            <li class="nav-item dropdown">
+
+                <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                    <i class="bi bi-chat-dots-fill"></i>
+                    <span class="badge bg-warning badge-number">3</span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+                    <li class="dropdown-header">
+                    You have 3 new messages
+                    <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                    </li>
+                    <li>
+                    <hr class="dropdown-divider">
+                    </li>
+
+                    <li class="message-item">
+                    <a href="#">
+                        <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
+                        <div>
+                        <h4>Maria Hudson</h4>
+                        <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                        <p>4 hrs. ago</p>
+                        </div>
+                    </a>
+                    </li>
+                    <li>
+                    <hr class="dropdown-divider">
+                    </li>
+
+                    <li class="message-item">
+                    <a href="#">
+                        <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
+                        <div>
+                        <h4>Anna Nelson</h4>
+                        <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                        <p>6 hrs. ago</p>
+                        </div>
+                    </a>
+                    </li>
+                    <li>
+                    <hr class="dropdown-divider">
+                    </li>
+
+                    <li class="message-item">
+                    <a href="#">
+                        <img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
+                        <div>
+                        <h4>David Muldon</h4>
+                        <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                        <p>8 hrs. ago</p>
+                        </div>
+                    </a>
+                    </li>
+                    <li>
+                    <hr class="dropdown-divider">
+                    </li>
+
+                    <li class="dropdown-footer">
+                    <a href="#">Show all messages</a>
+                    </li>
+
+                </ul>
+
+            </li>
+
+            <li class="nav-item dropdown pe-3">
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                    <img src="{{ request.user.voters.profile_pic.url }}" alt="Profile" class="rounded-circle">
+                    <span class="d-none d-md-block dropdown-toggle ps-2">{{request.user.voters.voter|title}}</span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                    <li class="dropdown-header">
+                        <h6>{{request.user.voters.voter|title}}</h6>
+                        <span>{{ request.user.voters.year }}</span>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="{% url 'voters_profile' %}">
+                            <i class="bi bi-person"></i>
+                            <span>My Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                            <i class="bi bi-gear"></i>
+                            <span>Account Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="{% url 'landing_page' %}">
+                            <i class="bi bi-question-circle"></i>
+                            <span>Need Help?</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="{% url 'logout_user' %}">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Sign Out</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+    </nav>
+    {% endif %}
+</header>
+
+{% if user.is_authenticated %}
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        {% if request.user.voters.registered is True %}
+        <li class="nav-item">
+            <a class="nav-link " href="{% url 'voters_homepage' %}">
+                <i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            {% if user_has_polled == "" %}
+            <a href="{% url 'poll' request.user.voters.id request.user.voters.school %}" target="_blank" class="nav-link">
+                <i class="bi-bar-chart-line-fill"></i><span>Election Polls</span>
+            </a>{% else %}
+            <a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#modal-polls">
+                <i class="bi bi-bar-chart-line-fill"></i><span>Election Polls</span>
+            </a>
+            {% endif %}
+        </li>
+        
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#modal-registration">
+                <i class="bi bi-calendar2-check-fill"></i><span>Registration Status</span>
+            </a>
+        </li>
+        
+        <li class="nav-item">
+            {% if request.user.voters.aspirants.name != "" %}
+            <a class="nav-link" href="{% url 'voters_vie' request.user.voters.aspirants.id request.user.voters.aspirants.name %}">
+                <i class="bi bi-award-fill"></i><span>Vie for electoral seat</span>
+            </a>
+            {% else %}
+            <a class="nav-link" href="{% url 'voters_vie' request.user.voters.id request.user.voters.voter %}">
+                <i class="bi bi-award-fill"></i><span>Vie for electoral seat</span>
+            </a>
+            {% endif %}
+        </li>
+        {% if request.user.voters.aspirants.name != "" and request.user.voters.aspirants.nominate is True %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#blog">
+                <i class="bi bi-reply-all-fill"></i><span>What's on your mind?</span>
+            </a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'elect_leaders' request.user.voters.id request.user.voters.school %}" target="_blank">
+                <i class="bi bi-archive-fill"></i><span>Vote</span>
+            </a>
+        </li>
+        {% endif %}
+        <li><hr class="dropdown-divider"></li>
+        
+        <li class="nav-heading">Pages</li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'voters_profile' %}">
+                <i class="bi bi-person-bounding-box"></i>
+                <span>Profile</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout_user' %}">
+                <i class="bi bi-door-open-fill"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+
+    </ul>
+</aside>
+{% endif %}
+{% block content %}
+{% endblock %}
+{% if user.is_authenticated %}
+<footer id="footer" class="footer">
+    <div class="copyright">
+        <strong>&copy; 2022<span> Uchaguzi Online</span> | ALL RIGHTS RESERVED.</strong>
+    </div>
+</footer>
+{% else %}
+<footer class="footer">
+    <div class="copyright">
+        <strong>&copy; 2022<span> Uchaguzi Online</span> | ALL RIGHTS RESERVED.</strong>
+    </div>
+</footer>
+{% endif %}
+<a href="" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi-arrow-up-short"></i></a>
+
+<script src="{% static 'vendor/apexcharts/apexcharts.min.js' %}"></script>
+<script src="{% static 'vendor/chart.js/chart.min.js' %}"></script>
+<script src="{% static 'vendor/echarts/echarts.min.js' %}"></script>
+<script src="{% static 'js/voters-page/main.js' %}"></script>

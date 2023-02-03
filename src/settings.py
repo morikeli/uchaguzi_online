@@ -21,7 +21,8 @@ ALLOWED_HOSTS = ['127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    'voters.apps.VotersConfig',
+    'accounts.apps.AccountsConfig',
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,7 +49,7 @@ ROOT_URLCONF = 'src.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/'templates/', BASE_DIR/'voters/templates', BASE_DIR/'polls/templates',],
+        'DIRS': [BASE_DIR/'templates/', BASE_DIR/'accounts/templates', BASE_DIR/'users/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,5 +129,4 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
 
-LOGIN_REDIRECT_URL = 'voters_homepage'
-LOGIN_URL = 'voters_login'
+
