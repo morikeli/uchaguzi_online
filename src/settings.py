@@ -129,5 +129,4 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
 
-LOGIN_REDIRECT_URL = 'voters_homepage'
-LOGIN_URL = 'voters_login'
+
