@@ -5,8 +5,10 @@ from .forms import (
     VoterRegistrationForm, EditProfileForm, ElectoralPostApplicationForm, UploadNominationForm,
     BlogForm, EditOfficialProfileForm, UpdateOfficialProfileForm
     )
-from .models import Voters, Aspirants, Blog, Polls, Polled, Voted
+from .models import Aspirants, Blog, Polls, Polled, Voted
+from accounts.models import Voters, Officials
 from datetime import datetime
+
 
 
 def indexpage_view(request):
@@ -307,7 +309,7 @@ def officials_profile_view(request):
                     messages.warning(request, 'You do not qualify to be registered as an electoral official!')
 
             else:
-                official_registration.is_registered = True
+                official_registration.is_official = True
                 official_registration.registered = True
                 officialregist_form.save()
                 messages.success(request, 'Profile updated successfully!')
@@ -316,7 +318,7 @@ def officials_profile_view(request):
 
         elif editofficial_profile.is_valid():
             editofficial_profile.save()
-            messages.info('You have edited your profile.')
+            messages.info(request, 'You have edited your profile.')
             return redirect('official_profile')
 
     context = {'OfficerRegistrationForm': officialregist_form, 'EditProfileForm': editofficial_profile}
@@ -325,8 +327,19 @@ def officials_profile_view(request):
 @login_required(login_url='user_login')
 @user_passes_test(lambda user: user.is_staff is True)
 def officials_homepage(request):
+    total_registered_voters = Voters.objects.filter(registered=True, school=request.user.officials.school)
+    total_aspirants = Aspirants.objects.filter(name__school=request.user.officials.school).count()
+    total_electoral_officers = Officials.objects.filter(school=request.user.officials.school ,is_official=False, registered=True)
 
-    context = {}
+
+
+    context = {
+        'total_aspirants': total_aspirants, 'total_registered_voters': total_registered_voters.count(), 'total_electoral_officers': total_electoral_officers.count(),
+        'male_registered_voters': total_registered_voters.filter(registered=True, gender='Male', school=request.user.officials.school).count(),
+        'female_registered_voters': total_registered_voters.filter(registered=True, gender='Female', school=request.user.officials.school).count(),
+
+
+    }
     return render(request, 'officials/homepage.html', context)
 
 @login_required(login_url='user_login')
