@@ -17,50 +17,7 @@
 					<div class="row">
 						{% include 'messages.html' %}
 						<!-- Modal forms -->
-						<div class="modal fade" id="modal-polls" tabindex="-1">
-							<div class="modal-dialog modal-dialog-scrollable modal-xl">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title"><i class="bi bi-hourglass-top"></i> Elections Polling Form</h5>
-										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-									</div>
-									<div class="modal-body">
-										<p class="small text-center fw-bold fw-italic text-muted">NB: Results are subject to change</p><hr class="dropdown-divider">
-										<div class="row mb-2">
-											<div class="col-md-12 table-responsive">
-												<table class="table table-sm table-condensed table-bordered table-striped table-hover text-center">
-													<thead>
-														<tr>
-															<th>Image</th>
-															<th>Aspirants Details</th>
-															<th>Total polls</th>
-															<th><b>&percnt;</b></th>
-														</tr>
-													</thead>
-													<tbody>
-														{% for aspirant in polls %}
-														<tr>
-															<td class="text-center">
-																<img src="{{aspirant.name.pic.url}}" class="rounded-circle" alt="profile-photo" height="70px" width="70px">
-															</td>
-															<td class="text-center">
-																<h6>Name: <b>{{ aspirant.name|title }}</b></h6>
-																<h6>Post: <b>{{ aspirant.post }}</b></h6>
-																<h6>Slogan: <b>{{ aspirant.name.slogan|default:" -- " }}</b></h6>
-															</td>
-															<td>{{ aspirant.total_polls }}</td>
-															<td>{{ aspirant.percentage }}</td>
-														</tr>
-														{% endfor %}
-													</tbody>
-												</table>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-			
+						
 						<div class="modal fade" id="modal-registration" tabindex="-1">
 							<div class="modal-dialog modal-dialog-scrollable">
 								<div class="modal-content">
@@ -78,7 +35,7 @@
 													<thead>
 														<tr class="text-center table-success">
 															<th>#</th>
-															<th>Voters Details</th>
+															<th>Officer Details</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -92,7 +49,7 @@
 															<td>School: </td><td class="text-center">{{ request.user.officials.school }}</td>
 														</tr>
 														<tr>
-															<td>Registration No.: </td><td class="text-center">{{ request.user.officials.role }}</td>
+															<td>Officer Role: </td><td class="text-center">{{ request.user.officials.role }}</td>
 														</tr>
 														<tr>
 															<td>Official Status: </td><td class="text-center">{{ request.user.officials.is_official }}</td>
