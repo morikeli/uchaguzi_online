@@ -229,7 +229,7 @@
 								</div>
 
 								<div class="card-body">
-									<h5 class="card-title"><i class="bi bi-pie-chart-fill"></i> Polls ranking</h5>
+									<h5 class="card-title"><i class="bi bi-pie-chart-fill"></i> Nominated Candidates</h5>
 									<div class="table-responsive">
 										<table class="table table-bordered table-condensed">
 											<thead>
@@ -237,18 +237,16 @@
 													<th scope="col">Image</th>
 													<th scope="col">Name</th>
 													<th scope="col">Post</th>
-													<th scope="col">Total</th>
-													<th scope="col">&percnt;</th>
+													<th scope="col">Nominated</th>
 												</tr>
 											</thead>
 											<tbody>
-												{% for aspirant in polls %}
+												{% for aspirants in nominated_aspirants %}
 												<tr>
-													<td><img src="{{ aspirant.name.pic.url }}" alt="image" class="rounded-circle" height="45px" width="45px"></td>
-													<td>{{ aspirant.name|title }}</td>
-													<td>{{ aspirant.post }}</td>
-													<td>{{ aspirant.total_polls }}</td>
-													<td>{{ aspirant.percentage }}</td>
+													<td><img src="{{ aspirants.pic.url }}" alt="image" class="rounded-circle" height="45px" width="45px"></td>
+													<td>{{ aspirants.name|title }}</td>
+													<td>{{ aspirants.post }}</td>
+													<td class="pt-1 px-5">{% if aspirants.nominate is True %}<i class="check-circle-fill" style="color: #13bb46;"></i>{% else %}<i class="bi-x-circle-fill" style="color: #f03040"></i>{% endif %}</td>
 												</tr>
 												{% endfor %}
 											</tbody>
