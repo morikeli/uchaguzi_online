@@ -119,8 +119,8 @@ class NominationDetails(models.Model):
     officer_school = models.CharField(max_length=70, blank=False)
     role = models.CharField(max_length=25, blank=False)
     aspirant_name = models.CharField(max_length=100, blank=False)
-    aspirant_post = models.CharField(max_length=32, blank=False)
-    candidate_school = models.CharField(max_length=70, blank=False)
+    electoral_post = models.CharField(max_length=32, blank=False)
+    aspirant_school = models.CharField(max_length=70, blank=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
