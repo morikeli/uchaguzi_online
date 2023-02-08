@@ -130,3 +130,4 @@ MESSAGE_TAGS = {
 }
 
 
+# LOGIN_REDIRECT_URL = 'voters_homepage'

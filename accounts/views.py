@@ -7,6 +7,7 @@ from .forms import LoginForm, SignupForm
 from .models import Voters, Officials
 
 
+
 def user_login_view(request):
     form = AuthenticationForm()
 

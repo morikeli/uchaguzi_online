@@ -52,7 +52,7 @@ class Officials(models.Model):
     edited = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{str(self.voter.username).title()}'
+        return f'{str(self.officer.username).title()}'
 
     def save(self, *args, **kwargs):
         super(Officials, self).save(*args, **kwargs)

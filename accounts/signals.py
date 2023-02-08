@@ -55,13 +55,12 @@ def generate_officer_id(sender, instance, **kwargs):
             convert_OfficerAge = int(officer_age.days/365.25)
             instance.age = convert_OfficerAge
             
-
     except AttributeError:
         return
 
 
 @receiver(post_save, sender=User)
-def profile_signal(sender, instance, created, **kwargs):
+def create_user_profile(sender, instance, created, **kwargs):
     if created:
         if instance.is_staff is False and instance.is_superuser is False:
             Voters.objects.create(voter=instance)

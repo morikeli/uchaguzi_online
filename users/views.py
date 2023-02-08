@@ -28,7 +28,7 @@ def page404_view(request):
     return render(request, 'page404.html')
 
 
-@login_required(login_url='voters_login')
+@login_required(login_url='user_login')
 @user_passes_test(lambda user: user.is_staff is False and user.is_superuser is False)
 def votersprofile_view(request):
     voterregist_form = VoterRegistrationForm(instance=request.user.voters)
@@ -73,7 +73,7 @@ def votersprofile_view(request):
     return render(request, 'voters/profile.html', context)
 
 
-@login_required(login_url='voters_login')
+@login_required(login_url='user_login')
 @user_passes_test(lambda user: user.is_staff is False and user.is_superuser is False)
 @user_passes_test(lambda user: user.voters.registered is True)
 def homepage_view(request):
@@ -113,7 +113,7 @@ def homepage_view(request):
     }    
     return render(request, 'voters/homepage.html', context)
 
-@login_required(login_url='voters_login')
+@login_required(login_url='user_login')
 @user_passes_test(lambda user: user.is_staff is False and user.is_superuser is False)
 @user_passes_test(lambda user: user.voters.registered is True)
 def electoralpost_view(request, id, aspirant_name):
@@ -157,7 +157,7 @@ def electoralpost_view(request, id, aspirant_name):
     return render(request, 'voters/aspirant.html', context)
 
 
-@login_required(login_url='voters_login')
+@login_required(login_url='user_login')
 @user_passes_test(lambda user: user.is_staff is False)
 @user_passes_test(lambda user: user.voters.registered is True)
 def polling_view(request, pk, school):
@@ -214,7 +214,7 @@ def polling_view(request, pk, school):
     context = {'aspirants': nominated_aspirants, 'UserhasPolled': polled_obj}
     return render(request, 'voters/polls.html', context)
 
-@login_required(login_url='voters_login')
+@login_required(login_url='user_login')
 @user_passes_test(lambda user: user.is_staff is False)
 def results_view(request):
     elected_aspirants = Polls.objects.all()
@@ -223,7 +223,7 @@ def results_view(request):
     return render(request, 'voters/homepage.html', context)
 
 
-@login_required(login_url='voters_login')
+@login_required(login_url='user_login')
 @user_passes_test(lambda user:user.is_staff is False and user.is_superuser is False)
 @user_passes_test(lambda user: user.voters.registered is True)
 def voting_view(request, pk, school):
@@ -281,7 +281,7 @@ def voting_view(request, pk, school):
 # Views for electoral officers HTTP requests
 
 @login_required(login_url='user_login')
-@user_passes_test(lambda user: user.is_staff is True and user.officials.is_official is True and user.officials.registered is True)
+@user_passes_test(lambda user: user.is_staff is True and user.is_superuser is False)
 def officials_profile_view(request):
 
 
