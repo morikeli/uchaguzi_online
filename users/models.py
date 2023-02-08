@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import Voters
+from accounts.models import Voters, Officials
 from PIL import Image
 
 class Aspirants(models.Model):
@@ -110,4 +110,24 @@ class Voted(models.Model):
     class Meta:
         verbose_name_plural = 'Voted'
         
+
+# Table to store officer who has nominated a candidate
+class NominationDetails(models.Model):
+    id = models.CharField(max_length=15, primary_key=True, editable=False, unique=True)
+    name = models.ForeignKey(Officials, on_delete=models.CASCADE, editable=False)
+    gender = models.CharField(max_length=7, blank=False)
+    officer_school = models.CharField(max_length=70, blank=False)
+    role = models.CharField(max_length=25, blank=False)
+    aspirant_name = models.CharField(max_length=100, blank=False)
+    aspirant_post = models.CharField(max_length=32, blank=False)
+    candidate_school = models.CharField(max_length=70, blank=False)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = 'Officer Nomination Details'
+        ordering = ['name']
+
+    def __str__(self):
+        return f'{self.name}'
 
