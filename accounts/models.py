@@ -42,6 +42,7 @@ class Officials(models.Model):
     gender = models.CharField(max_length=7, blank=False)
     phone_no = models.CharField(max_length=14, blank=False)
     dob = models.DateField(null=True, blank=False)
+    age = models.PositiveIntegerField(default=0, editable=False)
     profile_pic = models.ImageField(upload_to='Officials-Dps/', default='default.png')
     school = models.CharField(max_length=70, blank=False)
     role = models.CharField(max_length=25, blank=False)

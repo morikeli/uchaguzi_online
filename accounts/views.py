@@ -6,6 +6,7 @@ from django.contrib import messages
 from .forms import LoginForm, SignupForm
 from .models import Voters, Officials
 
+
 def user_login_view(request):
     form = AuthenticationForm()
 
@@ -17,22 +18,19 @@ def user_login_view(request):
             password = form.cleaned_data['password']
 
             user_account = auth.authenticate(username=username, password=password)
-
+            
             if user_account is not None:
-                officer = Officials.objects.filter(officer=username).exists()
-                if officer is True:
-                    if offcier.is_staff is True and officer.is_official is True:
+                if user_account.is_staff is True:
                         auth.login(request, user_account)
-                        return redirect('officials_homepage')
+                        return redirect('official_homepage')
 
-                elif Voters.objects.filter(voter=username).exists():
+                elif user_account.is_staff is False:
                     auth.login(request, user_account)
                     return redirect('voters_homepage')
 
                 else:
                     messages.error(request, 'INVALID CREDENTIALS!!')
-                    return redirect('user_login')
-    
+                    return redirect('user_login')    
 
     context = {'form': form}
     return render(request, 'accounts/login.html', context)
@@ -62,6 +60,7 @@ def officials_signup_view(request):
         if form.is_valid():
             new_official_account = form.save(commit=False)
             new_official_account.username = new_official_account.first_name + ' ' + new_official_account.last_name
+            new_official_account.is_staff = True
             new_official_account.save()
 
             messages.success(request, 'Electoral official account created successfully!')

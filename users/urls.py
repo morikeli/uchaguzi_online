@@ -11,4 +11,8 @@ urlpatterns = [
     path('polling/<str:pk>=<str:school>/', views.polling_view, name='poll'),
     path('poll-results/', views.results_view, name='poll_results'),
 
+    path('official-profile/', views.officials_profile_view, name='official_profile'),
+    path('homepage/', views.officials_homepage, name='official_homepage'),
+    path('nomination/', views.nominate_aspirants_view, name='nominate_aspirants'),
+
 ]
