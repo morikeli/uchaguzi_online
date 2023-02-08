@@ -325,7 +325,7 @@ def officials_profile_view(request):
     return render(request, 'officials/profile.html', context)
 
 @login_required(login_url='user_login')
-@user_passes_test(lambda user: user.is_staff is True and user.is_superuser is False and user.officials.is_official is True and user.officials.registered is True)
+@user_passes_test(lambda user: user.is_staff is True and user.is_superuser is False)
 def officials_homepage(request):
     total_registered_voters = Voters.objects.filter(registered=True, school=request.user.officials.school)
     total_aspirants = Aspirants.objects.filter(name__school=request.user.officials.school).count()

@@ -11,11 +11,11 @@
     <header id="header" class="header fixed-top d-flex align-items-center">
 		<div class="d-flex align-items-center justify-content-between">
 			{% if user.is_authenticated %}
-			<a href="{% url 'voters_homepage' %}" class="logo d-flex align-items-center">
+			<a href="{% url 'official_homepage' %}" class="logo d-flex align-items-center">
 				<span class="d-none d-lg-block">Uchaguzi Online</span>
 			</a>
 			<i class="bi bi-list toggle-sidebar-btn"></i>{% else %}
-			<a href="{% url 'voters_login' %}" class="logo d-flex align-items-center">
+			<a href="{% url 'user_login' %}" class="logo d-flex align-items-center">
 				<span class="d-none d-lg-block">Uchaguzi Online</span>
 			</a>
 			{% endif %}
@@ -236,13 +236,13 @@
 			</li>
 			
 			<li class="nav-item">
-				<a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#modal-registration">
+				<a class="nav-link" href="{% url 'official_homepage' %}" data-bs-toggle="modal" data-bs-target="#modal-registration">
 					<i class="bi bi-calendar2-check-fill"></i><span>Registration Status</span>
 				</a>
 			</li>
 			
 			<li class="nav-item">
-				<a class="nav-link" href="" target="_blank">
+				<a class="nav-link" href="{% url 'nominate_aspirants' %}" target="_blank">
 					<i class="bi bi-archive-fill"></i><span>Nominate aspirants</span>
 				</a>
 			</li>
