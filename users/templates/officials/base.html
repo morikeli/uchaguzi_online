@@ -185,7 +185,7 @@
 						</li>
 
 						<li>
-							<a class="dropdown-item d-flex align-items-center" href="{% url 'voters_profile' %}">
+							<a class="dropdown-item d-flex align-items-center" href="{% url 'official_profile' %}">
 								<i class="bi bi-person"></i>
 								<span>My Profile</span>
 							</a>
@@ -228,22 +228,11 @@
 	{% if user.is_authenticated %}
     <aside id="sidebar" class="sidebar">
 		<ul class="sidebar-nav" id="sidebar-nav">
-			{% if request.user.voters.registered is True %}
+			{% if request.user.officials.registered is True %}
 			<li class="nav-item">
-				<a class="nav-link " href="{% url 'voters_homepage' %}">
+				<a class="nav-link " href="{% url 'official_homepage' %}">
 					<i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span>
 				</a>
-			</li>
-
-			<li class="nav-item">
-				{% if user_has_polled == "" %}
-				<a href="{% url 'poll' request.user.voters.id request.user.voters.school %}" target="_blank" class="nav-link">
-					<i class="bi-bar-chart-line-fill"></i><span>Election Polls</span>
-				</a>{% else %}
-				<a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#modal-polls">
-					<i class="bi bi-bar-chart-line-fill"></i><span>Election Polls</span>
-				</a>
-				{% endif %}
 			</li>
 			
 			<li class="nav-item">
@@ -253,33 +242,13 @@
 			</li>
 			
 			<li class="nav-item">
-				{% if request.user.voters.aspirants.name != "" %}
-				<a class="nav-link" href="{% url 'voters_vie' request.user.voters.aspirants.id request.user.voters.aspirants.name %}">
-					<i class="bi bi-award-fill"></i><span>Vie for electoral seat</span>
-				</a>
-				{% else %}
-				<a class="nav-link" href="{% url 'voters_vie' request.user.voters.id request.user.voters.voter %}">
-					<i class="bi bi-award-fill"></i><span>Vie for electoral seat</span>
-				</a>
-				{% endif %}
-			</li>
-			{% if request.user.voters.aspirants.name != "" and request.user.voters.aspirants.nominate is True %}
-			<li class="nav-item">
-				<a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#blog">
-					<i class="bi bi-reply-all-fill"></i><span>What's on your mind?</span>
+				<a class="nav-link" href="" target="_blank">
+					<i class="bi bi-archive-fill"></i><span>Nominate aspirants</span>
 				</a>
 			</li>
-			{% endif %}
-			<li class="nav-item">
-				<a class="nav-link" href="{% url 'elect_leaders' request.user.voters.id request.user.voters.school %}" target="_blank">
-					<i class="bi bi-archive-fill"></i><span>Vote</span>
-				</a>
-			</li>
-			{% endif %}
-			<li><hr class="dropdown-divider"></li>
-			
+			<li><hr class="dropdown-divider"></li>	
 			<li class="nav-heading">Pages</li>
-
+			{% endif %}
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'official_profile' %}">
 					<i class="bi bi-person-bounding-box"></i>
@@ -288,7 +257,7 @@
 			</li>
 
 			<li class="nav-item">
-				<a class="nav-link" href="{% url 'logout_voters' %}">
+				<a class="nav-link" href="{% url 'logout_user' %}">
 					<i class="bi bi-door-open-fill"></i>
 					<span>Logout</span>
 				</a>
