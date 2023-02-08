@@ -33,18 +33,18 @@
                                                                 <th>Image</th>
                                                                 <th>Name</th>
                                                                 <th>Electoral Post</th>
-                                                                {% if request.user.aspirants.form.url is not None %}<th>Nominate</th>{% endif %}
+                                                                {% if aspirants.form.url is not None %}<th>Nominate</th>{% endif %}
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {% for aspirants in total_aspirants %}
+                                                           
                                                             <tr>
                                                                 <td><img src="{{ aspirants.pic.url }}" alt="aspirant-pic" class="rounded-circle" height="45px" width="45px"></td>
                                                                 <td>{{ aspirants.name }}</td>
                                                                 <td>{{ aspirants.post }}</td>
-                                                                {% if request.user.aspirants.form.url is not None %}<td><input type="radio" name="nominate" value="{{ aspirants.id }} required"></td>{% endif %}
+                                                                {% if aspirants.form.url is not None %}<td><input type="radio" name="nominate" value="{{ aspirants.id }}" required></td>{% endif %}
                                                             </tr>
-                                                            {% endfor %}
+                                                           
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -52,7 +52,7 @@
                                         </div>
                         
                                         <div class="modal-footer mt-2">
-                                            {% if request.user.aspirants.form.url is not None %}
+                                            {% if aspirants.form.url is not None %}
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                             {% else %}
                                                 <p class="small fw-bold text-muted">Only candidates who have uploaded their nomination form can be nominated!</p>                                        
@@ -66,7 +66,8 @@
                     {% endfor %}
 
                     <div class="card card-body pt-1">
-                        <h5 class="card-title">Nominate Aspirants</h5>
+                        <h5 class="card-title">Nominate Aspirants | <span>{{request.user.officials.school}}</span></h5>
+                        {% include 'messages.html' %}
                         <table class="table condensed striped table-bordered hover">
                             <thead>
                                 <tr class="table-active">

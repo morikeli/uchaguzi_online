@@ -330,14 +330,14 @@ def officials_homepage(request):
     total_registered_voters = Voters.objects.filter(registered=True, school=request.user.officials.school)
     total_aspirants = Aspirants.objects.filter(name__school=request.user.officials.school).count()
     total_electoral_officers = Officials.objects.filter(school=request.user.officials.school, is_official=True, registered=True)
-
+    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.officials.school, nominate=True)
 
 
     context = {
         'total_aspirants': total_aspirants, 'total_registered_voters': total_registered_voters.count(), 'total_electoral_officers': total_electoral_officers.count(),
         'male_registered_voters': total_registered_voters.filter(registered=True, gender='Male', school=request.user.officials.school).count(),
         'female_registered_voters': total_registered_voters.filter(registered=True, gender='Female', school=request.user.officials.school).count(),
-
+        'nominated_aspirants': nominated_aspirants,
 
     }
     return render(request, 'officials/homepage.html', context)
@@ -345,8 +345,23 @@ def officials_homepage(request):
 @login_required(login_url='user_login')
 @user_passes_test(lambda user: user.is_staff is True and user.officials.is_official is True and user.officials.registered is True)
 def nominate_aspirants_view(request):
+    total_aspirants = Aspirants.objects.filter(nominate=False).all()
+
+    if request.method == 'POST':
+        form = request.POST['nominate']
+        print(f'ASpirant Id.: {form}')
+
+        filter_aspirants = Aspirants.objects.get(id=form)
+        filter_aspirants.nominate = True
+        filter_aspirants.save()
+
+        messages.success(request, f'You have nominated "{filter_aspirants.name}!"')
+        return redirect('nominate_aspirants')
+        print(f'Aspirants')
+
+    
 
 
-    context = {}
+    context = {'total_aspirants': total_aspirants, }
     return render(request, 'officials/nominate.html', context)
 
