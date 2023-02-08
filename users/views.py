@@ -325,11 +325,11 @@ def officials_profile_view(request):
     return render(request, 'officials/profile.html', context)
 
 @login_required(login_url='user_login')
-@user_passes_test(lambda user: user.is_staff is True)
+@user_passes_test(lambda user: user.is_staff is True and user.is_superuser is False and user.officials.is_official is True and user.officials.registered is True)
 def officials_homepage(request):
     total_registered_voters = Voters.objects.filter(registered=True, school=request.user.officials.school)
     total_aspirants = Aspirants.objects.filter(name__school=request.user.officials.school).count()
-    total_electoral_officers = Officials.objects.filter(school=request.user.officials.school ,is_official=False, registered=True)
+    total_electoral_officers = Officials.objects.filter(school=request.user.officials.school, is_official=True, registered=True)
 
 
 
@@ -346,6 +346,7 @@ def officials_homepage(request):
 @user_passes_test(lambda user: user.is_staff is True and user.officials.is_official is True and user.officials.registered is True)
 def nominate_aspirants_view(request):
 
+
     context = {}
-    return render(request, 'officials/', context)
+    return render(request, 'officials/nominate.html', context)
 
