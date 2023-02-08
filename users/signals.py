@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
 from django.dispatch import receiver
 from .models import Aspirants, Blog, Polls, Polled, Voted
-
+import uuid
 
 @receiver(pre_save, sender=Aspirants)
 def generate_aspirant_id(sender, instance, **kwargs):
