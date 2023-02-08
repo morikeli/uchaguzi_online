@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Aspirants, Blog, Voted, Polls, Polled
+from .models import Aspirants, Blog, Voted, Polls, Polled, NominationDetails
 
 
 @admin.register(Aspirants)
@@ -25,3 +25,8 @@ class Polls(admin.ModelAdmin):
 @admin.register(Polled)
 class PolledList(admin.ModelAdmin):
     list_display = ['user_id', 'academic', 'general_rep', 'ladies_rep', 'treasurer', 'governor', 'president', 'polled']
+@admin.register(NominationDetails)
+class NominationDetailsTable(admin.ModelAdmin):
+    list_display = ['gender', 'officer_school', 'role', 'aspirant_name', 'electoral_post', 'aspirant_school']
+    readonly_fields = ['gender', 'officer_school', 'role', 'aspirant_name', 'electoral_post', 'aspirant_school']
+
