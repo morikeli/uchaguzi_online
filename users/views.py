@@ -3,7 +3,7 @@ from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import (
     VoterRegistrationForm, EditProfileForm, ElectoralPostApplicationForm, UploadNominationForm,
-    BlogForm
+    BlogForm, EditOfficialProfileForm, UpdateOfficialProfileForm
     )
 from .models import Voters, Aspirants, Blog, Polls, Polled, Voted
 from datetime import datetime
@@ -283,9 +283,43 @@ def voting_view(request, pk, school):
 @login_required(login_url='user_login')
 @user_passes_test(lambda user: user.is_staff is True and user.is_superuser is False)
 def officials_profile_view(request):
+    officialregist_form = UpdateOfficialProfileForm(instance=request.user.officials)
+    editofficial_profile = EditOfficialProfileForm(instance=request.user.officials)
+
+    if request.method == 'POST':
+        officialregist_form = UpdateOfficialProfileForm(request.POST, request.FILES, instance=request.user.officials)
+        editofficial_profile = EditOfficialProfileForm(request.POST, request.FILES, instance=request.user.officials)
+
+        if officialregist_form.is_valid():
+            official_registration = officialregist_form.save(commit=False)
+            
+            officer_dob = str(official_registration.dob)
+            get_OfficerDob = datetime.strptime(officer_dob, '%Y-%m-%d')
+            current_date = datetime.now()
+            officer_age = current_date - get_OfficerDob
+            convert_OfficerAge = int(officer_age.days/365.25)
+            official_registration.age = convert_OfficerAge
+
+            if str(datetime.strptime(officer_dob, '%Y-%m-%d').strftime('%Y')) > str(datetime.now().strftime('%Y')):
+                messages.error(request, f'INVALID DATE!! Current date is {datetime.now().strftime("%d-%m-%Y")} but you have provided date "*** {official_registration.dob.strftime("%d-%m-%Y")} ***".')
+            
+            elif official_registration.age < 25:
+                    messages.warning(request, 'You do not qualify to be registered as an electoral official!')
+
+            else:
+                official_registration.is_registered = True
+                official_registration.registered = True
+                officialregist_form.save()
+                messages.success(request, 'Profile updated successfully!')
+                return redirect('official_profile')
 
 
-    context = {}
+        elif editofficial_profile.is_valid():
+            editofficial_profile.save()
+            messages.info('You have edited your profile.')
+            return redirect('official_profile')
+
+    context = {'OfficerRegistrationForm': officialregist_form, 'EditProfileForm': editofficial_profile}
     return render(request, 'officials/profile.html', context)
 
 @login_required(login_url='user_login')

@@ -1,4 +1,4 @@
-{% extends 'voters/base.html' %}{% block title %}Profile{% endblock %}
+{% extends 'officials/base.html' %}{% block title %}Profile{% endblock %}
 {% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
@@ -14,9 +14,9 @@
 				<div class="col-xl-4">
 					<div class="card">
 						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-							<img src="{{request.user.voters.profile_pic.url}}" alt="Profile" class="rounded-circle">
-							<h2>{{request.user.voters.voter|title}} {% if request.user.voters.registered is True %}<i class="bi-check-circle-fill" style="color:#13b46c"></i>{% endif %}</h2>
-							<h3>{{request.user.voters.year}}</h3>
+							<img src="{{request.user.officials.profile_pic.url}}" alt="Profile" class="rounded-circle">
+							<h2>{{request.user.officials.officer|title}} {% if request.user.officials.registered is True %}<i class="bi-check-circle-fill" style="color:#13b46c"></i>{% endif %}</h2>
+							<h3>{{request.user.officials.role}}</h3>
 						</div>
 					</div>
 
@@ -32,9 +32,9 @@
 								</li>
 
 								<li class="nav-item">
-									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">{% if request.user.voters.registered is False %}Get Registered <i class="bi-exclamation-circle-fill" style="color: #e71b1b;"></i>{% else %}Edit Profile{% endif %}</button>
+									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">{% if request.user.officials.registered is False %}Get Registered <i class="bi-exclamation-circle-fill" style="color: #e71b1b;"></i>{% else %}Edit Profile{% endif %}</button>
 								</li>
-								{% if request.user.voters.registered is True %}
+								{% if request.user.officials.registered is True %}
 								<li class="nav-item">
 									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
 								</li>
@@ -48,42 +48,32 @@
 
 									<div class="row">
 										<div class="col-lg-3 col-md-4 label">Full Name</div>
-										<div class="col-lg-9 col-md-8">{{request.user.voters.voter|title}}</div>
+										<div class="col-lg-9 col-md-8">{{request.user.officials.officer|title}}</div>
 									</div>
 
 									<div class="row">
 										<div class="col-lg-3 col-md-4 label">Gender</div>
-										<div class="col-lg-9 col-md-8">{{request.user.voters.gender|default:" -- "}}</div>
+										<div class="col-lg-9 col-md-8">{{request.user.officials.gender|default:" -- "}}</div>
 									</div>
 
 									<div class="row">
 										<div class="col-lg-3 col-md-4 label">Age</div>
-										<div class="col-lg-9 col-md-8">{{request.user.voters.age|default:" -- "}}</div>
+										<div class="col-lg-9 col-md-8">{{request.user.officials.age|default:" -- "}}</div>
 									</div>
 
 									<div class="row">
 										<div class="col-lg-3 col-md-4 label">Date of birth</div>
-										<div class="col-lg-9 col-md-8">{{request.user.voters.dob|default:" -- "}}</div>
+										<div class="col-lg-9 col-md-8">{{request.user.officials.dob|default:" -- "}}</div>
 									</div>
 									
 									<div class="row">
 										<div class="col-lg-3 col-md-4 label">Phone No.</div>
-										<div class="col-lg-9 col-md-8">{{request.user.voters.phone_no|default:" -- "}}</div>
+										<div class="col-lg-9 col-md-8">{{request.user.officials.phone_no|default:" -- "}}</div>
 									</div>
 
 									<div class="row">
 										<div class="col-lg-3 col-md-4 label">School</div>
-										<div class="col-lg-9 col-md-8">{{request.user.voters.school|default:" -- "}}</div>
-									</div>
-
-									<div class="row">
-										<div class="col-lg-3 col-md-4 label">Year of study</div>
-										<div class="col-lg-9 col-md-8">{{request.user.voters.year|default:" -- "}}</div>
-									</div>
-
-									<div class="row">
-										<div class="col-lg-3 col-md-4 label">Semester</div>
-										<div class="col-lg-9 col-md-8">{{request.user.voters.semester|default:" -- "}}</div>
+										<div class="col-lg-9 col-md-8">{{request.user.officials.school|default:" -- "}}</div>
 									</div>
 
 								</div>
@@ -94,13 +84,13 @@
 										<div class="row mb-3">
 											<label for="image" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
 											<div class="col-md-8 col-lg-9">
-												<img src="{{request.user.voters.profile_pic.url}}" alt="Profile">
+												<img src="{{request.user.officials.profile_pic.url}}" alt="Profile">
 											</div>
 										</div>
 										<div class="row mb-2">
 											<div class="col-md-8 col-lg-12">
-												{% if request.user.voters.gender == "" %}
-												{{UpdateProfileForm|crispy}}
+												{% if request.user.officials.gender == "" and request.user.officials.registered is False %}
+												{{OfficerRegistrationForm|crispy}}
 												{% else %}
 												{{EditProfileForm|crispy}}
 												{% endif %}
