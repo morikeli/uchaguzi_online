@@ -155,6 +155,7 @@ class UpdateOfficialProfileForm(forms.ModelForm):
     phone_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel', 'class': 'mt-2 mb-2', 'placeholder': 'Enter your mobile no.'}), label='', )
     dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label='', help_text='Enter your date of birth. Date format: MM/DD/YYYY e.g. 07/31/2022')
     school = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_SCHOOL)
+    role = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_ROLE)
 
     class Meta:
         model = Officials
@@ -174,12 +175,20 @@ class EditOfficialProfileForm(forms.ModelForm):
         ('School of Information, Communication & Media Studies', 'School of Information, Communication & Media Studies (INFOCOMS)'),
         ('School of Science, Agriculture & Environmental Science', 'School of Science, Agriculture & Environmental Science (SSAES)'),
     )
+    SELECT_ROLE = (
+        (None, '-- Select your rank --'),
+        ('Chairperson', 'Chairperson'),
+        ('Assistant Commisioner', 'Assistant Commisioner'),
+        ('Registration Officer', 'Registration Officer'),
+
+    )
     
     gender = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_GENDER, disabled=True)
-    phone_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel', 'class': 'mt-2 mb-2', 'placeholder': 'Enter your mobile no.'}), label='', )
-    dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label='', help_text='Enter your date of birth. Date format: MM/DD/YYYY e.g. 07/31/2022')
+    phone_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel', 'class': 'mt-2 mb-2', 'placeholder': 'Enter your mobile no.'}), label='', disabled=True)
+    dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label='', help_text='Enter your date of birth. Date format: MM/DD/YYYY e.g. 07/31/2022', disabled=True)
     school = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_SCHOOL, disabled=True)
-
+    role = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), label='', choices=SELECT_ROLE)
+    
     class Meta:
         model = Officials
         fields = ['gender', 'phone_no', 'dob', 'school', 'role', 'profile_pic']
