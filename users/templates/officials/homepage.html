@@ -69,11 +69,11 @@
 										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
 									<div class="modal-body">
-										{% if request.user.voters.registered is True %}
+										{% if request.user.officials.registered is True %}
 										<div class="row mb-2">
 											<div class="col-md-12 table-responsive text-center">
 												<img src="{% static 'img/voters/thumbs-up.png' %}" alt="img" class="rounded-circle mb-2" style="border: 2px solid blueviolet" height="120px" width="120px">
-												<h5>You are a registered voter</h5>
+												<h5>You are a registered electoral official</h5>
 												<table class="table table-sm table-condensed table-bordered table-striped table-hover">
 													<thead>
 														<tr class="text-center table-success">
@@ -83,19 +83,19 @@
 													</thead>
 													<tbody>
 														<tr>
-															<td>Name: </td><td class="text-center">{{ request.user.voters.voter|title }}</td>
+															<td>Name: </td><td class="text-center">{{ request.user.officials.officer|title }}</td>
 														</tr>
 														<tr>
-															<td>Gender: </td><td class="text-center">{{ request.user.voters.gender }}</td>
+															<td>Gender: </td><td class="text-center">{{ request.user.officials.gender }}</td>
 														</tr>
 														<tr>
-															<td>School: </td><td class="text-center">{{ request.user.voters.school }}</td>
+															<td>School: </td><td class="text-center">{{ request.user.officials.school }}</td>
 														</tr>
 														<tr>
-															<td>Registration No.: </td><td class="text-center">{{ request.user.voters.reg_no }}</td>
+															<td>Registration No.: </td><td class="text-center">{{ request.user.officials.role }}</td>
 														</tr>
 														<tr>
-															<td>Year: </td><td class="text-center">{{ request.user.voters.year }}</td>
+															<td>Official Status: </td><td class="text-center">{{ request.user.officials.is_official }}</td>
 														</tr>
 														
 													</tbody>
@@ -193,7 +193,7 @@
 						<div class="col-xxl-4 col-md-6">
 							<div class="card info-card aspirants-card">
 								<div class="card-body">
-									<h5 class="card-title">Aspirants | <span>{{ request.user.voters.school }}</span></h5>
+									<h5 class="card-title">Aspirants | <span>{{ request.user.officials.school }}</span></h5>
 
 									<div class="d-flex align-items-center">
 										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -212,13 +212,13 @@
 							<div class="card info-card pollers-card">
 
 								<div class="card-body">
-									<h5 class="card-title">Pollers | <span>{{ request.user.voters.school }}</span></h5>
+									<h5 class="card-title">Reg. Voters | <span>{{ request.user.officials.school }}</span></h5>
 									<div class="d-flex align-items-center">
 										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
 										<i class="bi bi-clipboard-data"></i>
 										</div>
 										<div class="ps-3">
-										<h6>{{ polled }}</h6>
+										<h6>{{ total_registered_voters }}</h6>
 										<span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 
 										</div>
@@ -232,13 +232,13 @@
 							<div class="card info-card reg-voters-card">
 
 								<div class="card-body">
-									<h5 class="card-title">Registered Voters | <span>{{ request.user.voters.school }}</span></h5>
+									<h5 class="card-title">Electoral Officials| <span>{{ request.user.officials.school }}</span></h5>
 									<div class="d-flex align-items-center">
 										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
 											<i class="bi bi-people-fill"></i>
 										</div>
 										<div class="ps-3">
-											<h6>{{ total_reg_voters }}</h6>
+											<h6>{{ total_electoral_officers }}</h6>
 											<span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
 										</div>
 									</div>
@@ -394,8 +394,8 @@
 
 						<div class="card-body pb-2">
 							<h5 class="card-title">Registered Voters</h5>
-							<input type="hidden" id="males" value="{{male_reg_voters}}">
-							<input type="hidden" id="females" value="{{female_reg_voters}}">
+							<input type="hidden" id="males" value="{{male_registered_voters}}">
+							<input type="hidden" id="females" value="{{female_registered_voters}}">
 							<canvas id="votersChart" class="mb-3" style="max-height: 400px;"></canvas>
 							<script type="text/javascript" src="{% static 'js/voters-page/votersdchart.js' %}"></script>
 						</div>
