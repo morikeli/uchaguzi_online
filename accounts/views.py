@@ -22,9 +22,14 @@ def user_login_view(request):
             
             if user_account is not None:
                 if user_account.is_staff is True:
+                    if user_account.officials.is_official is True and user_account.officials.registered is True:
                         auth.login(request, user_account)
                         return redirect('official_homepage')
-
+                    
+                    else:
+                        auth.login(request, user_account)
+                        return redirect('official_profile')
+                
                 elif user_account.is_staff is False:
                     auth.login(request, user_account)
                     return redirect('voters_homepage')
