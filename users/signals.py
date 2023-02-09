@@ -2,7 +2,7 @@ from django.db.models.signals import pre_save, post_save
 from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
 from django.dispatch import receiver
-from .models import Aspirants, Blog, Polls, Polled, Voted
+from .models import Aspirants, Blog, Polls, Polled, Voted, NominationDetails
 import uuid
 
 @receiver(pre_save, sender=Aspirants)
@@ -31,6 +31,11 @@ def aspirant_polls(sender, instance, **kwargs):
 def voters_polled(sender, instance, **kwargs):
     if instance.id == "":
         instance.id = str(uuid.uuid4()).replace('-', '')[:18]
+
+@receiver(pre_save, sender=NominationDetails)
+def generate_NominationDetails_Id(sender, instance, **kwargs):
+    if instance.id == "":
+        instance.id = str(uuid.uuid4()).replace('', '-')[:15]
 
 
 @receiver(post_save, sender=Aspirants)
