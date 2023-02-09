@@ -5,7 +5,7 @@ from .forms import (
     VoterRegistrationForm, EditProfileForm, ElectoralPostApplicationForm, UploadNominationForm,
     BlogForm, EditOfficialProfileForm, UpdateOfficialProfileForm
     )
-from .models import Aspirants, Blog, Polls, Polled, Voted
+from .models import Aspirants, Blog, Polls, Polled, Voted, NominationDetails
 from accounts.models import Voters, Officials
 from datetime import datetime
 
@@ -349,18 +349,20 @@ def nominate_aspirants_view(request):
 
     if request.method == 'POST':
         form = request.POST['nominate']
-        print(f'ASpirant Id.: {form}')
 
         filter_aspirants = Aspirants.objects.get(id=form)
         filter_aspirants.nominate = True
         filter_aspirants.save()
 
+        nominating_officer = NominationDetails.objects.create(
+            name=request.user.officials, gender=request.user.officials.gender, officer_school=request.user.officials.school,
+            role=request.user.officials.role, aspirant_name=str(filter_aspirants), electoral_post=filter_aspirants.post,
+            aspirant_school=filter_aspirants.name.school,
+            )
+        nominating_officer.save()
+
         messages.success(request, f'You have nominated "{filter_aspirants.name}!"')
         return redirect('nominate_aspirants')
-        print(f'Aspirants')
-
-    
-
 
     context = {'total_aspirants': total_aspirants, }
     return render(request, 'officials/nominate.html', context)
