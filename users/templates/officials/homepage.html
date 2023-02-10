@@ -161,7 +161,7 @@
 								</div>
 
 								<div class="card-body">
-									<h5 class="card-title"><i class="bi bi-pie-chart-fill"></i> Nominated Candidates</h5>
+									<h5 class="card-title"><i class="bi bi-pie-chart-fill"></i> Nominated aspirants | <span>{{request.user.officials.school}}</span></h5>
 									<div class="table-responsive">
 										<table class="table table-bordered table-condensed">
 											<thead>
@@ -178,7 +178,7 @@
 													<td><img src="{{ aspirants.pic.url }}" alt="image" class="rounded-circle" height="45px" width="45px"></td>
 													<td>{{ aspirants.name|title }}</td>
 													<td>{{ aspirants.post }}</td>
-													<td class="pt-1 px-5">{% if aspirants.nominate is True %}<i class="check-circle-fill" style="color: #13bb46;"></i>{% else %}<i class="bi-x-circle-fill" style="color: #f03040"></i>{% endif %}</td>
+													<td class="pt-1 px-5">{% if aspirants.nominate is True %}<i class="bi-check-circle-fill" style="color: #13bb46;"></i>{% else %}<i class="bi-x-circle-fill" style="color: #f03040"></i>{% endif %}</td>
 												</tr>
 												{% endfor %}
 											</tbody>
@@ -201,7 +201,7 @@
 								</div>
 
 								<div class="card-body pb-0">
-									<h5 class="card-title"><i class="bi bi-trophy-fill"></i> Leaderboard</h5>
+									<h5 class="card-title"><i class="bi-check-circle-fill" style="color: #13bb46;"></i> Electoral officials | <span>{{request.user.officials.school}}</span></h5>
 
 									<table class="table table-borderless">
 										<thead>
@@ -209,18 +209,20 @@
 												<th scope="col">Image</th>
 												<th scope="col">Name</th>
 												<th scope="col">Gender</th>
-												<th scope="col">Post</th>
-												<th scope="col">Total Votes</th>
+												<th scope="col">School</th>
+												<th scope="col">Role</th>
+												<th scope="col">Registered</th>
 											</tr>
 										</thead>
 										<tbody>
-											{% for aspirant in winners %}
+											{% for official in electoral_officials %}
 											<tr>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
+												<td><img class="rounded-circle" height="47px" width="47px" src="{{official.profile_pic.ur}}" alt="officer-dp"></td>
+												<td>{{ official.officer }}</td>
+												<td>{{ official.gender }}</td>
+												<td>{{ official.school }}</td>
+												<td>{{ official.role }}</td>
+												<td>{{ official.registered }}</td>
 											</tr>
 											{% endfor %}
 										</tbody>
@@ -234,37 +236,6 @@
 				</div>
 
 				<div class="col-lg-4">
-					<div class="card">
-						<div class="card-body">
-							<h5 class="card-title"><i class="bi bi-compass-fill"></i> Who is who?</h5>
-
-							<div class="activity">
-								{% for blog in blogs %}
-								<div class="activity-item d-flex">
-									<div class="activity-label">{{ blog.written|timesince|slice:":4" }}</div>
-									<img src="{{ blog.blogger.pic.url }}" class="rounded-circle activity-badge align-self-start" height="50px" width="50px" alt="">
-									<div class="activity-content">
-										<a href="{% url 'voters_homepage' %}" class="fw-bold text-dark" data-bs-toggle="modal" data-bs-target="#all-blogs">
-											{{ blog.message|truncatewords:5 }}
-										</a>
-									</div>
-								</div>
-								{% empty %}
-								<div class="activity-item">
-									<h6 class="small fw-bold text-center">
-										See what your leaders have to say ...
-									</h6>
-								</div>
-								{% endfor %}
-								<hr class="dropdown-divider">
-								<div class="text-center">
-									<a href="{% url 'voters_homepage' %}" class="badge bg-primary p-2" data-bs-toggle="modal" data-bs-target="#all-blogs">View more</a>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
 					<div class="card">
 						<div class="filter">
 							<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
