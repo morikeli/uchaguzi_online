@@ -52,7 +52,18 @@
 															<td>Officer Role: </td><td class="text-center">{{ request.user.officials.role }}</td>
 														</tr>
 														<tr>
-															<td>Official Status: </td><td class="text-center">{{ request.user.officials.is_official }}</td>
+															<td>Official Status: </td>
+															<td class="text-center">
+																{% if request.user.officials.is_official is True %}
+																<span class="badge bg-secondary">
+																	Registered <i class="bi-check-circle-fill" style="color: #13bb46;"></i>
+																</span>
+																{% else %}
+																<span class="badge bg-primary">
+																	Not registered <i class="bi-check-circle-fill" style="color: #f03040;"></i>
+																</span>
+																{% endif %}
+															</td>
 														</tr>
 														
 													</tbody>
