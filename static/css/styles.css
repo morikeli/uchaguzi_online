@@ -630,6 +630,10 @@ h1, h2, h3, h4, h5, h6 {
 .sidebar-nav .nav-link .bi-reply-all-fill {
   color: #089934;
 }
+.sidebar-nav .nav-link .bi-person-check-fill {
+  color: #056464;
+}
+
 
 .sidebar-nav .nav-link:hover {
   color: #4154f1;
@@ -785,6 +789,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .dashboard .card-title .bi-pie-chart-fill {
   color: #d61616;
+}
+.dashboard .card-title .bi-people-fill {
+  color: #18d26e;
 }
 .dashboard .card-title .bi-newspaper {
   color: #13bb46;

@@ -85,13 +85,11 @@
                                     <td><img class="rounded-circle" src="{{ aspirants.pic.url }}" alt="aspirant-pic" height="45px" width="45px"></td>
                                     <td><a style="text-decoration: none;" href="" data-bs-toggle="modal" data-bs-target="#nomination-form-{{ aspirants.id }}">{{ aspirants.name }}</a></td>
                                     <td>{{ aspirants.post  }}</td>
-                                    <td>
+                                    <td class="text-center">
                                         {% if aspirants.form.url is not None %}
                                         <a href="{{ aspirants.form.url }}" target="_blank">{{ aspirants.form.url }}</a>
                                         {% else %} 
-                                        <span class="badge bg-primary pb-2">
-                                            Not uploaded yet ... <span class="spinner-border spinner-border-sm"></span>
-                                        </span>
+                                        <i class="bi-person-x-fill" style="color: #f03040; font-size: 30px;"></i>
                                         {% endif %}
                                     </td>
                                 </tr>
