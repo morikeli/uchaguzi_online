@@ -331,13 +331,14 @@ def officials_homepage(request):
     total_aspirants = Aspirants.objects.filter(name__school=request.user.officials.school).count()
     total_electoral_officers = Officials.objects.filter(school=request.user.officials.school, is_official=True, registered=True)
     nominated_aspirants = Aspirants.objects.filter(name__school=request.user.officials.school, nominate=True)
+    electoral_officials = Officials.objects.filter(school=request.user.officials.school).exclude(officer=request.user.officials.officer)
 
 
     context = {
         'total_aspirants': total_aspirants, 'total_registered_voters': total_registered_voters.count(), 'total_electoral_officers': total_electoral_officers.count(),
         'male_registered_voters': total_registered_voters.filter(registered=True, gender='Male', school=request.user.officials.school).count(),
         'female_registered_voters': total_registered_voters.filter(registered=True, gender='Female', school=request.user.officials.school).count(),
-        'nominated_aspirants': nominated_aspirants,
+        'nominated_aspirants': nominated_aspirants, 'electoral_officials': electoral_officials,
 
     }
     return render(request, 'officials/homepage.html', context)
