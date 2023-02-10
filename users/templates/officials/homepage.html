@@ -222,7 +222,7 @@
 												<td>{{ official.gender }}</td>
 												<td>{{ official.school }}</td>
 												<td>{{ official.role }}</td>
-												<td>{{ official.registered }}</td>
+												<td>{% if official.registered is True %} <i class="bi-check-circle-fill" style="color: #13bb46;"></i> {% else %} <i class="bi-x-circle-fill" style="color: #f03040;"></i>{% endif %}</td>
 											</tr>
 											{% endfor %}
 										</tbody>
