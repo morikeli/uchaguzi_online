@@ -29,7 +29,7 @@
                                                 <div class="table-responsive">
                                                     <table class="table table-sm table-bordered table-condensed text-center">
                                                         <thead>
-                                                            <tr class="table-success">
+                                                            <tr class="table-success text-center">
                                                                 <th>Image</th>
                                                                 <th>Name</th>
                                                                 <th>Electoral Post</th>
@@ -68,36 +68,65 @@
                     <div class="card card-body pt-1">
                         <h5 class="card-title">Nominate Aspirants | <span>{{request.user.officials.school}}</span></h5>
                         {% include 'messages.html' %}
-                        <table class="table condensed striped table-bordered hover">
-                            <thead>
-                                <tr class="table-active">
-                                    <th>#</th>
-                                    <th>Profile pic</th>
-                                    <th>Name</th>
-                                    <th>Post</th>
-                                    <th>Nomination form</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for aspirants in total_aspirants %}
-                                <tr>
-                                    <td>{{ forloop.counter }}</td>
-                                    <td><img class="rounded-circle" src="{{ aspirants.pic.url }}" alt="aspirant-pic" height="45px" width="45px"></td>
-                                    <td><a style="text-decoration: none;" href="" data-bs-toggle="modal" data-bs-target="#nomination-form-{{ aspirants.id }}">{{ aspirants.name }}</a></td>
-                                    <td>{{ aspirants.post  }}</td>
-                                    <td class="text-center">
-                                        {% if aspirants.form.url is not None %}
-                                        <a href="{{ aspirants.form.url }}" target="_blank">{{ aspirants.form.url }}</a>
-                                        {% else %} 
-                                        <i class="bi-person-x-fill" style="color: #f03040; font-size: 30px;"></i>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                                {% empty %}
-                                <tr><td colspan="5" class="text-center text-muted fw-bold">No aspirants available</td></tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table condensed striped table-bordered hover">
+                                <thead>
+                                    <tr class="table-active text-center">
+                                        <th>#</th>
+                                        <th>Profile pic</th>
+                                        <th>Name</th>
+                                        <th>Post</th>
+                                        <th>Nomination form</th>
+                                        <th>Nominating Officers</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for aspirants in total_aspirants %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td class="px-4"><img class="rounded-circle" src="{{ aspirants.pic.url }}" alt="aspirant-pic" height="45px" width="45px"></td>
+                                        <td class="px-4"><a style="text-decoration: none;" href="" data-bs-toggle="modal" data-bs-target="#nomination-form-{{ aspirants.id }}">{{ aspirants.name }}</a></td>
+                                        <td class="px-4">{{ aspirants.post  }}</td>
+                                        <td class="text-center">
+                                            {% if aspirants.form.url is not None %}
+                                            <a href="{{ aspirants.form.url }}" class="btn btn-sm btn-primary" target="_blank">Nomination form</a>
+                                            {% else %} 
+                                            <i class="bi-person-x-fill" style="color: #f03040; font-size: 30px;"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <table class="table table-responsive table-condensed table-striped table-bordered">
+                                                <tbody>
+                                                    {% for officer in officers %}
+                                                    <tr class="table table-condensed table-bordered">
+                                                        <td>{% if officer.aspirant_name == aspirants.name %}{{officer.name}}{% endif %}</td>
+                                                        <td>
+                                                            {% if officer.has_nominated is True and officer.aspirant_name == aspirants.id %}
+                                                            <i class="bi-check-circle-fill" style="color: #13bb46"></i>
+                                                            {% else %}
+                                                            <i class="bi-x-circle-fill" style="color:#df2b3a;"></i>
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                    {% empty %}
+                                                    <tr><td colspan="2" class="text-center fst-italic text-muted">No data available</td></tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr><td colspan="6" class="text-center text-muted fw-bold">No aspirants available</td></tr>
+                                    {% endfor %}
+                                    <tr class="table-danger">
+                                        <td colspan="6" class="text-center fw-bold fst-italic">
+                                            Candidates with red icons have not uploaded their nomination forms.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>                    
+                        </div>
+                        
                     </div>
                 </div>
             </div>
