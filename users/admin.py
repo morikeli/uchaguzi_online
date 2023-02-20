@@ -27,6 +27,6 @@ class PolledList(admin.ModelAdmin):
     list_display = ['user_id', 'academic', 'general_rep', 'ladies_rep', 'treasurer', 'governor', 'president', 'polled']
 @admin.register(NominationDetails)
 class NominationDetailsTable(admin.ModelAdmin):
-    list_display = ['name', 'gender', 'officer_school', 'role', 'aspirant_name', 'electoral_post', 'aspirant_school', 'has_nominated']
-    readonly_fields = ['gender', 'officer_school', 'role', 'aspirant_name', 'electoral_post', 'aspirant_school', 'has_nominated']
+    list_display = ['officer_name', 'officer_school', 'role', 'aspirant_name', 'has_nominated']
+    readonly_fields = ['officer_school', 'role', 'aspirant_name', 'has_nominated']
 
