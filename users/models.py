@@ -127,5 +127,5 @@ class NominationDetails(models.Model):
         ordering = ['officer_name']
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.aspirant_name}'
 
