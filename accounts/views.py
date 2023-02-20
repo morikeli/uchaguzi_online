@@ -31,8 +31,13 @@ def user_login_view(request):
                         return redirect('official_profile')
                 
                 elif user_account.is_staff is False:
-                    auth.login(request, user_account)
-                    return redirect('voters_homepage')
+                    if  user_account.is_staff is False and user_account.voters.registered is True:
+                        auth.login(request, user_account)
+                        return redirect('voters_homepage')
+
+                    else:
+                        auth.login(request, user_account)
+                        return redirect('voters_profile')
 
                 else:
                     messages.error(request, 'INVALID CREDENTIALS!!')
