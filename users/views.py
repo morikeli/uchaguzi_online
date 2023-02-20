@@ -346,25 +346,40 @@ def officials_homepage(request):
 @login_required(login_url='user_login')
 @user_passes_test(lambda user: user.is_staff is True and user.officials.is_official is True and user.officials.registered is True)
 def nominate_aspirants_view(request):
-    total_aspirants = Aspirants.objects.filter(nominate=False).all()
+    total_aspirants = Aspirants.objects.filter(nominate=False, name__school=request.user.officials.school).all()
 
     if request.method == 'POST':
         form = request.POST['nominate']
 
         filter_aspirants = Aspirants.objects.get(id=form)
         filter_aspirants.nominate = True
-        filter_aspirants.save()
 
-        nominating_officer = NominationDetails.objects.create(
-            name=request.user.officials, gender=request.user.officials.gender, officer_school=request.user.officials.school,
-            role=request.user.officials.role, aspirant_name=str(filter_aspirants), electoral_post=filter_aspirants.post,
-            aspirant_school=filter_aspirants.name.school,
-            )
-        nominating_officer.save()
+        registration_officers = Officials.objects.filter(role='Registration Officer', school=request.user.officials.school,registered=True, is_official=True).count()
 
-        messages.success(request, f'You have nominated "{filter_aspirants.name}!"')
+        if NominationDetails.objects.filter(aspirant_name=filter_aspirants).count() < registration_officers:
+            if NominationDetails.objects.filter(name=request.user.officials, aspirant_name=filter_aspirants, has_nominated=True).exists():
+                messages.error(request, f'You nominated "{filter_aspirants}"')
+
+            else:
+                nominating_officer = NominationDetails.objects.create(
+                    name=request.user.officials, gender=request.user.officials.gender, officer_school=request.user.officials.school,
+                    role=request.user.officials.role, aspirant_name=filter_aspirants, electoral_post=filter_aspirants.post,
+                    aspirant_school=filter_aspirants.name.school, has_nominated=True
+                    )
+                nominating_officer.save()
+                messages.info(request, f'You have nominated "{filter_aspirants}!".\
+                This candidate will be approved if all returning officers will nominate {filter_aspirants.name}.')
+
+
+        elif NominationDetails.objects.filter(aspirant_name=filter_aspirants).count() == registration_officers.count():
+            filter_aspirants.save()        
+        
+        elif NominationDetails.objects.filter(aspirant_name=filter_aspirants).count() > registration_officers:
+            messages.error(request, 'Unknown error occurred')
+
         return redirect('nominate_aspirants')
 
-    context = {'total_aspirants': total_aspirants, }
+    context = {'total_aspirants': total_aspirants, 'officers': NominationDetails.objects.all()}
     return render(request, 'officials/nominate.html', context)
+
 
