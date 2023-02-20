@@ -77,7 +77,7 @@
                                         <th>Name</th>
                                         <th>Post</th>
                                         <th>Nomination form</th>
-                                        <th>Nominating Officers</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -89,30 +89,17 @@
                                         <td class="px-4">{{ aspirants.post  }}</td>
                                         <td class="text-center">
                                             {% if aspirants.form.url is not None %}
-                                            <a href="{{ aspirants.form.url }}" class="btn btn-sm btn-primary" target="_blank">Nomination form</a>
+                                            <a href="{{ aspirants.form.url }}" class="btn btn-sm btn-secondary" target="_blank">Nomination form</a>
                                             {% else %} 
                                             <i class="bi-person-x-fill" style="color: #f03040; font-size: 30px;"></i>
                                             {% endif %}
                                         </td>
                                         <td>
-                                            <table class="table table-responsive table-condensed table-striped table-bordered">
-                                                <tbody>
-                                                    {% for officer in officers %}
-                                                    <tr class="table table-condensed table-bordered">
-                                                        <td>{% if officer.aspirant_name == aspirants.name %}{{officer.name}}{% endif %}</td>
-                                                        <td>
-                                                            {% if officer.has_nominated is True and officer.aspirant_name == aspirants.id %}
-                                                            <i class="bi-check-circle-fill" style="color: #13bb46"></i>
-                                                            {% else %}
-                                                            <i class="bi-x-circle-fill" style="color:#df2b3a;"></i>
-                                                            {% endif %}
-                                                        </td>
-                                                    </tr>
-                                                    {% empty %}
-                                                    <tr><td colspan="2" class="text-center fst-italic text-muted">No data available</td></tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>
+                                            {% if aspirants.nominate is False %}
+											<span class="badge bg-primary pb-2">
+												Nomination pending ... <span class="spinner-border spinner-border-sm"></span>
+											</span>
+                                            {% endif %}
                                         </td>
                                     </tr>
                                     {% empty %}

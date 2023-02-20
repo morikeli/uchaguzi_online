@@ -357,16 +357,15 @@ def nominate_aspirants_view(request):
         registration_officers = Officials.objects.filter(role='Registration Officer', school=request.user.officials.school,registered=True, is_official=True).count()
 
         if NominationDetails.objects.filter(aspirant_name=filter_aspirants).count() < registration_officers:
-            if NominationDetails.objects.filter(name=request.user.officials, aspirant_name=filter_aspirants, has_nominated=True).exists():
+            if NominationDetails.objects.filter(officer_name=request.user.officials, aspirant_name=filter_aspirants, has_nominated=True).exists():
                 messages.error(request, f'You nominated "{filter_aspirants}"')
 
             else:
                 nominating_officer = NominationDetails.objects.create(
-                    name=request.user.officials, gender=request.user.officials.gender, officer_school=request.user.officials.school,
-                    role=request.user.officials.role, aspirant_name=filter_aspirants, electoral_post=filter_aspirants.post,
-                    aspirant_school=filter_aspirants.name.school, has_nominated=True
-                    )
+                    aspirant_name=filter_aspirants, officer_name=str(request.user.officials), officer_school=request.user.officials.school,
+                    role=request.user.officials.role, has_nominated=True)
                 nominating_officer.save()
+
                 messages.info(request, f'You have nominated "{filter_aspirants}!".\
                 This candidate will be approved if all returning officers will nominate {filter_aspirants.name}.')
 
