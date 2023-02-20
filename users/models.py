@@ -118,7 +118,7 @@ class NominationDetails(models.Model):
     gender = models.CharField(max_length=7, blank=False)
     officer_school = models.CharField(max_length=70, blank=False)
     role = models.CharField(max_length=25, blank=False)
-    aspirant_name = models.CharField(max_length=100, blank=False)
+    aspirant_name = models.ForeignKey(Aspirants, on_delete=models.CASCADE, editable=False)
     electoral_post = models.CharField(max_length=32, blank=False)
     aspirant_school = models.CharField(max_length=70, blank=False)
     has_nominated = models.BooleanField(default=False)
