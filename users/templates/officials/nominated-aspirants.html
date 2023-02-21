@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="card card-body pt-1">
-                        <h5 class="card-title">Nominate Aspirants | <span>{{request.user.officials.school}}</span></h5>
+                        <h5 class="card-title">Nominated Aspirants Info. | <span>{{request.user.officials.school}}</span></h5>
                         {% include 'messages.html' %}
                         <div class="table-responsive">
                             <table class="table table-condensed table-bordered table-hover">
@@ -29,24 +29,32 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for aspirants in nominated_aspirants %}
+                                    {% for aspirants in all_aspirants %}
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
-                                        <td class="px-4"><img class="rounded-circle" src="{{ aspirants.aspirant_name.pic.url }}" alt="aspirant-pic" height="45px" width="45px"></td>
-                                        <td class="px-4">{{ aspirants.aspirant_name }}</td>
-                                        <td class="px-4">{{ aspirants.aspirant_name.post }}</td>
+                                        <td class="px-4"><img class="rounded-circle" src="{{ aspirants.pic.url }}" alt="aspirant-pic" height="45px" width="45px"></td>
+                                        <td class="px-4">{{ aspirants.name }}</td>
+                                        <td class="px-4">{{ aspirants.post }}</td>
                                         <td class="text-center">
-                                            {% if aspirants.aspirant_name.nominate is True %} <i class="bi-check-circle-fill" style="color: #13bb46;"></i> {% endif %}
+                                            {% if aspirants.nominate is True %} <i class="bi-check-circle-fill" style="color: #13bb46;"></i> {% endif %}
                                         </td>
                                         <td>
                                             <table class="table table-condensed table-bordered table-striped">
                                                 <tbody>
+                                                    {% for officer in details %}
+                                                    {% if officer.aspirant_name.name == aspirants.name and officer.has_nominated is True %}
                                                     <tr>
-                                                        <td class="text-start">{{ aspirants.officer_name|title }}</td>
+                                                        <td class="text-start">{{ officer.officer_name|title }}</td>
                                                         <td class="text-center pt-2">
-                                                            {% if aspirants.has_nominated is True %}<i class="bi-check-circle-fill" style="color: #13bb46;"></i>{% endif %}
+                                                            {% if officer.has_nominated is True %}
+                                                                <i class="bi-check-circle-fill" style="color: #13bb46;"></i>
+                                                            {% else %}
+                                                                <i class="bi-x-circle-fill" style="color: #f03040;"></i>
+                                                            {% endif %}
                                                         </td>
                                                     </tr>
+                                                    {% endif %}
+                                                    {% endfor %}
                                                 </tbody>
                                             </table>
                                         </td>
