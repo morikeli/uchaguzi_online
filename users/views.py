@@ -339,6 +339,7 @@ def officials_homepage(request):
         'male_registered_voters': total_registered_voters.filter(registered=True, gender='Male', school=request.user.officials.school).count(),
         'female_registered_voters': total_registered_voters.filter(registered=True, gender='Female', school=request.user.officials.school).count(),
         'nominated_aspirants': nominated_aspirants, 'electoral_officials': electoral_officials,
+        'users_who_have_voted': Voted.objects.all().count(), 'users_who_have_polled': Polled.objects.all().count(),
 
     }
     return render(request, 'officials/homepage.html', context)
