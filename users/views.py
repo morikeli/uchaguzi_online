@@ -386,9 +386,12 @@ def nominate_aspirants_view(request):
     return render(request, 'officials/nominate.html', context)
 
 
+@login_required(login_url='user_login')
+@user_passes_test(lambda user: user.is_staff is True and user.officials.is_official is True and user.officials.registered is True)
 def display_nominated_aspirants_view(request):
     nomination_details = NominationDetails.objects.all()
 
 
     context = {'nominated_aspirants': nomination_details}
     return render(request, 'officials/nominated-aspirants.html', context)
+
