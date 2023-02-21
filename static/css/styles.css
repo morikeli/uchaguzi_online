@@ -630,8 +630,8 @@ h1, h2, h3, h4, h5, h6 {
 .sidebar-nav .nav-link .bi-reply-all-fill {
   color: #089934;
 }
-.sidebar-nav .nav-link .bi-person-lines-fill {
-  color: rgb(119, 26, 26);
+.sidebar-nav .nav-link .bi-info-circle-fill {
+  color: #37419c;
 }
 .sidebar-nav .nav-link .bi-person-check-fill {
   color: #056464;
