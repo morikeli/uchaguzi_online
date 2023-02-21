@@ -256,7 +256,7 @@
 											{% for official in electoral_officials %}
 											<tr>
 												<td><img class="rounded-circle" height="47px" width="47px" src="{{official.profile_pic.url}}" alt="officer-dp"></td>
-												<td>{{ official.officer }}</td>
+												<td class="text-muted fw-bold">{{ official.officer|title }}</td>
 												<td>{{ official.gender }}</td>
 												<td>{{ official.school }}</td>
 												<td>{{ official.role }}</td>
