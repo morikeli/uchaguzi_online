@@ -234,16 +234,19 @@
 					<i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span>
 				</a>
 			</li>
-			
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'official_homepage' %}" data-bs-toggle="modal" data-bs-target="#modal-registration">
 					<i class="bi bi-calendar2-check-fill"></i><span>Registration Status</span>
 				</a>
 			</li>
-			
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'nominate_aspirants' %}" target="_blank">
-					<i class="bi-person-check-fill"></i><span>Nominate aspirants</span>
+					<i class="bi-person-check-fill"></i><span>Nominations</span>
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'view_nominated_aspirants' %}">
+					<i class="bi-person-check-fill"></i><span>Nominated aspirants</span>
 				</a>
 			</li>
 			<li><hr class="dropdown-divider"></li>	
