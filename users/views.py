@@ -392,6 +392,6 @@ def display_nominated_aspirants_view(request):
     nomination_details = NominationDetails.objects.all()
 
 
-    context = {'nominated_aspirants': nomination_details}
+    context = {'details': nomination_details, 'all_aspirants': Aspirants.objects.filter(name__school=request.user.officials.school, nominate=True)}
     return render(request, 'officials/nominated-aspirants.html', context)
 
