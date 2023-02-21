@@ -330,8 +330,8 @@ def officials_homepage(request):
     total_registered_voters = Voters.objects.filter(registered=True, school=request.user.officials.school)
     total_aspirants = Aspirants.objects.filter(name__school=request.user.officials.school).count()
     total_electoral_officers = Officials.objects.filter(school=request.user.officials.school, is_official=True, registered=True)
-    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.officials.school, nominate=True)
-    electoral_officials = Officials.objects.filter(school=request.user.officials.school).exclude(officer=request.user.officials.officer)
+    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.officials.school, nominate=True).order_by('edited')
+    electoral_officials = Officials.objects.filter(school=request.user.officials.school).exclude(officer=request.user.officials.officer).order_by('role')
 
 
     context = {
