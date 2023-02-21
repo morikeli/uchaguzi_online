@@ -117,6 +117,44 @@
 							</div>
 						</div>
 
+						<div class="col-xxl-4 col-md-6">
+							<div class="card info-card reg-voters-card">
+
+								<div class="card-body">
+									<h5 class="card-title">Polls | <span>{{ request.user.officials.school }}</span></h5>
+									<div class="d-flex align-items-center">
+										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+											<i class="bi bi-people-fill"></i>
+										</div>
+										<div class="ps-3">
+											<h6>{{ total_electoral_officers }}</h6>
+											<span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xxl-4 col-md-6">
+							<div class="card info-card pollers-card">
+
+								<div class="card-body">
+									<h5 class="card-title">Casted Votes | <span>{{ request.user.officials.school }}</span></h5>
+									<div class="d-flex align-items-center">
+										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+										<i class="bi bi-clipboard-data"></i>
+										</div>
+										<div class="ps-3">
+										<h6>{{ total_registered_voters }}</h6>
+										<span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
 						<div class="col-xxl-4 col-xl-12">
 							<div class="card info-card reg-voters-card">
 
@@ -163,7 +201,7 @@
 								<div class="card-body">
 									<h5 class="card-title"><i class="bi-people-fill"></i> Nominated aspirants | <span>{{request.user.officials.school}}</span></h5>
 									<div class="table-responsive">
-										<table class="table table-bordered table-condensed">
+										<table class="table table-bordered table-condensed table-hover text-center">
 											<thead>
 												<tr>
 													<th scope="col">Image</th>
@@ -176,7 +214,7 @@
 												{% for aspirants in nominated_aspirants %}
 												<tr>
 													<td><img src="{{ aspirants.pic.url }}" alt="image" class="rounded-circle" height="45px" width="45px"></td>
-													<td>{{ aspirants.name|title }}</td>
+													<td class="fw-bold text-muted">{{ aspirants.name|title }}</td>
 													<td>{{ aspirants.post }}</td>
 													<td class="pt-1 px-5">{% if aspirants.nominate is True %}<i class="bi-check-circle-fill" style="color: #13bb46;"></i>{% else %}<i class="bi-x-circle-fill" style="color: #f03040"></i>{% endif %}</td>
 												</tr>
@@ -203,7 +241,7 @@
 								<div class="card-body pb-0">
 									<h5 class="card-title"><i class="bi-check-circle-fill" style="color: #13bb46;"></i> Electoral officials | <span>{{request.user.officials.school}}</span></h5>
 
-									<table class="table table-borderless">
+									<table class="table table-bordered table-condensed table-hover text-center">
 										<thead>
 											<tr>
 												<th scope="col">Image</th>

@@ -352,9 +352,8 @@ def nominate_aspirants_view(request):
         form = request.POST['nominate']
 
         filter_aspirants = Aspirants.objects.get(id=form)
-        filter_aspirants.nominate = True
 
-        registration_officers = Officials.objects.filter(role='Registration Officer', school=request.user.officials.school,registered=True, is_official=True).count()
+        registration_officers = Officials.objects.filter(role='Registration Officer', school=request.user.officials.school, registered=True, is_official=True).count()
 
         if NominationDetails.objects.filter(aspirant_name=filter_aspirants).count() < registration_officers:
             if NominationDetails.objects.filter(officer_name=request.user.officials, aspirant_name=filter_aspirants, has_nominated=True).exists():
@@ -366,19 +365,33 @@ def nominate_aspirants_view(request):
                     role=request.user.officials.role, has_nominated=True)
                 nominating_officer.save()
 
-                messages.info(request, f'You have nominated "{filter_aspirants}!".\
-                This candidate will be approved if all returning officers will nominate {filter_aspirants.name}.')
+                if NominationDetails.objects.filter(aspirant_name=filter_aspirants).count() == registration_officers:
+                    filter_aspirants.nominate = True
+                    filter_aspirants.save()
 
+                    messages.success(request, f'{filter_aspirants.name} was nominated. All registration officers nominated this candidate.')
 
-        elif NominationDetails.objects.filter(aspirant_name=filter_aspirants).count() == registration_officers.count():
-            filter_aspirants.save()        
+                else:
+                    messages.info(request, f'You have nominated "{filter_aspirants}!".\
+                    This candidate will be approved if all registration officers will nominate {filter_aspirants.name}.')
         
         elif NominationDetails.objects.filter(aspirant_name=filter_aspirants).count() > registration_officers:
             messages.error(request, 'Unknown error occurred')
+
+        print(f'Nominated Candidates: {NominationDetails.objects.filter(aspirant_name=filter_aspirants).count()} | Reg. officers: {registration_officers}')
 
         return redirect('nominate_aspirants')
 
     context = {'total_aspirants': total_aspirants, 'officers': NominationDetails.objects.all()}
     return render(request, 'officials/nominate.html', context)
 
+
+@login_required(login_url='user_login')
+@user_passes_test(lambda user: user.is_staff is True and user.officials.is_official is True and user.officials.registered is True)
+def display_nominated_aspirants_view(request):
+    nomination_details = NominationDetails.objects.all()
+
+
+    context = {'details': nomination_details, 'all_aspirants': Aspirants.objects.filter(name__school=request.user.officials.school, nominate=True)}
+    return render(request, 'officials/nominated-aspirants.html', context)
 

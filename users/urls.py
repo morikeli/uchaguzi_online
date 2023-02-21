@@ -14,5 +14,6 @@ urlpatterns = [
     path('official-profile/', views.officials_profile_view, name='official_profile'),
     path('homepage/', views.officials_homepage, name='official_homepage'),
     path('nomination/', views.nominate_aspirants_view, name='nominate_aspirants'),
+    path('aspirants-info/nominated-aspirants/', views.display_nominated_aspirants_view, name='view_nominated_aspirants'),
 
 ]
