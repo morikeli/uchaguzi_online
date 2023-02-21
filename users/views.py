@@ -386,3 +386,7 @@ def nominate_aspirants_view(request):
     return render(request, 'officials/nominate.html', context)
 
 
+def display_nominated_aspirants_view(request):
+
+    context = {}
+    return render(request, 'officials/nominated-aspirants.html', context)
