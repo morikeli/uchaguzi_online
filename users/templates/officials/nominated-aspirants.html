@@ -17,14 +17,15 @@
                         <h5 class="card-title">Nominate Aspirants | <span>{{request.user.officials.school}}</span></h5>
                         {% include 'messages.html' %}
                         <div class="table-responsive">
-                            <table class="table condensed striped table-bordered hover">
+                            <table class="table table-condensed table-bordered table-hover">
                                 <thead>
-                                    <tr class="table-active text-center">
+                                    <tr class="table-active">
                                         <th>#</th>
                                         <th>Profile pic</th>
                                         <th>Name</th>
                                         <th>Post</th>
                                         <th>Status</th>
+                                        <th>Nominated</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -33,17 +34,17 @@
                                         <td>{{ forloop.counter }}</td>
                                         <td class="px-4"><img class="rounded-circle" src="{{ aspirants.aspirant_name.pic.url }}" alt="aspirant-pic" height="45px" width="45px"></td>
                                         <td class="px-4">{{ aspirants.aspirant_name }}</td>
-                                        <td class="px-4">{{ aspirants.post }}</td>
+                                        <td class="px-4">{{ aspirants.aspirant_name.post }}</td>
                                         <td>
-                                            {% if aspirants.nominate is True %} <i class="bi-check-circle-fill" style="color: #13bb46;"></i> {% endif %}
+                                            {% if aspirants.aspirant_name.nominate is True %} <i class="bi-check-circle-fill" style="color: #13bb46;"></i> {% endif %}
                                         </td>
                                         <td>
-                                            <table class="table table-condensed table-striped">
+                                            <table class="table table-condensed table-bordered table-striped">
                                                 <tbody>
                                                     <tr>
-                                                        <td></td>
-                                                        <td>
-                                                            
+                                                        <td class="text-start">{{ aspirants.officer_name|title }}</td>
+                                                        <td class="text-center pt-2">
+                                                            {% if aspirants.has_nominated is True %}<i class="bi-check-circle-fill" style="color: #13bb46;"></i>{% endif %}
                                                         </td>
                                                     </tr>
                                                 </tbody>
