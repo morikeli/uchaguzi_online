@@ -98,7 +98,7 @@
 						</div>
 
 						<div class="col-xxl-4 col-md-6">
-							<div class="card info-card pollers-card">
+							<div class="card info-card reg-voters-card">
 
 								<div class="card-body">
 									<h5 class="card-title">Reg. Voters | <span>{{ request.user.officials.school }}</span></h5>
@@ -118,13 +118,13 @@
 						</div>
 
 						<div class="col-xxl-4 col-md-6">
-							<div class="card info-card reg-voters-card">
+							<div class="card info-card polls-card">
 
 								<div class="card-body">
 									<h5 class="card-title">Polls | <span>{{ request.user.officials.school }}</span></h5>
 									<div class="d-flex align-items-center">
 										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-											<i class="bi bi-people-fill"></i>
+											<i class="bi bi-clipboard2-check-fill"></i>
 										</div>
 										<div class="ps-3">
 											<h6>{{ total_electoral_officers }}</h6>
@@ -136,13 +136,13 @@
 						</div>
 
 						<div class="col-xxl-4 col-md-6">
-							<div class="card info-card pollers-card">
+							<div class="card info-card voted-card">
 
 								<div class="card-body">
-									<h5 class="card-title">Casted Votes | <span>{{ request.user.officials.school }}</span></h5>
+									<h5 class="card-title">Voted | <span>{{ request.user.officials.school }}</span></h5>
 									<div class="d-flex align-items-center">
 										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-										<i class="bi bi-clipboard-data"></i>
+										<i class="bi bi-archive-fill"></i>
 										</div>
 										<div class="ps-3">
 										<h6>{{ total_registered_voters }}</h6>
@@ -156,7 +156,7 @@
 						</div>
 
 						<div class="col-xxl-4 col-xl-12">
-							<div class="card info-card reg-voters-card">
+							<div class="card info-card officials-card">
 
 								<div class="card-body">
 									<h5 class="card-title">Electoral Officials| <span>{{ request.user.officials.school }}</span></h5>

@@ -737,9 +737,21 @@ h1, h2, h3, h4, h5, h6 {
   background: #e0f8e9;
 }
 .dashboard .reg-voters-card .card-icon {
-  color: #ff771d;
-  background: #ffecdf;
+  color: #2eca6a;
+  background: #e0f8e9;
 }
+.dashboard .polls-card .card-icon {
+	color: #2eca6a;
+	background: #e0f8e9;
+}
+.dashboard .voted-card .card-icon {
+	color: #4c648d;
+	background: #e7e9f8;
+}
+.dashboard .officials-card .card-icon {
+	color: #ff771d;
+	background: #ffecdf;
+  }
 
 
 /* Activity */
