@@ -387,6 +387,8 @@ def nominate_aspirants_view(request):
 
 
 def display_nominated_aspirants_view(request):
+    nomination_details = NominationDetails.objects.all()
 
-    context = {}
+
+    context = {'nominated_aspirants': nomination_details}
     return render(request, 'officials/nominated-aspirants.html', context)
