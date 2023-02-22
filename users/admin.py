@@ -4,7 +4,7 @@ from .models import Aspirants, Blog, Voted, Polls, Polled, NominationDetails
 
 @admin.register(Aspirants)
 class AspirantsTable(admin.ModelAdmin):
-    list_display = ['name', 'post', 'slogan', 'nominate']
+    list_display = ['name', 'post', 'slogan', 'nominate', 'approved']
     readonly_fields = ['alias', 'bio', 'post', 'slogan', 'pic', 'form',]
     fields = ['alias', 'bio', 'post', 'slogan', 'pic', 'form', 'nominate']
 
