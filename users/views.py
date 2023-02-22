@@ -341,6 +341,10 @@ def officials_homepage(request):
         'nominated_aspirants': nominated_aspirants, 'electoral_officials': electoral_officials,
         'users_who_have_voted': Voted.objects.all().count(), 'users_who_have_polled': Polled.objects.all().count(),
 
+        # used in modal form - news
+        'approved_aspirants': nominated_aspirants.filter(approved=True).count(), 'male_aspirants': nominated_aspirants.filter(approved=True, name__gender='Male').count(),
+        'female_aspirants': nominated_aspirants.filter(approved=True, name__gender='Female').count(), 
+
     }
     return render(request, 'officials/homepage.html', context)
 
