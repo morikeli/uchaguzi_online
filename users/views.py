@@ -407,6 +407,6 @@ def display_nominated_aspirants_view(request):
             return redirect('view_nominated_aspirants')
 
 
-    context = {'details': nomination_details, 'all_aspirants': Aspirants.objects.filter(name__school=request.user.officials.school, nominate=True)}
+    context = {'details': nomination_details, 'all_aspirants': Aspirants.objects.filter(name__school=request.user.officials.school, nominate=True, approved=False)}
     return render(request, 'officials/nominated-aspirants.html', context)
 
