@@ -379,8 +379,6 @@ def nominate_aspirants_view(request):
         elif NominationDetails.objects.filter(aspirant_name=filter_aspirants).count() > registration_officers:
             messages.error(request, 'Unknown error occurred')
 
-        print(f'Nominated Candidates: {NominationDetails.objects.filter(aspirant_name=filter_aspirants).count()} | Reg. officers: {registration_officers}')
-
         return redirect('nominate_aspirants')
 
     context = {'total_aspirants': total_aspirants, 'officers': NominationDetails.objects.all()}
@@ -391,6 +389,22 @@ def nominate_aspirants_view(request):
 @user_passes_test(lambda user: user.is_staff is True and user.officials.is_official is True and user.officials.registered is True)
 def display_nominated_aspirants_view(request):
     nomination_details = NominationDetails.objects.all()
+
+    if request.method == 'POST':
+        form = request.POST['approve']
+
+        registration_officers = Officials.objects.filter(role='Registration Officers', is_official=True, registered=True, school=request.user.officials.school).count()
+
+        chairperson = Officials.objects.filter(role='Chairperson', is_official=True, registered=True, school=request.user.officials.school)
+        assistant_comm = Officials.objects.filter(role='Chairperson', is_official=True, registered=True, school=request.user.officials.school)
+
+        if chairperson.exists() or assistant_comm.exists():
+            get_selected_aspirant = Aspirants.objects.get(id=form)
+            get_selected_aspirant.approved = True
+            get_selected_aspirant.save()
+
+            messages.info(request, f'You have approved "{get_selected_aspirant.name}" as a legible aspirant.')
+            return redirect('view_nominated_aspirants')
 
 
     context = {'details': nomination_details, 'all_aspirants': Aspirants.objects.filter(name__school=request.user.officials.school, nominate=True)}
