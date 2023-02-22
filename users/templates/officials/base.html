@@ -239,11 +239,13 @@
 					<i class="bi bi-calendar2-check-fill"></i><span>Registration Status</span>
 				</a>
 			</li>
+			{% if request.user.officials.role == 'Registration Officer' %}
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'nominate_aspirants' %}" target="_blank">
 					<i class="bi-person-lines-fill"></i><span>Nominations</span>
 				</a>
 			</li>
+			{% endif %}
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'view_nominated_aspirants' %}">
 					<i class="bi-info-circle-fill"></i><span>Nomination info.</span>

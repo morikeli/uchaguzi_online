@@ -12,6 +12,7 @@ class Aspirants(models.Model):
     pic = models.ImageField(upload_to='Aspirant-Dps/', null=False)
     form = models.FileField(upload_to='Nomination-Forms/')
     nominate = models.BooleanField(default=False)
+    approved = models.BooleanField(default=False, editable=False)
     votes = models.PositiveIntegerField(default=0, editable=False)
     applied = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
@@ -118,12 +119,12 @@ class NominationDetails(models.Model):
     officer_name = models.CharField(max_length=30, blank=False, editable=False)
     officer_school = models.CharField(max_length=70, blank=False)
     role = models.CharField(max_length=25, blank=False)
-    has_nominated = models.BooleanField(default=False)
+    has_nominated = models.BooleanField(default=False, editable=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name_plural = 'Officer Nomination Details'
+        verbose_name_plural = 'Nomination Details'
         ordering = ['officer_name']
 
     def __str__(self):
