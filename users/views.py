@@ -370,7 +370,7 @@ def nominate_aspirants_view(request):
                     filter_aspirants.nominate = True
                     filter_aspirants.save()
 
-                    messages.success(request, f'{filter_aspirants.name} was nominated. All registration officers nominated this candidate.')
+                    messages.success(request, f'"{filter_aspirants.name}" was nominated. All registration officers nominated this candidate.')
 
                 else:
                     messages.info(request, f'You have nominated "{filter_aspirants}!".\
