@@ -342,7 +342,7 @@ def officials_homepage(request):
     current_election_female_voters = total_registered_voters.filter(gender='Female', created__year=datetime.now().strftime('%Y')).count()
     
     # Aspirants
-    get_total_aspirants = Aspirants.objects.filter(name__school=request.user.officials, nominate=True, approved=True)
+    get_total_aspirants = Aspirants.objects.filter(name__school=request.user.officials.school, nominate=True, approved=True)
 
     prev_election_male_aspirants = get_total_aspirants.filter(name__gender='Male', applied__year__lt=datetime.now().strftime('%Y')).count()
     current_election_male_aspirants = get_total_aspirants.filter(name__gender='Male', applied__year=datetime.now().strftime('%Y')).count()
