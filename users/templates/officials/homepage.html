@@ -345,7 +345,7 @@
 							</div>
 
 							<div class="modal fade" id="more-info-aspirants" tabindex="-1">
-								<div class="modal-dialog modal-dialog-scrollable">
+								<div class="modal-dialog modal-dialog-scrollable modal-lg">
 									<div class="modal-content">
 										<div class="modal-header">
 											<h5 class="modal-title"><i class="bi-check-circle-fill" style="color: #13bb46; font-size: 18px;"></i> Aspirants info.</h5>
@@ -367,15 +367,39 @@
 													<tbody>
 														<tr>
 															<td class="fw-bold">Registered voters</td><td class="text-end">{{ male_registered_voters }}</td>
-															<td class="text-end">rate</td>
+															<td class="text-end">
+																{% if male_voters_percentage_rate < 0 %}
+																<i class="bi-caret-down-fill" style="color: #f03040; font-size: 16px;"></i>  {{ male_voters_percentage_rate }}&percnt;
+																{% else %}
+																<i class="bi-caret-up-fill" style="color: #13bb46; font-size: 16px;"></i> {{ male_voters_percentage_rate }}&percnt;
+																{% endif %}
+															</td>
 															<td class="text-end">{{ female_registered_voters }}</td>
-															<td class="text-end">rate</td>
+															<td class="text-end">
+																{% if female_voters_percentage_rate < 0 %}
+																<i class="bi-caret-down-fill" style="color: #f03040; font-size: 16px;"></i>  {{ female_voters_percentage_rate }}&percnt;
+																{% else %}
+																<i class="bi-caret-up-fill" style="color: #13bb46; font-size: 16px;"></i> {{ female_voters_percentage_rate }}&percnt;
+																{% endif %}
+															</td>
 															<td class="table-dark text-end">{{ total_registered_voters }}</td>
 														<tr>
 															<td class="fw-bold">Approved aspirants</td><td class="text-end">{{ male_aspirants }}</td>
-															<td class="text-end"></td>
+															<td class="text-end">
+																{% if male_voters_percentage_rate < 0 %}
+																<i class="bi-caret-down-fill" style="color: #f03040; font-size: 16px;"></i>  {{ male_aspirants_percentage_rate }}&percnt;
+																{% else %}
+																<i class="bi-caret-up-fill" style="color: #13bb46; font-size: 16px;"></i> {{ female_aspirants_percentage_rate }}&percnt;
+																{% endif %}
+															</td>
 															<td class="text-end">{{ female_aspirants }}</td>
-															<td class="text-end"></td>
+															<td class="text-end">
+																{% if female_aspirants_percentage_rate < 0 %}
+																<i class="bi-caret-down-fill" style="color: #f03040; font-size: 16px;"></i>  {{ male_aspirants_percentage_rate }}&percnt;
+																{% else %}
+																<i class="bi-caret-up-fill" style="color: #13bb46; font-size: 16px;"></i> {{ male_aspirants_percentage_rate }}&percnt;
+																{% endif %}
+															</td>
 															<td class="table-dark text-end">{{ approved_aspirants }}</td>
 														</tr>
 													</tbody>
