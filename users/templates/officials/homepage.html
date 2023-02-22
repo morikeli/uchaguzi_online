@@ -361,21 +361,23 @@
 															<th>Rate</th>
 															<th>Females</th>
 															<th>Rate</th>
+															<th class="table-dark">Total</th>
 														</tr>
 													</thead>
 													<tbody>
 														<tr>
-															<td>Registered Voters</td><td>total</td>
-															<td>rate</td>
-															<td>total_f</td>
-															<td>rate</td></tr>
+															<td class="fw-bold">Registered voters</td><td class="text-end">{{ male_registered_voters }}</td>
+															<td class="text-end">rate</td>
+															<td class="text-end">{{ female_registered_voters }}</td>
+															<td class="text-end">rate</td>
+															<td class="table-dark text-end">{{ total_registered_voters }}</td>
 														<tr>
-															<td>Aspirants</td><td></td>
-															<td></td>
-															<td>total</td>
-															<td></td>
+															<td class="fw-bold">Approved aspirants</td><td class="text-end">{{ male_aspirants }}</td>
+															<td class="text-end"></td>
+															<td class="text-end">{{ female_aspirants }}</td>
+															<td class="text-end"></td>
+															<td class="table-dark text-end">{{ approved_aspirants }}</td>
 														</tr>
-														<tr class="table-dark"><td>Total</td><td colspan="4" class="text-end fw-bold">2000</td></tr>
 													</tbody>
 												</table>
 											</div>
