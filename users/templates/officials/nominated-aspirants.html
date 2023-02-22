@@ -13,13 +13,64 @@
         <section class="section">
             <div class="row">
                 <div class="col-xl-12">
+                    {% for aspirants in all_aspirants %}
+                    <div class="modal fade" id="approval-form-{{ aspirants.id }}" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="card-title"><i class="bi-check-circle-fill" style="color: #13bb46;"></i> Approval Form</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="row mb-2">
+                                            <div class="col-md-8 col-lg-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-sm table-bordered table-condensed text-center">
+                                                        <thead>
+                                                            <tr class="table-success text-center">
+                                                                <th>Image</th>
+                                                                <th>Name</th>
+                                                                <th>Electoral Post</th>
+                                                                {% if aspirants.form.url is not None %}<th>Approve</th>{% endif %}
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                           
+                                                            <tr>
+                                                                <td><img src="{{ aspirants.pic.url }}" alt="aspirant-pic" class="rounded-circle" height="45px" width="45px"></td>
+                                                                <td>{{ aspirants.name }}</td>
+                                                                <td>{{ aspirants.post }}</td>
+                                                                {% if aspirants.form.url is not None %}<td><input type="radio" name="approve" value="{{ aspirants.id }}" required></td>{% endif %}
+                                                            </tr>
+                                                           
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="modal-footer mt-2">
+                                            {% if aspirants.form.url is not None %}
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            {% else %}
+                                                <p class="small fw-bold text-muted">Only candidates who have uploaded their nomination form can be nominated!</p>                                        
+                                            {% endif %}
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                     <div class="card card-body pt-1">
                         <h5 class="card-title">Nominated Aspirants Info. | <span>{{request.user.officials.school}}</span></h5>
                         {% include 'messages.html' %}
                         <div class="table-responsive">
                             <table class="table table-condensed table-bordered table-hover">
                                 <thead>
-                                    <tr class="table-success">
+                                    <tr class="table-success text-center">
                                         <th>#</th>
                                         <th>Profile pic</th>
                                         <th>Name</th>
@@ -33,7 +84,7 @@
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
                                         <td class="px-4"><img class="rounded-circle" src="{{ aspirants.pic.url }}" alt="aspirant-pic" height="45px" width="45px"></td>
-                                        <td class="px-4">{{ aspirants.name }}</td>
+                                        <td class="px-4"><a href="{% url 'view_nominated_aspirants' %}" class="text-secondary fw-bold" data-bs-toggle="modal" data-bs-target="#approval-form-{{ aspirants.id }}">{{ aspirants.name }}</a></td>
                                         <td class="px-4">{{ aspirants.post }}</td>
                                         <td class="text-center">
                                             {% if aspirants.nominate is True %} <i class="bi-check-circle-fill" style="color: #13bb46;"></i> {% endif %}
