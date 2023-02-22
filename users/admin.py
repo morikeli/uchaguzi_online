@@ -4,7 +4,7 @@ from .models import Aspirants, Blog, Voted, Polls, Polled, NominationDetails
 
 @admin.register(Aspirants)
 class AspirantsTable(admin.ModelAdmin):
-    list_display = ['name', 'post', 'slogan', 'nominate']
+    list_display = ['name', 'post', 'slogan', 'nominate', 'approved']
     readonly_fields = ['alias', 'bio', 'post', 'slogan', 'pic', 'form',]
     fields = ['alias', 'bio', 'post', 'slogan', 'pic', 'form', 'nominate']
 
@@ -25,8 +25,10 @@ class Polls(admin.ModelAdmin):
 @admin.register(Polled)
 class PolledList(admin.ModelAdmin):
     list_display = ['user_id', 'academic', 'general_rep', 'ladies_rep', 'treasurer', 'governor', 'president', 'polled']
+
 @admin.register(NominationDetails)
 class NominationDetailsTable(admin.ModelAdmin):
-    list_display = ['name', 'gender', 'officer_school', 'role', 'aspirant_name', 'electoral_post', 'aspirant_school', 'has_nominated']
-    readonly_fields = ['gender', 'officer_school', 'role', 'aspirant_name', 'electoral_post', 'aspirant_school', 'has_nominated']
+    list_display = ['officer_name', 'officer_school', 'role', 'aspirant_name', 'has_nominated']
+    readonly_fields = ['officer_school', 'role', 'aspirant_name', 'has_nominated']
+    ordering = ['officer_name', '-aspirant_name', 'updated']
 

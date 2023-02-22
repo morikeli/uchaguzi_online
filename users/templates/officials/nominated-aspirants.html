@@ -1,4 +1,4 @@
-{% extends 'officials/base.html' %}{% block title %}Nominate candidates{% endblock %}
+{% extends 'officials/base.html' %}{% block title %}Nominated aspirants{% endblock %}
 {% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
@@ -13,12 +13,12 @@
         <section class="section">
             <div class="row">
                 <div class="col-xl-12">
-                    {% for aspirants in total_aspirants %}
-                    <div class="modal fade" id="nomination-form-{{ aspirants.id }}" tabindex="-1">
+                    {% for aspirants in all_aspirants %}
+                    <div class="modal fade" id="approval-form-{{ aspirants.id }}" tabindex="-1">
                         <div class="modal-dialog modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="card-title"><i class="bi bi-hourglass-top"></i> Nomination Form</h5>
+                                    <h5 class="card-title"><i class="bi-check-circle-fill" style="color: #13bb46;"></i> Approval Form</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -33,7 +33,7 @@
                                                                 <th>Image</th>
                                                                 <th>Name</th>
                                                                 <th>Electoral Post</th>
-                                                                {% if aspirants.form.url is not None %}<th>Nominate</th>{% endif %}
+                                                                {% if aspirants.form.url is not None %}<th>Approve</th>{% endif %}
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -42,7 +42,7 @@
                                                                 <td><img src="{{ aspirants.pic.url }}" alt="aspirant-pic" class="rounded-circle" height="45px" width="45px"></td>
                                                                 <td>{{ aspirants.name }}</td>
                                                                 <td>{{ aspirants.post }}</td>
-                                                                {% if aspirants.form.url is not None %}<td><input type="radio" name="nominate" value="{{ aspirants.id }}" required></td>{% endif %}
+                                                                {% if aspirants.form.url is not None %}<td><input type="radio" name="approve" value="{{ aspirants.id }}" required></td>{% endif %}
                                                             </tr>
                                                            
                                                         </tbody>
@@ -64,52 +64,63 @@
                         </div>
                     </div>
                     {% endfor %}
-
                     <div class="card card-body pt-1">
-                        <h5 class="card-title">Nominate Aspirants | <span>{{request.user.officials.school}}</span></h5>
+                        <h5 class="card-title">Nominated Aspirants Info. | <span>{{request.user.officials.school}}</span></h5>
                         {% include 'messages.html' %}
                         <div class="table-responsive">
-                            <table class="table condensed striped table-bordered hover">
+                            <table class="table table-condensed table-bordered table-hover">
                                 <thead>
-                                    <tr class="table-active text-center">
+                                    <tr class="table-success text-center">
                                         <th>#</th>
                                         <th>Profile pic</th>
                                         <th>Name</th>
                                         <th>Post</th>
-                                        <th>Nomination form</th>
                                         <th>Status</th>
+                                        <th>Nominated</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for aspirants in total_aspirants %}
+                                    {% for aspirants in all_aspirants %}
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
                                         <td class="px-4"><img class="rounded-circle" src="{{ aspirants.pic.url }}" alt="aspirant-pic" height="45px" width="45px"></td>
-                                        <td class="px-4"><a style="text-decoration: none;" href="" data-bs-toggle="modal" data-bs-target="#nomination-form-{{ aspirants.id }}">{{ aspirants.name }}</a></td>
-                                        <td class="px-4">{{ aspirants.post  }}</td>
-                                        <td class="text-center">
-                                            {% if aspirants.form.url is not None %}
-                                            <a href="{{ aspirants.form.url }}" class="btn btn-sm btn-secondary" target="_blank">Nomination form</a>
-                                            {% else %} 
-                                            <i class="bi-person-x-fill" style="color: #f03040; font-size: 30px;"></i>
+                                        <td class="px-4">
+                                            {% if request.user.officials.school == aspirants.name.school %}
+                                            {% if request.user.officials.role == 'Chairperson' or request.user.officials.role == 'Assistant Commissioner' %}
+                                            <a href="{% url 'view_nominated_aspirants' %}" class="text-secondary fw-bold" data-bs-toggle="modal" data-bs-target="#approval-form-{{ aspirants.id }}">{{ aspirants.name }}</a>
+                                            {% else %}
+                                            {{ aspirants.name }}
+                                            {% endif %}
                                             {% endif %}
                                         </td>
+                                        <td class="px-4">{{ aspirants.post }}</td>
+                                        <td class="text-center">
+                                            {% if aspirants.nominate is True %} <i class="bi-check-circle-fill" style="color: #13bb46;"></i> {% endif %}
+                                        </td>
                                         <td>
-                                            {% if aspirants.nominate is False %}
-											<span class="badge bg-primary pb-2">
-												Nomination pending ... <span class="spinner-border spinner-border-sm"></span>
-											</span>
-                                            {% endif %}
+                                            <table class="table table-condensed table-bordered table-striped">
+                                                <tbody>
+                                                    {% for officer in details %}
+                                                    {% if officer.aspirant_name.name == aspirants.name and officer.has_nominated is True %}
+                                                    <tr>
+                                                        <td class="text-start">{{ officer.officer_name|title }}</td>
+                                                        <td class="text-center pt-2">
+                                                            {% if officer.has_nominated is True %}
+                                                                <i class="bi-check-circle-fill" style="color: #13bb46;"></i>
+                                                            {% else %}
+                                                                <i class="bi-x-circle-fill" style="color: #f03040;"></i>
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
                                         </td>
                                     </tr>
                                     {% empty %}
                                     <tr><td colspan="6" class="text-center text-muted fw-bold">No aspirants available</td></tr>
                                     {% endfor %}
-                                    <tr class="table-danger">
-                                        <td colspan="6" class="text-center fw-bold fst-italic">
-                                            Candidates with red icons have not uploaded their nomination forms.
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>                    
                         </div>

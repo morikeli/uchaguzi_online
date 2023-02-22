@@ -12,6 +12,7 @@ class Aspirants(models.Model):
     pic = models.ImageField(upload_to='Aspirant-Dps/', null=False)
     form = models.FileField(upload_to='Nomination-Forms/')
     nominate = models.BooleanField(default=False)
+    approved = models.BooleanField(default=False, editable=False)
     votes = models.PositiveIntegerField(default=0, editable=False)
     applied = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
@@ -114,21 +115,18 @@ class Voted(models.Model):
 # Table to store officer who has nominated a candidate
 class NominationDetails(models.Model):
     id = models.CharField(max_length=15, primary_key=True, editable=False, unique=True)
-    name = models.ForeignKey(Officials, on_delete=models.CASCADE, editable=False)
-    gender = models.CharField(max_length=7, blank=False)
+    aspirant_name = models.ForeignKey(Aspirants, on_delete=models.DO_NOTHING, editable=False)
+    officer_name = models.CharField(max_length=30, blank=False, editable=False)
     officer_school = models.CharField(max_length=70, blank=False)
     role = models.CharField(max_length=25, blank=False)
-    aspirant_name = models.ForeignKey(Aspirants, on_delete=models.CASCADE, editable=False)
-    electoral_post = models.CharField(max_length=32, blank=False)
-    aspirant_school = models.CharField(max_length=70, blank=False)
-    has_nominated = models.BooleanField(default=False)
+    has_nominated = models.BooleanField(default=False, editable=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name_plural = 'Officer Nomination Details'
-        ordering = ['name']
+        verbose_name_plural = 'Nomination Details'
+        ordering = ['officer_name']
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.aspirant_name}'
 

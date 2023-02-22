@@ -15,9 +15,7 @@
 			<div class="row">
 				<div class="col-lg-8">
 					<div class="row">
-						{% include 'messages.html' %}
-						<!-- Modal forms -->
-						
+						{% include 'messages.html' %}						
 						<div class="modal fade" id="modal-registration" tabindex="-1">
 							<div class="modal-dialog modal-dialog-scrollable">
 								<div class="modal-content">
@@ -98,7 +96,7 @@
 						</div>
 
 						<div class="col-xxl-4 col-md-6">
-							<div class="card info-card pollers-card">
+							<div class="card info-card reg-voters-card">
 
 								<div class="card-body">
 									<h5 class="card-title">Reg. Voters | <span>{{ request.user.officials.school }}</span></h5>
@@ -117,8 +115,46 @@
 							</div>
 						</div>
 
+						<div class="col-xxl-4 col-md-6">
+							<div class="card info-card polls-card">
+
+								<div class="card-body">
+									<h5 class="card-title">Polls | <span>{{ request.user.officials.school }}</span></h5>
+									<div class="d-flex align-items-center">
+										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+											<i class="bi bi-clipboard2-check-fill"></i>
+										</div>
+										<div class="ps-3">
+											<h6>{{ users_who_have_polled }}</h6>
+											<span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xxl-4 col-md-6">
+							<div class="card info-card voted-card">
+
+								<div class="card-body">
+									<h5 class="card-title">Voted | <span>{{ request.user.officials.school }}</span></h5>
+									<div class="d-flex align-items-center">
+										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+										<i class="bi bi-archive-fill"></i>
+										</div>
+										<div class="ps-3">
+										<h6>{{ users_who_have_voted }}</h6>
+										<span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
 						<div class="col-xxl-4 col-xl-12">
-							<div class="card info-card reg-voters-card">
+							<div class="card info-card officials-card">
 
 								<div class="card-body">
 									<h5 class="card-title">Electoral Officials| <span>{{ request.user.officials.school }}</span></h5>
@@ -148,7 +184,7 @@
 						</div>
 
 						<div class="col-12">
-							<div class="card recent-sales overflow-auto">
+							<div class="card overflow-auto">
 
 								<div class="filter">
 								<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -163,7 +199,7 @@
 								<div class="card-body">
 									<h5 class="card-title"><i class="bi-people-fill"></i> Nominated aspirants | <span>{{request.user.officials.school}}</span></h5>
 									<div class="table-responsive">
-										<table class="table table-bordered table-condensed">
+										<table class="table table-bordered table-condensed table-hover text-center">
 											<thead>
 												<tr>
 													<th scope="col">Image</th>
@@ -176,7 +212,7 @@
 												{% for aspirants in nominated_aspirants %}
 												<tr>
 													<td><img src="{{ aspirants.pic.url }}" alt="image" class="rounded-circle" height="45px" width="45px"></td>
-													<td>{{ aspirants.name|title }}</td>
+													<td class="fw-bold text-muted">{{ aspirants.name|title }}</td>
 													<td>{{ aspirants.post }}</td>
 													<td class="pt-1 px-5">{% if aspirants.nominate is True %}<i class="bi-check-circle-fill" style="color: #13bb46;"></i>{% else %}<i class="bi-x-circle-fill" style="color: #f03040"></i>{% endif %}</td>
 												</tr>
@@ -189,7 +225,7 @@
 						</div>
 
 						<div class="col-12">
-							<div class="card top-selling overflow-auto">
+							<div class="card officials-table overflow-auto">
 								<div class="filter">
 									<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
 									<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -203,7 +239,7 @@
 								<div class="card-body pb-0">
 									<h5 class="card-title"><i class="bi-check-circle-fill" style="color: #13bb46;"></i> Electoral officials | <span>{{request.user.officials.school}}</span></h5>
 
-									<table class="table table-borderless">
+									<table class="table table-bordered table-condensed table-hover text-center">
 										<thead>
 											<tr>
 												<th scope="col">Image</th>
@@ -218,7 +254,7 @@
 											{% for official in electoral_officials %}
 											<tr>
 												<td><img class="rounded-circle" height="47px" width="47px" src="{{official.profile_pic.url}}" alt="officer-dp"></td>
-												<td>{{ official.officer }}</td>
+												<td class="text-muted fw-bold">{{ official.officer|title }}</td>
 												<td>{{ official.gender }}</td>
 												<td>{{ official.school }}</td>
 												<td>{{ official.role }}</td>
@@ -276,18 +312,119 @@
 						<div class="card-body pb-0">
 							<h5 class="card-title"><i class="bi bi-newspaper"></i> News &amp; Updates <span>| Today</span></h5>
 
+							<div class="modal fade" id="more-info-schedule" tabindex="-1">
+								<div class="modal-dialog modal-dialog-scrollable">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title"><i class="bi bi-clock-fill" style="color: #13bb46; font-size: 18px;"></i> Elections Schedule</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<table class="table table-condensed table-striped table-hover table-bordered">
+												<thead>
+													<tr class="table-success text-center">
+														<th>Activity</th>
+														<th>Duration</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>Voter Registration</td>
+														<td class="text-center fw-bold">10 Jan. {% now 'Y' %} - 24 Jan. {% now 'Y' %}</td>
+													</tr>
+													<tr>
+														<td>Aspirants Nominations</td>
+														<td class="text-center fw-bold">27 Jan. {% now 'Y' %} - 17 Feb. {% now 'Y' %}</td>
+													</tr>
+													<tr>
+														<td>Elections Date</td>
+														<td class="text-center fw-bold">8 Mar. {% now 'Y' %}</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="modal fade" id="more-info-aspirants" tabindex="-1">
+								<div class="modal-dialog modal-dialog-scrollable modal-lg">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title"><i class="bi-check-circle-fill" style="color: #13bb46; font-size: 18px;"></i> Aspirants info.</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<div class="table-responsive">
+												<table class="table table-condensed table-striped table-hover table-bordered">
+													<thead>
+														<tr class="table-info text-center">
+															<th></th>
+															<th>Males</th>
+															<th>Rate</th>
+															<th>Females</th>
+															<th>Rate</th>
+															<th class="table-dark">Total</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td class="fw-bold">Registered voters</td><td class="text-end">{{ male_registered_voters }}</td>
+															<td class="text-end">
+																{% if male_voters_percentage_rate < 0 %}
+																<i class="bi-caret-down-fill" style="color: #f03040; font-size: 16px;"></i>  {{ male_voters_percentage_rate }}&percnt;
+																{% else %}
+																<i class="bi-caret-up-fill" style="color: #13bb46; font-size: 16px;"></i> {{ male_voters_percentage_rate }}&percnt;
+																{% endif %}
+															</td>
+															<td class="text-end">{{ female_registered_voters }}</td>
+															<td class="text-end">
+																{% if female_voters_percentage_rate < 0 %}
+																<i class="bi-caret-down-fill" style="color: #f03040; font-size: 16px;"></i>  {{ female_voters_percentage_rate }}&percnt;
+																{% else %}
+																<i class="bi-caret-up-fill" style="color: #13bb46; font-size: 16px;"></i> {{ female_voters_percentage_rate }}&percnt;
+																{% endif %}
+															</td>
+															<td class="table-dark text-end">{{ total_registered_voters }}</td>
+														<tr>
+															<td class="fw-bold">Approved aspirants</td><td class="text-end">{{ male_aspirants }}</td>
+															<td class="text-end">
+																{% if male_voters_percentage_rate < 0 %}
+																<i class="bi-caret-down-fill" style="color: #f03040; font-size: 16px;"></i>  {{ male_aspirants_percentage_rate }}&percnt;
+																{% else %}
+																<i class="bi-caret-up-fill" style="color: #13bb46; font-size: 16px;"></i> {{ female_aspirants_percentage_rate }}&percnt;
+																{% endif %}
+															</td>
+															<td class="text-end">{{ female_aspirants }}</td>
+															<td class="text-end">
+																{% if female_aspirants_percentage_rate < 0 %}
+																<i class="bi-caret-down-fill" style="color: #f03040; font-size: 16px;"></i>  {{ male_aspirants_percentage_rate }}&percnt;
+																{% else %}
+																<i class="bi-caret-up-fill" style="color: #13bb46; font-size: 16px;"></i> {{ male_aspirants_percentage_rate }}&percnt;
+																{% endif %}
+															</td>
+															<td class="table-dark text-end">{{ approved_aspirants }}</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
 							<div class="news">
 								<div class="post-item clearfix">
-									<img src="{% static 'voters-page/img/news-1.jpg' %}" alt="">
-									<h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
-									<p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>
+									<img src="{% static 'static/img/news.png' %}" alt="">
+									<h4><a href="#" data-bs-toggle="modal" data-bs-target="#more-info-schedule">Elections schedule</a></h4>
+									<p>View the election timleline at any time ...</p>
 								</div>
 
 								
 								<div class="post-item clearfix">
-									<img src="{% static 'voters-page/img/news-3.jpg' %}" alt="">
-									<h4><a href="#">Et dolores corrupti quae illo quod dolor</a></h4>
-									<p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>
+									<img src="{% static 'static/img/news.png' %}" alt="">
+									<h4><a href="#" data-bs-toggle="modal" data-bs-target="#more-info-aspirants">Nominated Aspirants</a></h4>
+									<p>Get to know candidates who have nominated and the percentage rates of current elections compared to previous election(s) ...</p>
 								</div>
 
 							</div>

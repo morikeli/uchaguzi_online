@@ -330,18 +330,51 @@ def officials_homepage(request):
     total_registered_voters = Voters.objects.filter(registered=True, school=request.user.officials.school)
     total_aspirants = Aspirants.objects.filter(name__school=request.user.officials.school).count()
     total_electoral_officers = Officials.objects.filter(school=request.user.officials.school, is_official=True, registered=True)
-    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.officials.school, nominate=True)
-    electoral_officials = Officials.objects.filter(school=request.user.officials.school).exclude(officer=request.user.officials.officer)
+    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.officials.school, nominate=True).order_by('edited')
+    electoral_officials = Officials.objects.filter(school=request.user.officials.school).exclude(officer=request.user.officials.officer).order_by('role')
 
+    
+    # Calculating percentage rates
+    # Total count in both previous and current election years
+    prev_election_male_voters = total_registered_voters.filter(gender='Male', created__year__lt=datetime.now().strftime('%Y')).count()
+    current_election_male_voters = total_registered_voters.filter(gender='Male', created__year=datetime.now().strftime('%Y')).count()
+    prev_election_female_voters = total_registered_voters.filter(gender='Female', created__year__lt=datetime.now().strftime('%Y')).count()
+    current_election_female_voters = total_registered_voters.filter(gender='Female', created__year=datetime.now().strftime('%Y')).count()
+    
+    # Aspirants
+    get_total_aspirants = Aspirants.objects.filter(name__school=request.user.officials.school, nominate=True, approved=True)
 
+    prev_election_male_aspirants = get_total_aspirants.filter(name__gender='Male', applied__year__lt=datetime.now().strftime('%Y')).count()
+    current_election_male_aspirants = get_total_aspirants.filter(name__gender='Male', applied__year=datetime.now().strftime('%Y')).count()
+    
+    prev_election_female_aspirants = get_total_aspirants.filter(name__gender='Female', applied__year__lt=datetime.now().strftime('%Y')).count()
+    current_election_female_aspirants = get_total_aspirants.filter(name__gender='Female', applied__year=datetime.now().strftime('%Y')).count()
+    
+    # Rate
+    rate_male_voters = round(((current_election_male_voters - prev_election_male_voters)/(total_registered_voters.filter(school=request.user.officials.school, created__year=datetime.now().strftime('%Y')).count()))*100, 2)
+    rate_female_voters = round(((current_election_female_voters - prev_election_female_voters)/(total_registered_voters.filter(school=request.user.officials.school, created__year=datetime.now().strftime('%Y')).count()))*100, 2)
+
+    rate_male_aspirants = round(((current_election_male_aspirants - prev_election_male_aspirants)/(get_total_aspirants.filter(applied__year=datetime.now().strftime('%Y')).count()))*100, 2)
+    rate_female_aspirants = round(((current_election_female_aspirants - prev_election_female_aspirants)/(get_total_aspirants.filter(applied__year=datetime.now().strftime('%Y')).count()))*100, 2)
+
+    
     context = {
         'total_aspirants': total_aspirants, 'total_registered_voters': total_registered_voters.count(), 'total_electoral_officers': total_electoral_officers.count(),
         'male_registered_voters': total_registered_voters.filter(registered=True, gender='Male', school=request.user.officials.school).count(),
         'female_registered_voters': total_registered_voters.filter(registered=True, gender='Female', school=request.user.officials.school).count(),
         'nominated_aspirants': nominated_aspirants, 'electoral_officials': electoral_officials,
+        'users_who_have_voted': Voted.objects.all().count(), 'users_who_have_polled': Polled.objects.all().count(),
+
+        # used in modal form - news
+        'approved_aspirants': nominated_aspirants.filter(approved=True).count(), 'male_aspirants': nominated_aspirants.filter(approved=True, name__gender='Male').count(),
+        'female_aspirants': nominated_aspirants.filter(approved=True, name__gender='Female').count(),
+        'male_voters_percentage_rate': rate_male_voters, 'female_voters_percentage_rate': rate_female_voters,
+        'male_aspirants_percentage_rate': rate_male_aspirants, 'female_aspirants_percentage_rate': rate_female_aspirants,
+
 
     }
     return render(request, 'officials/homepage.html', context)
+
 
 @login_required(login_url='user_login')
 @user_passes_test(lambda user: user.is_staff is True and user.officials.is_official is True and user.officials.registered is True)
@@ -352,27 +385,28 @@ def nominate_aspirants_view(request):
         form = request.POST['nominate']
 
         filter_aspirants = Aspirants.objects.get(id=form)
-        filter_aspirants.nominate = True
 
-        registration_officers = Officials.objects.filter(role='Registration Officer', school=request.user.officials.school,registered=True, is_official=True).count()
+        registration_officers = Officials.objects.filter(role='Registration Officer', school=request.user.officials.school, registered=True, is_official=True).count()
 
         if NominationDetails.objects.filter(aspirant_name=filter_aspirants).count() < registration_officers:
-            if NominationDetails.objects.filter(name=request.user.officials, aspirant_name=filter_aspirants, has_nominated=True).exists():
+            if NominationDetails.objects.filter(officer_name=request.user.officials, aspirant_name=filter_aspirants, has_nominated=True).exists():
                 messages.error(request, f'You nominated "{filter_aspirants}"')
 
             else:
                 nominating_officer = NominationDetails.objects.create(
-                    name=request.user.officials, gender=request.user.officials.gender, officer_school=request.user.officials.school,
-                    role=request.user.officials.role, aspirant_name=filter_aspirants, electoral_post=filter_aspirants.post,
-                    aspirant_school=filter_aspirants.name.school, has_nominated=True
-                    )
+                    aspirant_name=filter_aspirants, officer_name=str(request.user.officials), officer_school=request.user.officials.school,
+                    role=request.user.officials.role, has_nominated=True)
                 nominating_officer.save()
-                messages.info(request, f'You have nominated "{filter_aspirants}!".\
-                This candidate will be approved if all returning officers will nominate {filter_aspirants.name}.')
 
+                if NominationDetails.objects.filter(aspirant_name=filter_aspirants).count() == registration_officers:
+                    filter_aspirants.nominate = True
+                    filter_aspirants.save()
 
-        elif NominationDetails.objects.filter(aspirant_name=filter_aspirants).count() == registration_officers.count():
-            filter_aspirants.save()        
+                    messages.success(request, f'"{filter_aspirants.name}" was nominated. All registration officers nominated this candidate.')
+
+                else:
+                    messages.info(request, f'You have nominated "{filter_aspirants}!".\
+                    This candidate will be approved if all registration officers will nominate {filter_aspirants.name}.')
         
         elif NominationDetails.objects.filter(aspirant_name=filter_aspirants).count() > registration_officers:
             messages.error(request, 'Unknown error occurred')
@@ -382,4 +416,29 @@ def nominate_aspirants_view(request):
     context = {'total_aspirants': total_aspirants, 'officers': NominationDetails.objects.all()}
     return render(request, 'officials/nominate.html', context)
 
+
+@login_required(login_url='user_login')
+@user_passes_test(lambda user: user.is_staff is True and user.officials.is_official is True and user.officials.registered is True)
+def display_nominated_aspirants_view(request):
+    nomination_details = NominationDetails.objects.all()
+
+    if request.method == 'POST':
+        form = request.POST['approve']
+
+        registration_officers = Officials.objects.filter(role='Registration Officers', is_official=True, registered=True, school=request.user.officials.school).count()
+
+        chairperson = Officials.objects.filter(role='Chairperson', is_official=True, registered=True, school=request.user.officials.school)
+        assistant_comm = Officials.objects.filter(role='Chairperson', is_official=True, registered=True, school=request.user.officials.school)
+
+        if chairperson.exists() or assistant_comm.exists():
+            get_selected_aspirant = Aspirants.objects.get(id=form)
+            get_selected_aspirant.approved = True
+            get_selected_aspirant.save()
+
+            messages.info(request, f'You have approved "{get_selected_aspirant.name}" as a legible aspirant.')
+            return redirect('view_nominated_aspirants')
+
+
+    context = {'details': nomination_details, 'all_aspirants': Aspirants.objects.filter(name__school=request.user.officials.school, nominate=True, approved=False)}
+    return render(request, 'officials/nominated-aspirants.html', context)
 
