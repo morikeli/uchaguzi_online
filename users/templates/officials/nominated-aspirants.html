@@ -84,7 +84,15 @@
                                     <tr>
                                         <td>{{ forloop.counter }}</td>
                                         <td class="px-4"><img class="rounded-circle" src="{{ aspirants.pic.url }}" alt="aspirant-pic" height="45px" width="45px"></td>
-                                        <td class="px-4"><a href="{% url 'view_nominated_aspirants' %}" class="text-secondary fw-bold" data-bs-toggle="modal" data-bs-target="#approval-form-{{ aspirants.id }}">{{ aspirants.name }}</a></td>
+                                        <td class="px-4">
+                                            {% if request.user.officials.school == aspirants.name.school %}
+                                            {% if request.user.officials.role == 'Chairperson' or request.user.officials.role == 'Assistant Commissioner' %}
+                                            <a href="{% url 'view_nominated_aspirants' %}" class="text-secondary fw-bold" data-bs-toggle="modal" data-bs-target="#approval-form-{{ aspirants.id }}">{{ aspirants.name }}</a>
+                                            {% else %}
+                                            {{ aspirants.name }}
+                                            {% endif %}
+                                            {% endif %}
+                                        </td>
                                         <td class="px-4">{{ aspirants.post }}</td>
                                         <td class="text-center">
                                             {% if aspirants.nominate is True %} <i class="bi-check-circle-fill" style="color: #13bb46;"></i> {% endif %}
