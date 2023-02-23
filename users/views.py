@@ -125,8 +125,8 @@ def homepage_view(request):
         'TotalRegVoters': Voters.objects.filter(school=request.user.voters.school, registered=True).all(),
 
         'percent_rate_aspirants': aspirants_percentage_rate, 'percent_rate_voters': voters_percentage_rate,
-
-    }    
+        
+    }
     return render(request, 'voters/homepage.html', context)
 
 @login_required(login_url='user_login')
@@ -225,7 +225,7 @@ def polling_view(request, pk, school):
             return redirect('poll', pk, school)       
 
 
-    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True).order_by('post', 'name')
+    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True, approved=True).order_by('post', 'name')
     
     context = {'aspirants': nominated_aspirants, 'UserhasPolled': polled_obj}
     return render(request, 'voters/polls.html', context)
@@ -289,7 +289,7 @@ def voting_view(request, pk, school):
             elected_aspirant.save()
             return redirect('elect_leaders', pk, school)       
 
-    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True).order_by('post', 'name')
+    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True, approved=True).order_by('post', 'name')
     context = {'aspirants': nominated_aspirants, 'UserhasPolled': voted_obj, 'user_is_authorized': authorized}
     return render(request, 'voters/voting.html', context)
 
