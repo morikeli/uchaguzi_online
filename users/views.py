@@ -100,18 +100,32 @@ def homepage_view(request):
     registered_voters = Voters.objects.filter(registered=True, school=request.user.voters.school)
     pollers = Polled.objects.all().count()
     polls = Polls.objects.filter(name__name__school=request.user.voters.school).all().order_by('post', 'total_polls')
-    total_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school).count()
+    total_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school)
     blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school, ).all().order_by('-written')
     polls_percentage = (pollers/registered_voters.count())*100
 
+
+    # Percentage Rates
+    prev_election_aspirants = total_aspirants.filter(name__school=request.user.voters.school, applied__year__lt=datetime.now().strftime('%Y')).count()
+    current_election_aspirants = total_aspirants.filter(name__school=request.user.voters.school, applied__year=datetime.now().strftime('%Y')).count()
+    aspirants_percent_rate = round((((current_election_aspirants - prev_election_aspirants)/total_aspirants.count())*100), 2)
+
+    prev_election_voters = registered_voters.count()
+    current_election_voters = registered_voters.count()
+    voters_percentage_rate = round((((current_election_voters - prev_election_voters)/registered_voters.count())*100), 2)
+
+
     context = {
         'blog_form': blog_form,
-        'blogs': blogs, 'total_aspirants': total_aspirants, 'total_reg_voters': registered_voters.count(),
+        'blogs': blogs, 'total_aspirants': total_aspirants.count(), 'total_reg_voters': registered_voters.count(),
         'polled': pollers, 'user_has_polled': polled_obj, 'polls': polls, 'percentage': polls_percentage,
         'nominated': Aspirants.objects.filter(nominate=True, name__school=request.user.voters.school),
         'male_reg_voters': registered_voters.filter(registered=True, gender='Male', school=request.user.voters.school).count(),
         'female_reg_voters': registered_voters.filter(registered=True, gender='Female', school=request.user.voters.school).count(),
         'TotalRegVoters': Voters.objects.filter(school=request.user.voters.school, registered=True).all(),
+
+        'percent_rate_aspirants': aspirants_percent_rate, 'percent_rate_voters': voters_percentage_rate,
+
     }    
     return render(request, 'voters/homepage.html', context)
 
