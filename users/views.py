@@ -101,7 +101,7 @@ def homepage_view(request):
     pollers = Polled.objects.all().count()
     polls = Polls.objects.filter(name__name__school=request.user.voters.school).all().order_by('post', 'total_polls')
     total_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school)
-    blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school, ).all().order_by('-written')
+    blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school).all().order_by('-written')[:3]
     polls_percentage = (pollers/registered_voters.count())*100
 
 
