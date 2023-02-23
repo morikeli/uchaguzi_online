@@ -251,6 +251,8 @@
 								
 								<div class="card-body">
 									<h5 class="card-title">Registered Voters per school</h5>
+									<input type="hidden" id="voters_y" value="{{ line_chart_voters_y }}"><input type="hidden" id="voters_x" value="{{ line_chart_voters_x }}">
+									<input type="hidden" id="aspirants_y" value="{{ line_chart_aspirants }}"><input type="hidden" id="aspirants_y" value="{{ line_chart_aspirants }}">
 									<div id="RegVotersChart"></div>
 									<script type="text/javascript" src="{% static 'js/voters-page/voterslinechart.js' %}"></script>
 									
