@@ -442,7 +442,7 @@ def display_nominated_aspirants_view(request):
         registration_officers = Officials.objects.filter(role='Registration Officers', is_official=True, registered=True, school=request.user.officials.school).count()
 
         chairperson = Officials.objects.filter(role='Chairperson', is_official=True, registered=True, school=request.user.officials.school)
-        assistant_comm = Officials.objects.filter(role='Chairperson', is_official=True, registered=True, school=request.user.officials.school)
+        assistant_comm = Officials.objects.filter(role='Assistant Commissioner', is_official=True, registered=True, school=request.user.officials.school)
 
         if chairperson.exists() or assistant_comm.exists():
             get_selected_aspirant = Aspirants.objects.get(id=form)
