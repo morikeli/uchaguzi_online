@@ -108,10 +108,10 @@ def homepage_view(request):
     # Percentage Rates
     prev_election_aspirants = total_aspirants.filter(name__school=request.user.voters.school, applied__year__lt=datetime.now().strftime('%Y')).count()
     current_election_aspirants = total_aspirants.filter(name__school=request.user.voters.school, applied__year=datetime.now().strftime('%Y')).count()
-    aspirants_percent_rate = round((((current_election_aspirants - prev_election_aspirants)/total_aspirants.count())*100), 2)
+    aspirants_percentage_rate = round((((current_election_aspirants - prev_election_aspirants)/total_aspirants.count())*100), 2)
 
-    prev_election_voters = registered_voters.count()
-    current_election_voters = registered_voters.count()
+    prev_election_voters = registered_voters.filter(created__year__lt=datetime.now().strftime('%Y')).count()
+    current_election_voters = registered_voters.filter(created__year=datetime.now().strftime('%Y')).count()
     voters_percentage_rate = round((((current_election_voters - prev_election_voters)/registered_voters.count())*100), 2)
 
 
@@ -124,7 +124,7 @@ def homepage_view(request):
         'female_reg_voters': registered_voters.filter(registered=True, gender='Female', school=request.user.voters.school).count(),
         'TotalRegVoters': Voters.objects.filter(school=request.user.voters.school, registered=True).all(),
 
-        'percent_rate_aspirants': aspirants_percent_rate, 'percent_rate_voters': voters_percentage_rate,
+        'percent_rate_aspirants': aspirants_percentage_rate, 'percent_rate_voters': voters_percentage_rate,
 
     }    
     return render(request, 'voters/homepage.html', context)
