@@ -87,7 +87,7 @@
                                         <td class="px-4">
                                             {% if request.user.officials.school == aspirants.name.school %}
                                             {% if request.user.officials.role == 'Chairperson' or request.user.officials.role == 'Assistant Commissioner' %}
-                                            <a href="{% url 'view_nominated_aspirants' %}" class="text-secondary fw-bold" data-bs-toggle="modal" data-bs-target="#approval-form-{{ aspirants.id }}">{{ aspirants.name }}</a>
+                                            <a href="{% url 'view_nominated_aspirants' %}" class="text-primary fw-bold" data-bs-toggle="modal" data-bs-target="#approval-form-{{ aspirants.id }}">{{ aspirants.name }}</a>
                                             {% else %}
                                             {{ aspirants.name }}
                                             {% endif %}
