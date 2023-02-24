@@ -100,19 +100,33 @@ def homepage_view(request):
     registered_voters = Voters.objects.filter(registered=True, school=request.user.voters.school)
     pollers = Polled.objects.all().count()
     polls = Polls.objects.filter(name__name__school=request.user.voters.school).all().order_by('post', 'total_polls')
-    total_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school).count()
-    blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school, ).all().order_by('-written')
+    total_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school)
+    blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school).all().order_by('-written')[:3]
     polls_percentage = (pollers/registered_voters.count())*100
+
+
+    # Percentage Rates
+    prev_election_aspirants = total_aspirants.filter(name__school=request.user.voters.school, applied__year__lt=datetime.now().strftime('%Y')).count()
+    current_election_aspirants = total_aspirants.filter(name__school=request.user.voters.school, applied__year=datetime.now().strftime('%Y')).count()
+    aspirants_percentage_rate = round((((current_election_aspirants - prev_election_aspirants)/total_aspirants.count())*100), 2)
+
+    prev_election_voters = registered_voters.filter(created__year__lt=datetime.now().strftime('%Y')).count()
+    current_election_voters = registered_voters.filter(created__year=datetime.now().strftime('%Y')).count()
+    voters_percentage_rate = round((((current_election_voters - prev_election_voters)/registered_voters.count())*100), 2)
+
 
     context = {
         'blog_form': blog_form,
-        'blogs': blogs, 'total_aspirants': total_aspirants, 'total_reg_voters': registered_voters.count(),
+        'blogs': blogs, 'total_aspirants': total_aspirants.count(), 'total_reg_voters': registered_voters.count(),
         'polled': pollers, 'user_has_polled': polled_obj, 'polls': polls, 'percentage': polls_percentage,
         'nominated': Aspirants.objects.filter(nominate=True, name__school=request.user.voters.school),
         'male_reg_voters': registered_voters.filter(registered=True, gender='Male', school=request.user.voters.school).count(),
         'female_reg_voters': registered_voters.filter(registered=True, gender='Female', school=request.user.voters.school).count(),
         'TotalRegVoters': Voters.objects.filter(school=request.user.voters.school, registered=True).all(),
-    }    
+
+        'percent_rate_aspirants': aspirants_percentage_rate, 'percent_rate_voters': voters_percentage_rate,
+        
+    }
     return render(request, 'voters/homepage.html', context)
 
 @login_required(login_url='user_login')
@@ -211,7 +225,7 @@ def polling_view(request, pk, school):
             return redirect('poll', pk, school)       
 
 
-    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True).order_by('post', 'name')
+    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True, approved=True).order_by('post', 'name')
     
     context = {'aspirants': nominated_aspirants, 'UserhasPolled': polled_obj}
     return render(request, 'voters/polls.html', context)
@@ -275,7 +289,7 @@ def voting_view(request, pk, school):
             elected_aspirant.save()
             return redirect('elect_leaders', pk, school)       
 
-    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True).order_by('post', 'name')
+    nominated_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True, approved=True).order_by('post', 'name')
     context = {'aspirants': nominated_aspirants, 'UserhasPolled': voted_obj, 'user_is_authorized': authorized}
     return render(request, 'voters/voting.html', context)
 
@@ -428,7 +442,7 @@ def display_nominated_aspirants_view(request):
         registration_officers = Officials.objects.filter(role='Registration Officers', is_official=True, registered=True, school=request.user.officials.school).count()
 
         chairperson = Officials.objects.filter(role='Chairperson', is_official=True, registered=True, school=request.user.officials.school)
-        assistant_comm = Officials.objects.filter(role='Chairperson', is_official=True, registered=True, school=request.user.officials.school)
+        assistant_comm = Officials.objects.filter(role='Assistant Commissioner', is_official=True, registered=True, school=request.user.officials.school)
 
         if chairperson.exists() or assistant_comm.exists():
             get_selected_aspirant = Aspirants.objects.get(id=form)

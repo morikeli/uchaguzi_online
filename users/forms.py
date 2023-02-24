@@ -146,7 +146,7 @@ class UpdateOfficialProfileForm(forms.ModelForm):
     SELECT_ROLE = (
         (None, '-- Select your rank --'),
         ('Chairperson', 'Chairperson'),
-        ('Assistant Commisioner', 'Assistant Commisioner'),
+        ('Assistant Commissioner', 'Assistant Commissioner'),
         ('Registration Officer', 'Registration Officer'),
 
     )
@@ -178,7 +178,7 @@ class EditOfficialProfileForm(forms.ModelForm):
     SELECT_ROLE = (
         (None, '-- Select your rank --'),
         ('Chairperson', 'Chairperson'),
-        ('Assistant Commisioner', 'Assistant Commisioner'),
+        ('Assistant Commissioner', 'Assistant Commissioner'),
         ('Registration Officer', 'Registration Officer'),
 
     )
