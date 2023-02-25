@@ -201,7 +201,8 @@
 										</div>
 										<div class="ps-3">
 											<h6>{{ total_aspirants }}</h6>
-											<span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+											{% if percent_rate_aspirants < 0 %}<span class="text-danger small pt-1 fw-bold">{{ percent_rate_aspirants }}%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+											{% else %}<span class="text-success small pt-1 fw-bold">{{ percent_rate_aspirants }}%</span> <span class="text-muted small pt-2 ps-1">increase</span>{% endif %}
 										</div>
 									</div>
 								</div>
@@ -219,8 +220,6 @@
 										</div>
 										<div class="ps-3">
 										<h6>{{ polled }}</h6>
-										<span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
 										</div>
 									</div>
 								</div>
@@ -239,7 +238,8 @@
 										</div>
 										<div class="ps-3">
 											<h6>{{ total_reg_voters }}</h6>
-											<span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+											{% if percent_rate_aspirants < 0 %}<span class="text-danger small pt-1 fw-bold">{{ percent_rate_voters }}%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+											{% else %}<span class="text-success small pt-1 fw-bold">{{ percent_rate_voters }}%</span> <span class="text-muted small pt-2 ps-1">increase</span>{% endif %}
 										</div>
 									</div>
 								</div>
@@ -251,6 +251,8 @@
 								
 								<div class="card-body">
 									<h5 class="card-title">Registered Voters per school</h5>
+									<input type="hidden" id="voters_y" value="{{ line_chart_voters_y }}"><input type="hidden" id="voters_x" value="{{ line_chart_voters_x }}">
+									<input type="hidden" id="aspirants_y" value="{{ line_chart_aspirants }}"><input type="hidden" id="aspirants_y" value="{{ line_chart_aspirants }}">
 									<div id="RegVotersChart"></div>
 									<script type="text/javascript" src="{% static 'js/voters-page/voterslinechart.js' %}"></script>
 									
@@ -358,7 +360,7 @@
 									<img src="{{ blog.blogger.pic.url }}" class="rounded-circle activity-badge align-self-start" height="50px" width="50px" alt="">
 									<div class="activity-content">
 										<a href="{% url 'voters_homepage' %}" class="fw-bold text-dark" data-bs-toggle="modal" data-bs-target="#all-blogs">
-											{{ blog.message|truncatewords:5 }}
+											{{ blog.message|truncatewords:3 }}
 										</a>
 									</div>
 								</div>
