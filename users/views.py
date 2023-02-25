@@ -114,6 +114,9 @@ def homepage_view(request):
     current_election_voters = registered_voters.filter(created__year=datetime.now().strftime('%Y')).count()
     voters_percentage_rate = round((((current_election_voters - prev_election_voters)/registered_voters.count())*100), 2)
 
+    # Election winners
+    election_winners = Polls.objects.filter(name__name__school=request.user.voters.school).order_by('-total_polls', 'post')[:6]
+
 
     context = {
         'blog_form': blog_form,
@@ -125,6 +128,7 @@ def homepage_view(request):
         'TotalRegVoters': Voters.objects.filter(school=request.user.voters.school, registered=True).all(),
 
         'percent_rate_aspirants': aspirants_percentage_rate, 'percent_rate_voters': voters_percentage_rate,
+        'winners': election_winners
         
     }
     return render(request, 'voters/homepage.html', context)
