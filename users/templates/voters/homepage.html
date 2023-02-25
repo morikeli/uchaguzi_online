@@ -274,11 +274,11 @@
 								</div>
 
 								<div class="card-body">
-									<h5 class="card-title"><i class="bi bi-pie-chart-fill"></i> Polls ranking</h5>
+									<h5 class="card-title"><i class="bi bi-pie-chart-fill"></i> Polls ranking | <span>{{ request.user.voters.school }}</span></h5>
 									<div class="table-responsive">
 										<table class="table table-bordered table-condensed">
 											<thead>
-												<tr>
+												<tr class="table-success text-center">
 													<th scope="col">Image</th>
 													<th scope="col">Name</th>
 													<th scope="col">Post</th>
@@ -292,8 +292,8 @@
 													<td><img src="{{ aspirant.name.pic.url }}" alt="image" class="rounded-circle" height="45px" width="45px"></td>
 													<td>{{ aspirant.name|title }}</td>
 													<td>{{ aspirant.post }}</td>
-													<td>{{ aspirant.total_polls }}</td>
-													<td>{{ aspirant.percentage }}</td>
+													<td class="text-center fw-bold text-muted">{{ aspirant.total_polls }}</td>
+													<td class="text-center fw-bold text-muted">{{ aspirant.percentage }}</td>
 												</tr>
 												{% endfor %}
 											</tbody>
@@ -316,11 +316,11 @@
 								</div>
 
 								<div class="card-body pb-0">
-									<h5 class="card-title"><i class="bi bi-trophy-fill"></i> Leaderboard</h5>
+									<h5 class="card-title"><i class="bi bi-trophy-fill"></i> Leaderboard | <span>{{ request.user.voters.school }}</span></h5>
 
-									<table class="table table-borderless">
+									<table class="table table-bordered table-condensed table-striped">
 										<thead>
-											<tr>
+											<tr class="table-warning text-center">
 												<th scope="col">Image</th>
 												<th scope="col">Name</th>
 												<th scope="col">Gender</th>
@@ -330,12 +330,12 @@
 										</thead>
 										<tbody>
 											{% for aspirant in winners %}
-											<tr>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
+											<tr class="text-center">
+												<td><img src="{{ aspirant.name.pic.url }}" alt="image" class="rounded-circle" height="45px" width="45px"></td>
+												<td>{{ aspirant.name }}</td>
+												<td>{{ aspirant.name.name.gender }}</td>
+												<td>{{ aspirant.post }}</td>
+												<td class="fw-bold text-muted">{{ aspirant.total_polls }}</td>
 											</tr>
 											{% endfor %}
 										</tbody>
