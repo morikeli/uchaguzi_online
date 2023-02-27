@@ -538,6 +538,9 @@ h1, h2, h3, h4, h5, h6 {
 .sidebar-nav .nav-link .bi-archive-fill {
   	color: #ffc107;
 }
+.sidebar-nav .nav-link .bi-clipboard2-data-fill {
+	color: #249951;
+}
 .sidebar-nav .nav-link .bi-person-bounding-box {
   	color: #0c0c88;
 }
