@@ -99,7 +99,7 @@ def homepage_view(request):
 
     registered_voters = Voters.objects.filter(registered=True, school=request.user.voters.school)
     pollers = Polled.objects.all().count()
-    polls = Polls.objects.filter(name__name__school=request.user.voters.school).all().order_by('post', 'total_polls')
+    polls = Polls.objects.filter(name__name__school=request.user.voters.school).all().order_by('-total_polls', 'post')[:5]
     total_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school)
     blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school).all().order_by('-written')[:3]
     polls_percentage = (pollers/registered_voters.count())*100
@@ -115,6 +115,7 @@ def homepage_view(request):
     voters_percentage_rate = round((((current_election_voters - prev_election_voters)/registered_voters.count())*100), 2)
 
     # Election winners
+    # Polls results
     election_winners = Polls.objects.filter(name__name__school=request.user.voters.school).order_by('-total_polls', 'post')[:6]
 
 
