@@ -107,14 +107,20 @@ def homepage_view(request):
 
 
     # Percentage Rates
-    prev_election_aspirants = total_aspirants.filter(name__school=request.user.voters.school, applied__year__lt=datetime.now().strftime('%Y')).count()
-    current_election_aspirants = total_aspirants.filter(name__school=request.user.voters.school, applied__year=datetime.now().strftime('%Y')).count()
-    aspirants_percentage_rate = round((((current_election_aspirants - prev_election_aspirants)/total_aspirants.count())*100), 2)
+    try:
+        prev_election_aspirants = total_aspirants.filter(name__school=request.user.voters.school, applied__year__lt=datetime.now().strftime('%Y')).count()
+        current_election_aspirants = total_aspirants.filter(name__school=request.user.voters.school, applied__year=datetime.now().strftime('%Y')).count()
+        aspirants_percentage_rate = round((((current_election_aspirants - prev_election_aspirants)/total_aspirants.count())*100), 2)
 
-    prev_election_voters = registered_voters.filter(created__year__lt=datetime.now().strftime('%Y')).count()
-    current_election_voters = registered_voters.filter(created__year=datetime.now().strftime('%Y')).count()
-    voters_percentage_rate = round((((current_election_voters - prev_election_voters)/registered_voters.count())*100), 2)
+        prev_election_voters = registered_voters.filter(created__year__lt=datetime.now().strftime('%Y')).count()
+        current_election_voters = registered_voters.filter(created__year=datetime.now().strftime('%Y')).count()
+        voters_percentage_rate = round((((current_election_voters - prev_election_voters)/registered_voters.count())*100), 2)
 
+    except ZeroDivisionError:
+        aspirants_percentage_rate = 0
+        voters_percentage_rate = 0
+
+    
     # Election winners
     # Polls results
     election_winners = Polls.objects.filter(name__name__school=request.user.voters.school).order_by('-total_polls', 'post')[:6]
@@ -346,7 +352,7 @@ def election_results_view(request):
         # charts
         'academic_rep_chart': academic_rep_chart, 'general_academic_chart': gen_academic_rep_chart, 'ladies_rep_chart': ladies_rep_chart, 
         'governor_bar_chart': governor_chart, 'treasurer_bar_chart': treasurer_chart, 'president_bar_chart': president_chart,
-        
+
     }
     return render(request, 'voters/results.html', context)
 
@@ -421,12 +427,19 @@ def officials_homepage(request):
     current_election_female_aspirants = get_total_aspirants.filter(name__gender='Female', applied__year=datetime.now().strftime('%Y')).count()
     
     # Rate
-    rate_male_voters = round(((current_election_male_voters - prev_election_male_voters)/(total_registered_voters.filter(school=request.user.officials.school, created__year=datetime.now().strftime('%Y')).count()))*100, 2)
-    rate_female_voters = round(((current_election_female_voters - prev_election_female_voters)/(total_registered_voters.filter(school=request.user.officials.school, created__year=datetime.now().strftime('%Y')).count()))*100, 2)
+    try:
+        rate_male_voters = round(((current_election_male_voters - prev_election_male_voters)/(total_registered_voters.filter(school=request.user.officials.school, created__year=datetime.now().strftime('%Y')).count()))*100, 2)
+        rate_female_voters = round(((current_election_female_voters - prev_election_female_voters)/(total_registered_voters.filter(school=request.user.officials.school, created__year=datetime.now().strftime('%Y')).count()))*100, 2)
 
-    rate_male_aspirants = round(((current_election_male_aspirants - prev_election_male_aspirants)/(get_total_aspirants.filter(applied__year=datetime.now().strftime('%Y')).count()))*100, 2)
-    rate_female_aspirants = round(((current_election_female_aspirants - prev_election_female_aspirants)/(get_total_aspirants.filter(applied__year=datetime.now().strftime('%Y')).count()))*100, 2)
+        rate_male_aspirants = round(((current_election_male_aspirants - prev_election_male_aspirants)/(get_total_aspirants.filter(applied__year=datetime.now().strftime('%Y')).count()))*100, 2)
+        rate_female_aspirants = round(((current_election_female_aspirants - prev_election_female_aspirants)/(get_total_aspirants.filter(applied__year=datetime.now().strftime('%Y')).count()))*100, 2)
+    
+    except ZeroDivisionError:
+        rate_male_voters = 0
+        rate_female_voters = 0
 
+        rate_male_aspirants = 0
+        rate_female_aspirants = 0
     
     context = {
         'total_aspirants': total_aspirants, 'total_registered_voters': total_registered_voters.count(), 'total_electoral_officers': total_electoral_officers.count(),
