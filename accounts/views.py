@@ -39,9 +39,9 @@ def user_login_view(request):
                         auth.login(request, user_account)
                         return redirect('voters_profile')
 
-                else:
-                    messages.error(request, 'INVALID CREDENTIALS!!')
-                    return redirect('user_login')    
+            else:
+                messages.error(request, 'INVALID CREDENTIALS!!')
+                return redirect('user_login')    
 
     context = {'form': form}
     return render(request, 'accounts/login.html', context)
