@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import base64
 from io import BytesIO
 
+
 def get_graph():
     buffer = BytesIO()
     plt.savefig(buffer, format='png')
@@ -15,7 +16,7 @@ def get_graph():
 
 def plot_graph(x, y):
     plt.switch_backend('AGG')
-    plt.figure(figsize=(5, 7))
+    plt.figure(figsize=(5, 4.5))
     plt.title('Votes garnered')
     plt.bar(x, y)
     plt.xlabel('Aspirants')
