@@ -1,0 +1,51 @@
+{% extends 'voters/base.html' %}{% block title %}Election Results{% endblock %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% block content %}
+    <main class="main" id="main">
+        <section class="section">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card card-body pt-1">
+                        <h5 class="card-title">Aspirants | <span>{{request.user.voters.school}}</span></h5>
+                        {% include 'messages.html' %}
+
+                        <div class="table-responsive">
+                            <table class="table table-condensed table-striped table-bordered hover">
+                                <thead>
+                                    <tr class="table-active text-center">
+                                        <th>#</th>
+                                        <th>Profile pic</th>
+                                        <th>Name</th>
+                                        <th>Post</th>
+                                        <th>%</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for aspirants in total_aspirants %}
+                                    <tr>
+                                        
+                                    </tr>
+                                    {% empty %}
+                                    <tr><td colspan="6" class="text-center text-muted fw-bold">No aspirants available</td></tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>                    
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+    {% endblock %}
+</body>
+</html>
