@@ -1,5 +1,5 @@
 {% extends 'voters/base.html' %}{% block title %}Election Results{% endblock %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags %}{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,14 +20,28 @@
                             <div class="col-md-12">
                                 <h5 class="card-title text-muted mb-0">{{ forloop.counter }}. {{ posts.post }}</h5>
                             </div>
-                            <div class="col-lg-5 border-right">
-                                <img src="" alt="aspirants-chart" class="rounded">
+                            
+                            <div class="col-md-5">
+                                    {% if posts.post == 'Academic Representative' %}
+                                        <img src="data:image/png;base64, {{academic_rep_chart|safe}}" alt="chart" class="img-fluid">
+                                    {% elif posts.post == 'General Academic Representative' %}
+                                        <img src="data:image/png;base64, {{general_academic_chart|safe}}" alt="chart" class="img-fluid">
+                                    {% elif posts.post == 'Ladies Representative' %}
+                                        <img src="data:image/png;base64, {{ladies_rep_chart|safe}}" alt="chart" class="img-fluid">
+                                    {% elif posts.post == 'Treasurer' %}
+                                        <img src="data:image/png;base64, {{treasurer_bar_chart|safe}}" alt="chart" class="img-fluid">
+                                    {% elif posts.post == 'Governor' %}
+                                        <img src="data:image/png;base64, {{governor__chart|safe}}" alt="chart" class="img-fluid">
+                                    {% elif posts.post == 'President' %}
+                                        <img src="data:image/png;base64, {{president_bar_chart|safe}}" alt="chart" class="img-fluid">
+                                    {% endif %}
                             </div>
-                            <div class="col-lg-7">
+                            
+                            <div class="col-md-7">
                                 <div class="table-responsive">
                                     <table class="table table-condensed table-striped table-bordered table-hover">
                                         <thead>
-                                            <tr class="table-active text-center">
+                                            <tr class="table-success text-center">
                                                 <th>Image</th>
                                                 <th>Name</th>
                                                 <th>Post</th>
