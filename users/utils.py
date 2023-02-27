@@ -15,7 +15,7 @@ def get_graph():
 
 def plot_graph(x, y):
     plt.switch_backend('AGG')
-    plt.figure(figsize(10, 5))
+    plt.figure(figsize=(10, 5))
     plt.title('Votes garnered')
     plt.plot(x, y)
     plt.xlabel('Aspirants')
