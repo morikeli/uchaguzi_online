@@ -236,7 +236,7 @@
 			</li>
 
 			<li class="nav-item">
-				{% if user_has_polled == "" %}
+				{% if user_has_polled.academic is False and user_has_polled.gen_rep is False and user_has_polled.ladies_rep is False and user_has_polled.treasurer is False and user_has_polled.governor is False and user_has_polled.president is False %}
 				<a href="{% url 'poll' request.user.voters.id request.user.voters.school %}" target="_blank" class="nav-link">
 					<i class="bi-bar-chart-line-fill"></i><span>Election Polls</span>
 				</a>{% else %}
