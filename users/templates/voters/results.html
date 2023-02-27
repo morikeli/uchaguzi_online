@@ -14,11 +14,11 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="card card-body pt-1">
-                        <h5 class="card-title">Aspirants | <span>{{request.user.voters.school}}</span></h5><hr class="mt-0">
+                        <h5 class="card-title">Aspirants | <span>{{request.user.voters.school}}</span></h5><hr class="mt-0 mb-0">
                         {% for posts in electoral_posts %}
                         <div class="row">
                             <div class="col-md-12">
-                                <h5 class="card-title"><span>{{ posts.post }}</span></h5>
+                                <h5 class="card-title text-muted mb-0">{{ forloop.counter }}. {{ posts.post }}</h5>
                             </div>
                             <div class="col-lg-5 border-right">
                                 <img src="" alt="aspirants-chart" class="rounded">
@@ -54,7 +54,7 @@
                                 </div> 
                             </div>
                         </div>
-                        <hr>
+                        <hr class="mt-0 mb-0">
                         {% endfor %}
                         
                     </div>
