@@ -10,6 +10,7 @@ urlpatterns = [
     path('elect-your-leaders/<str:pk>/<str:school>', views.voting_view, name='elect_leaders'),
     path('polling/<str:pk>/school/polls/<str:school>/', views.polling_view, name='poll'),
     path('poll-results/', views.results_view, name='poll_results'),
+    path('election-results/', views.election_results_view, name='election_results'),
 
     path('official-profile/', views.officials_profile_view, name='official_profile'),
     path('homepage/', views.officials_homepage, name='official_homepage'),
