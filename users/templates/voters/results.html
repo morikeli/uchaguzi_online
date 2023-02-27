@@ -14,39 +14,48 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="card card-body pt-1">
-                        <h5 class="card-title">Aspirants | <span>{{request.user.voters.school}}</span></h5>
+                        <h5 class="card-title">Aspirants | <span>{{request.user.voters.school}}</span></h5><hr class="mt-0">
+                        {% for posts in electoral_posts %}
                         <div class="row">
-                            <div class="col-lg-6">
-                                <img src="" alt="aspirants-chart">
+                            <div class="col-md-12">
+                                <h5 class="card-title"><span>{{ posts.post }}</span></h5>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-5 border-right">
+                                <img src="" alt="aspirants-chart" class="rounded">
+                            </div>
+                            <div class="col-lg-7">
                                 <div class="table-responsive">
-                                    <table class="table table-condensed table-striped table-bordered hover">
+                                    <table class="table table-condensed table-striped table-bordered table-hover">
                                         <thead>
                                             <tr class="table-active text-center">
-                                                <th>#</th>
                                                 <th>Image</th>
                                                 <th>Name</th>
                                                 <th>Post</th>
+                                                <th>Votes</th>
                                                 <th>%</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for aspirant in elected_aspirants %}
-                                            <tr>
-                                                <td><img src="{{ aspirant. }}" alt="pic"></td>
-                                                <td>{{ aspirant. }}</td>
-                                                <td>{{ aspirant. }}</td>
-                                                <td>{{ aspirant. }}</td>
+                                            {% if posts.post == aspirant.post %}
+                                            <tr class="text-center">
+                                                <td><img src="{{ aspirant.pic.url }}" class="rounded-circle" height="45px" width="45px" alt="pic"></td>
+                                                <td class="text-muted fw-bold">{{ aspirant.name }}</td>
+                                                <td>{{ aspirant.post }}</td>
+                                                <td>{{ aspirant.votes }}</td>
+                                                <td></td>
                                             </tr>
+                                            {% endif %}
                                             {% empty %}
-                                            <tr><td colspan="6" class="text-center text-muted fw-bold">No aspirants available</td></tr>
+                                            <tr><td colspan="6" class="text-center text-muted fst-italic">No aspirants available</td></tr>
                                             {% endfor %}
                                         </tbody>
                                     </table>                    
                                 </div> 
                             </div>
                         </div>
+                        <hr>
+                        {% endfor %}
                         
                     </div>
                 </div>
