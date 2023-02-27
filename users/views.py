@@ -298,6 +298,14 @@ def voting_view(request, pk, school):
     context = {'aspirants': nominated_aspirants, 'UserhasPolled': voted_obj, 'user_is_authorized': authorized}
     return render(request, 'voters/voting.html', context)
 
+@login_required(login_url='user_login')
+@user_passes_test(lambda user: user.is_staff is False and user.is_superuser is False)
+def election_results_view(request):
+
+
+
+    context = {}
+    return render(request, 'voters/results.html', context)
 
 # Views for electoral officers HTTP requests
 
