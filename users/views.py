@@ -345,7 +345,8 @@ def election_results_view(request):
         'electoral_posts': Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True, approved=True)[:6],
         # charts
         'academic_rep_chart': academic_rep_chart, 'general_academic_chart': gen_academic_rep_chart, 'ladies_rep_chart': ladies_rep_chart, 
-        'treasurer_bar_chart': treasurer_chart, 'president_bar_chart': president_chart,
+        'governor_bar_chart': governor_chart, 'treasurer_bar_chart': treasurer_chart, 'president_bar_chart': president_chart,
+        
     }
     return render(request, 'voters/results.html', context)
 
