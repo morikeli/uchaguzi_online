@@ -99,7 +99,7 @@ def homepage_view(request):
 
     registered_voters = Voters.objects.filter(registered=True, school=request.user.voters.school)
     pollers = Polled.objects.all().count()
-    polls = Polls.objects.filter(name__name__school=request.user.voters.school).all().order_by('post', 'total_polls')
+    polls = Polls.objects.filter(name__name__school=request.user.voters.school).all().order_by('-total_polls', 'post')[:5]
     total_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school)
     blogs = Blog.objects.filter(blogger__name__school=request.user.voters.school).all().order_by('-written')[:3]
     polls_percentage = (pollers/registered_voters.count())*100
@@ -115,6 +115,7 @@ def homepage_view(request):
     voters_percentage_rate = round((((current_election_voters - prev_election_voters)/registered_voters.count())*100), 2)
 
     # Election winners
+    # Polls results
     election_winners = Polls.objects.filter(name__name__school=request.user.voters.school).order_by('-total_polls', 'post')[:6]
 
 
@@ -297,6 +298,18 @@ def voting_view(request, pk, school):
     context = {'aspirants': nominated_aspirants, 'UserhasPolled': voted_obj, 'user_is_authorized': authorized}
     return render(request, 'voters/voting.html', context)
 
+@login_required(login_url='user_login')
+@user_passes_test(lambda user: user.is_staff is False and user.is_superuser is False)
+def election_results_view(request):
+    approved_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True, approved=True).all().order_by('post', '-votes')
+
+
+    context = {
+        'elected_aspirants': approved_aspirants, 
+        'electoral_posts': Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True, approved=True)[:6], # get each electoral post seperately
+    
+    }
+    return render(request, 'voters/results.html', context)
 
 # Views for electoral officers HTTP requests
 
