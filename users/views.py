@@ -301,10 +301,14 @@ def voting_view(request, pk, school):
 @login_required(login_url='user_login')
 @user_passes_test(lambda user: user.is_staff is False and user.is_superuser is False)
 def election_results_view(request):
+    approved_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True, approved=True).all().order_by('post', '-votes')
 
 
-
-    context = {}
+    context = {
+        'elected_aspirants': approved_aspirants, 
+        'electoral_posts': Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True, approved=True)[:6], # get each electoral post seperately
+    
+    }
     return render(request, 'voters/results.html', context)
 
 # Views for electoral officers HTTP requests
