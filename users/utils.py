@@ -12,3 +12,14 @@ def get_graph():
     buffer.close()
     
     return graph
+
+def plot_graph(x, y):
+    plt.switch_backend('AGG')
+    plt.figure(figsize(10, 5))
+    plt.title('Votes garnered')
+    plt.plot(x, y)
+    plt.xlabel('Aspirants')
+    plt.ylabel('Total votes')
+    plt.tight_layout()
+    graph = get_graph()
+    return graph
