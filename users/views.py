@@ -7,6 +7,7 @@ from .forms import (
     )
 from .models import Aspirants, Blog, Polls, Polled, Voted, NominationDetails
 from accounts.models import Voters, Officials
+from .utils import plot_graph
 from datetime import datetime
 
 
@@ -303,11 +304,48 @@ def voting_view(request, pk, school):
 def election_results_view(request):
     approved_aspirants = Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True, approved=True).all().order_by('post', '-votes')
 
+    # data for bar chart
+    # Academic representative bar chart
+    x_axis = [str(x.name) for x in approved_aspirants.filter(post='Academic Representative')]
+    y_axis = [y.votes for y in approved_aspirants.filter(post='Academic Representative')]
+    academic_rep_chart = plot_graph(x_axis, y_axis)
+
+    # General Academic Representative bar chart
+    x_axis = [str(x.name) for x in approved_aspirants.filter(post='General Academic Representative')]
+    y_axis = [y.votes for y in approved_aspirants.filter(post='General Academic Representative')]
+    gen_academic_rep_chart = plot_graph(x_axis, y_axis)
+
+    # Ladies Representative bar chart
+    x_axis = [str(x.name) for x in approved_aspirants.filter(post='Ladies Representative')]
+    y_axis = [y.votes for y in approved_aspirants.filter(post='Ladies Representative')]
+    ladies_rep_chart = plot_graph(x_axis, y_axis)
+
+    # Treasurer bar chart
+    x_axis = [str(x.name) for x in approved_aspirants.filter(post='Treasurer')]
+    y_axis = [y.votes for y in approved_aspirants.filter(post='Treasurer')]
+    treasurer_chart = plot_graph(x_axis, y_axis)
+
+    # Governor bar chart
+    x_axis = [str(x.name) for x in approved_aspirants.filter(post='Governor')]
+    y_axis = [y.votes for y in approved_aspirants.filter(post='Governor')]
+    governor_chart = plot_graph(x_axis, y_axis)
+
+    # President bar chart
+    x_axis = [str(x.name) for x in approved_aspirants.filter(post='President')]
+    y_axis = [y.votes for y in approved_aspirants.filter(post='President')]
+    president_chart = plot_graph(x_axis, y_axis)
+
 
     context = {
         'elected_aspirants': approved_aspirants, 
-        'electoral_posts': Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True, approved=True)[:6], # get each electoral post seperately
-    
+
+        # get each electoral post seperately
+        # These will only work if ordering = ['name'] in Aspirants model
+        # use slice [:6] to get only 6 electoral posts. If [:6] is not included, there will be repitition.
+        'electoral_posts': Aspirants.objects.filter(name__school=request.user.voters.school, nominate=True, approved=True)[:6],
+        # charts
+        'academic_rep_chart': academic_rep_chart, 'general_academic_chart': gen_academic_rep_chart, 'ladies_rep_chart': ladies_rep_chart, 
+        'treasurer_bar_chart': treasurer_chart, 'president_bar_chart': president_chart,
     }
     return render(request, 'voters/results.html', context)
 
