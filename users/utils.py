@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import base64
 from io import BytesIO
 
+
 def get_graph():
     buffer = BytesIO()
     plt.savefig(buffer, format='png')
