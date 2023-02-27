@@ -7,6 +7,7 @@ class AspirantsTable(admin.ModelAdmin):
     list_display = ['name', 'post', 'slogan', 'nominate', 'approved']
     readonly_fields = ['alias', 'bio', 'post', 'slogan', 'pic', 'form',]
     fields = ['alias', 'bio', 'post', 'slogan', 'pic', 'form', 'nominate']
+    ordering = ['post']
 
 @admin.register(Blog)
 class BlogTable(admin.ModelAdmin):
