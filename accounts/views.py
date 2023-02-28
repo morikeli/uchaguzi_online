@@ -52,9 +52,7 @@ def voters_signup_view(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
-            new_voter = form.save(commit=False)
-            new_voter.username = new_voter.first_name + ' ' + new_voter.last_name
-            new_voter.save()
+            form.save()
 
             messages.success(request, 'User account created successfully!')
             return redirect('voters_profile')
