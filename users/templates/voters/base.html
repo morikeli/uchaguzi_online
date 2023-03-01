@@ -247,7 +247,7 @@
 				</a>
 				{% endif %}
 				{% endcomment %}
-				<a class="nav-link" href="{% url 'voters_homepage' %}" data-bs-toggle="modal" data-bs-target="#modal-polls">
+				<a class="nav-link" href="{% url 'poll' request.user.voters.id request.user.voters.school %}" target="_blank">
 					<i class="bi bi-bar-chart-line-fill"></i><span>Election Polls</span>
 				</a>
 			</li>
