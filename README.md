@@ -1,6 +1,9 @@
 # Uchaguzi Online
 #### Uchaguzi (swahili word for elections) online for requires internet connection, this is a website to facilitate online voting.
 
+#### Demo
+![home2](https://user-images.githubusercontent.com/78599959/236873128-fe0819ef-7da8-41d7-842f-052f53b8c7f6.png)
+
 #### Technologies used:
    - HTML
    - CSS
