@@ -248,6 +248,7 @@ h1, h2, h3, h4, h5, h6 {
 	border-bottom: 2px solid #4154f1;
 }
 .logo {
+	text-decoration: none;
 	line-height: 1;
 }
 @media (min-width: 1200px) {
@@ -358,7 +359,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .header-nav .badge-number {
 	position: absolute;
-	inset: 4px 6px auto auto;
+	inset: -2px -5px auto auto;
 	font-weight: normal;
 	font-size: 11px;
 	padding: 3px 6px;
