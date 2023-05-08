@@ -13,7 +13,7 @@ class LoginForm(AuthenticationForm):
 
 
 class SignupForm(UserCreationForm):
-    first_name = forms.CharField(required=True)
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'autofocus': True}), required=True)
     last_name = forms.CharField(required=True)
     email = forms.EmailField(required=True)
     username = forms.CharField(required=True)
