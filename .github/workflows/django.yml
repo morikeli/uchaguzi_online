@@ -28,3 +28,8 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
+        
+    - name: Use the secret key
+      run: echo "SECRET_KEY: ${{ secrets.SECRET_KEY }}"
+    - name: Use domain
+      run: echo "WEB_DOMAIN: ${{ secrets.WEB_DOMAIN }}"
