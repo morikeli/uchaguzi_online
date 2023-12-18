@@ -1,6 +1,5 @@
 # Uchaguzi Online
 
-### Snapshot
 ![home2](https://user-images.githubusercontent.com/78599959/236873128-fe0819ef-7da8-41d7-842f-052f53b8c7f6.png)
 
 
@@ -70,7 +69,8 @@ If you wish to be make contributions, follow the instructions stated below.
 8. Create a new branch, and make your contributions. Create a pull request and wait for review.
 
 
-
+## Users instructions
+You can access the website on this [link](https://uchaguzi-online.onrender.com/users) and create an account.
 
 
 
