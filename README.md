@@ -9,7 +9,8 @@ Uchaguzi online is an online voting website that serves a tertiary institution, 
 The website is used by the following people:
 
    1. Students
-       Students have to create an account and must be currently enrolled in the university to participate in elections. Once a student creates an account, he/she must register as a voter. Only registered voters can participate in voting online.
+
+      Students have to create an account and must be currently enrolled in the university to participate in elections. Once a student creates an account, he/she must register as a voter. Only registered voters can participate in voting online.
 
       Roles of a student
       - A student **MUST** exercise his/her democratic right by electing nominated candidates of his/her choice to serve in the student's council.
@@ -18,6 +19,7 @@ The website is used by the following people:
       - A student **MUST** ensure he/she is a registered voter.
   
    2. Aspirants/candidates
+
       Aspirants are students who wish to join and serve in the student council for the specified tenure of 1 academic year.
 
       Roles of an aspirant
@@ -29,14 +31,15 @@ The website is used by the following people:
    
    
    3. Electoral Officers
-      This is the staff appointed to nominate electoral candidates and help voters who are having problems during voter registration. The electoral officials department consists of the following rank:
+   
+   This is the staff appointed to nominate electoral candidates and help voters who are having problems during voter registration. The electoral officials department consists of the following rank:
       - Commisioner (top most rank - HOD in a given school assumes this role)
       - Assistant Commissioner (mostly assumed for the secretary and MUST be reserved and restricted to the female gender)
       - Returning Officer
    
-      Roles of an electoral officer
-      - He/she must not be biased when nominating candidates
-      - All electoral officials must provide elections schedule to voters in time
+   Roles of an electoral officer
+     - He/she must not be biased when nominating candidates
+     - All electoral officials must provide elections schedule to voters in time
 
 
 #### Developer instructions
